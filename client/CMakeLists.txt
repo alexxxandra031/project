@@ -17,12 +17,16 @@ set(PROJECT_SOURCES
     mainwindow.cpp
     mainwindow.h
     mainwindow.ui
+    clientmanager.cpp
+    clientmanager.h
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
     qt_add_executable(client
         MANUAL_FINALIZATION
         ${PROJECT_SOURCES}
+        clientmanager.h
+        clientmanager.cpp
     )
 else()
     if(ANDROID)
