@@ -1,0 +1,25 @@
+# Папки сборки
+build-*/
+*-build-*
+build/
+
+# Файлы Qt Creator
+*.user
+*.autosave
+.qtcreator/
+
+# Временные файлы
+*.o
+*.exe
+*.dll
+*.so
+*.a
+moc_*.cpp
+moc_*.h
+ui_*.h
+qrc_*.cpp
+
+# Папки компиляторов (если есть)
+debug/
+release/
+
