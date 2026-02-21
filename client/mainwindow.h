@@ -16,6 +16,8 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
+    void setAdminRole(bool isAdmin);
+
 private slots:
     void on_pushButton_send_clicked();
 
@@ -24,5 +26,6 @@ private slots:
 
 private:
     Ui::MainWindow *ui;
+    bool m_isAdmin;
 };
 #endif // MAINWINDOW_H

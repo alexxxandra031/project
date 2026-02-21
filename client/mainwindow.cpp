@@ -3,7 +3,7 @@
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
-    , ui(new Ui::MainWindow)
+    , ui(new Ui::MainWindow), m_isAdmin(false)
 {
     ui->setupUi(this);
 
@@ -12,12 +12,16 @@ MainWindow::MainWindow(QWidget *parent)
     connect(client, &ClientManager::connected, this, &MainWindow::onConnected);
     connect(client, &ClientManager::dataReceived, this, &MainWindow::onDataReceived);
 
-    client->connectToServer("127.0.0.1", 333333);
+    client->connectToServer("127.0.0.1", 33333);
 }
 
 MainWindow::~MainWindow()
 {
     delete ui;
+}
+
+void MainWindow::onConnected() {
+    ui->textEdit_chat->append("<b>[Система]:</b> Успешное подключение к серверу!");
 }
 
 void MainWindow::onDataReceived(const QByteArray &data) {
@@ -37,4 +41,16 @@ void MainWindow::on_pushButton_send_clicked()
     ClientManager::getInstance()->sendMessage(text.toUtf8());
 
     ui->lineEdit_message->clear();
+}
+
+void MainWindow::setAdminRole(bool isAdmin) {
+    m_isAdmin = isAdmin;
+
+    if(m_isAdmin) {
+        this->setWindowTitle("Мессенджер - Администратор");
+        // ui->pushButton_adminPanel->setVisible(true);
+    } else {
+        this->setWindowTitle("Мессенджер - Пользователь");
+        // ui->pushButton_adminPanel->setVisible(false);
+    }
 }
