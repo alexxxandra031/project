@@ -40,6 +40,13 @@ void ClientManager::disconnectFromServer() {
     }
 }
 
+void sendSystemMessage(const QString &command) {
+    if (m_socket->state() == QAbstractSocket::ConnectedState) {
+        m_socket->write(command.toUtf8());
+        m_socket->flush();
+    }
+}
+
 void ClientManager::sendMessage(const QByteArray &message) {
     if (m_socket->state() == QAbstractSocket::ConnectedState) {
         QByteArray encryptedData = Crypto::encryptDecrypt(message, m_secretKey);
@@ -52,11 +59,12 @@ void ClientManager::sendMessage(const QByteArray &message) {
 }
 
 void ClientManager::onReadyRead() {
-    QByteArray encryptedData = m_socket->readAll();
-
-    QByteArray decryptedData = Crypto::encryptDecrypt(encryptedData, m_secretKey);
-
-    emit dataReceived(decryptedData);
+    if (data.startsWith("AUTH_SUCCESS") || data.startsWith("STATS|")) {
+        emit dataReceived(data);
+    } else {
+        QByteArray decryptedData = Crypto::encryptDecrypt(data, m_secretKey);
+        emit dataReceived(decryptedData);
+    }
 }
 
 void ClientManager::setSecretKey(const QString &key) {

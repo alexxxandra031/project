@@ -29,7 +29,8 @@ void AuthWindow::on_pushButton_login_clicked() {
 
 
     // ЗАГЛУШКА
-    // ClientManager::getInstance()->sendMessage("AUTH|" + login + "|" + password);
+    // ClientManager::getInstance()->connectToServer("127.0.0.1", 33333);
+    // ClientManager::getInstance()->sendSystemMessage("AUTH|" + login + "|" + password);
 
     if(login == "admin" && password == "123") {
             m_isAdmin = true;

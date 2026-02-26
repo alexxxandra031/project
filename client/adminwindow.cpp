@@ -27,7 +27,7 @@ void AdminWindow::loadMockData()
 
     // ЗАГЛУШКА
     // ClientManager::getInstance()->sendMessage("GET_STATS");
-    // в теории сервером возвращается json который распарсится на клиенте
+    // в теории сервером возвращается текст который распарсится на клиенте
 
     ui->tableWidget_stats->insertRow(0);
     ui->tableWidget_stats->setItem(0, 0, new QTableWidgetItem("admin"));
@@ -46,5 +46,6 @@ void AdminWindow::loadMockData()
 }
 
 void AdminWindow::on_pushButton_refresh_clicked() {
+
     loadMockData();
 }
