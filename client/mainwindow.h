@@ -24,6 +24,8 @@ private slots:
     void onConnected();
     void onDataReceived(const QByteArray &data);
 
+    void on_pushButton_adminPanel_clicked();
+
 private:
     Ui::MainWindow *ui;
     bool m_isAdmin;

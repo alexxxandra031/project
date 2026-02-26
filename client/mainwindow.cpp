@@ -1,3 +1,4 @@
+#include "adminwindow.h"
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
@@ -47,10 +48,17 @@ void MainWindow::setAdminRole(bool isAdmin) {
     m_isAdmin = isAdmin;
 
     if(m_isAdmin) {
-        this->setWindowTitle("Мессенджер - Администратор");
-        // ui->pushButton_adminPanel->setVisible(true);
+        this->setWindowTitle("Мессенджер - Режим Админа");
+        ui->pushButton_adminPanel->setVisible(true);
     } else {
         this->setWindowTitle("Мессенджер - Пользователь");
-        // ui->pushButton_adminPanel->setVisible(false);
+        ui->pushButton_adminPanel->setVisible(false);
     }
 }
+
+void MainWindow::on_pushButton_adminPanel_clicked()
+{
+    AdminWindow adminWin(this);
+    adminWin.exec();
+}
+
