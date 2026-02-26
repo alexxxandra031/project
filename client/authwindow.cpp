@@ -22,10 +22,11 @@ void AuthWindow::on_pushButton_login_clicked() {
     QString login = ui->lineEdit_login->text();
     QString password = ui->lineEdit_password->text();
 
-    if(login.isEmpty() || password.isEmpty()) {
-        QMessageBox::warning(this, "Ошибка", "Введите логин и пароль!");
+    if(ui->lineEdit_login->text().isEmpty() || ui->lineEdit_cryptoKey->text().isEmpty()) {
+        QMessageBox::warning(this, "Внимание", "Заполните Логин, Пароль и Ключ шифрования!");
         return;
     }
+
 
     // ЗАГЛУШКА
     // ClientManager::getInstance()->sendMessage("AUTH|" + login + "|" + password);
@@ -33,8 +34,12 @@ void AuthWindow::on_pushButton_login_clicked() {
     if(login == "admin" && password == "123") {
             m_isAdmin = true;
             accept();
-        } else {
-            m_isAdmin = false;
-            accept();
-        }
+    } else {
+        m_isAdmin = false;
+        accept();
+    }
+}
+
+QString AuthWindow::getCryptoKey() const {
+    return ui->lineEdit_cryptoKey->text();
 }

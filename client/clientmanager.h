@@ -16,6 +16,7 @@ public:
     void connectToServer(const QString &ip, quint16 port);
     void disconnectFromServer();
     void sendMessage(const QByteArray &message);
+    void setSecretKey(const QString &key);
 
 signals:
     void connected();
@@ -29,6 +30,8 @@ private slots:
 private:
     explicit ClientManager(QObject *parent = nullptr);
     ~ClientManager();
+
+    QByteArray m_secretKey;
 
     QTcpSocket *m_socket;
 };

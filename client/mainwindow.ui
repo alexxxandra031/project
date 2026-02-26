@@ -6,98 +6,256 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>601</width>
+    <width>700</width>
     <height>600</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>Чат</string>
+  </property>
+  <!-- Убираем стандартную строку заголовка, чтобы сделать свой дизайн (опционально) -->
+  <!-- <property name="windowFlags">
+   <set>Qt::FramelessWindowHint</set>
+  </property> -->
+  <property name="styleSheet">
+   <string notr="true">
+    /* Глобальный фон окна */
+    QMainWindow {
+        background: qlineargradient(x1:0, y1:0, x2:1, y2:1,
+                                    stop:0 #667eea, stop:1 #764ba2);
+    }
+    /* Центральный виджет (прозрачный, чтобы фон был виден) */
+    QWidget#centralwidget {
+        background: transparent;
+    }
+    /* Полосы прокрутки (стилизация) */
+    QScrollBar:vertical {
+        border: none;
+        background: rgba(255,255,255,0.2);
+        width: 8px;
+        border-radius: 4px;
+    }
+    QScrollBar::handle:vertical {
+        background: rgba(255,255,255,0.5);
+        border-radius: 4px;
+    }
+    QScrollBar::handle:vertical:hover {
+        background: rgba(255,255,255,0.7);
+    }
+    QScrollBar::add-line:vertical, QScrollBar::sub-line:vertical {
+        border: none;
+        background: none;
+    }
+   </string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QTextEdit" name="textEdit_chat">
-    <property name="geometry">
-     <rect>
-      <x>20</x>
-      <y>30</y>
-      <width>561</width>
-      <height>431</height>
-     </rect>
+   <layout class="QVBoxLayout" name="verticalLayout">
+    <property name="spacing">
+     <number>10</number>
     </property>
-    <property name="readOnly">
-     <bool>true</bool>
+    <property name="leftMargin">
+     <number>20</number>
     </property>
-   </widget>
-   <widget class="QLineEdit" name="lineEdit_message">
-    <property name="geometry">
-     <rect>
-      <x>20</x>
-      <y>480</y>
-      <width>411</width>
-      <height>71</height>
-     </rect>
+    <property name="topMargin">
+     <number>20</number>
     </property>
-   </widget>
-   <widget class="QPushButton" name="pushButton_send">
-    <property name="geometry">
-     <rect>
-      <x>440</x>
-      <y>520</y>
-      <width>141</width>
-      <height>31</height>
-     </rect>
+    <property name="rightMargin">
+     <number>20</number>
     </property>
-    <property name="font">
-     <font>
-      <pointsize>17</pointsize>
-     </font>
+    <property name="bottomMargin">
+     <number>20</number>
     </property>
-    <property name="text">
-     <string>Отправить</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="pushButton_adminPanel">
-    <property name="geometry">
-     <rect>
-      <x>410</x>
-      <y>0</y>
-      <width>171</width>
-      <height>24</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Панель управления</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="pushButton_markImportant">
-    <property name="geometry">
-     <rect>
-      <x>440</x>
-      <y>480</y>
-      <width>141</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <pointsize>8</pointsize>
-     </font>
-    </property>
-    <property name="text">
-     <string>Отметить как важное</string>
-    </property>
-   </widget>
+    <item>
+     <!-- Верхняя панель с заголовком и кнопкой админа -->
+     <layout class="QHBoxLayout" name="horizontalLayout_top">
+      <item>
+       <widget class="QLabel" name="label_chatTitle">
+        <property name="text">
+         <string>&lt;h2&gt;💬 Общий чат&lt;/h2&gt;</string>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QLabel { color: white; }</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <spacer name="horizontalSpacer">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>40</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item>
+       <widget class="QPushButton" name="pushButton_adminPanel">
+        <property name="cursor">
+         <cursorShape>PointingHandCursor</cursorShape>
+        </property>
+        <property name="text">
+         <string>⚙️ Панель управления</string>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">
+          QPushButton {
+              background: rgba(255,255,255,0.2);
+              border: 1px solid rgba(255,255,255,0.5);
+              border-radius: 15px;
+              padding: 5px 15px;
+              color: white;
+              font-weight: bold;
+          }
+          QPushButton:hover {
+              background: rgba(255,255,255,0.3);
+              border: 1px solid white;
+          }
+         </string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
+    <item>
+     <!-- Область чата (карточка) -->
+     <widget class="QTextEdit" name="textEdit_chat">
+      <property name="readOnly">
+       <bool>true</bool>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">
+        QTextEdit {
+            background-color: white;
+            border: none;
+            border-radius: 20px;
+            padding: 15px;
+            font-size: 14px;
+            selection-background-color: #667eea;
+        }
+        QTextEdit:focus {
+            border: 2px solid #667eea;
+        }
+       </string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <!-- Нижняя панель: поле ввода + кнопки -->
+     <layout class="QHBoxLayout" name="horizontalLayout_bottom">
+      <item>
+       <widget class="QLineEdit" name="lineEdit_message">
+        <property name="placeholderText">
+         <string>Введите сообщение...</string>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">
+          QLineEdit {
+              background-color: white;
+              border: 2px solid transparent;
+              border-radius: 25px;
+              padding: 10px 20px;
+              font-size: 14px;
+              selection-background-color: #667eea;
+          }
+          QLineEdit:focus {
+              border: 2px solid #667eea;
+          }
+         </string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="pushButton_markImportant">
+        <property name="cursor">
+         <cursorShape>PointingHandCursor</cursorShape>
+        </property>
+        <property name="checkable">
+         <bool>true</bool>
+        </property>
+        <property name="text">
+         <string>❗ Важное</string>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">
+          QPushButton {
+              background: rgba(255,255,255,0.2);
+              border: 1px solid rgba(255,255,255,0.5);
+              border-radius: 20px;
+              padding: 8px 16px;
+              color: white;
+              font-weight: bold;
+          }
+          QPushButton:hover {
+              background: rgba(255,255,255,0.3);
+              border: 1px solid white;
+          }
+          QPushButton:checked {
+              background: #fbbf24;
+              color: #1e293b;
+              border: 1px solid #f59e0b;
+          }
+          QPushButton:checked:hover {
+              background: #fcd34d;
+          }
+         </string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="pushButton_send">
+        <property name="cursor">
+         <cursorShape>PointingHandCursor</cursorShape>
+        </property>
+        <property name="text">
+         <string>➤</string>
+        </property>
+        <property name="font">
+         <font>
+          <pointsize>18</pointsize>
+          <bold>true</bold>
+         </font>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">
+          QPushButton {
+              background: qlineargradient(x1:0, y1:0, x2:1, y2:0,
+                                          stop:0 #667eea, stop:1 #764ba2);
+              border: none;
+              border-radius: 25px;
+              min-width: 50px;
+              min-height: 50px;
+              color: white;
+          }
+          QPushButton:hover {
+              background: qlineargradient(x1:0, y1:0, x2:1, y2:0,
+                                          stop:0 #5a67d8, stop:1 #6b46a1);
+          }
+          QPushButton:pressed {
+              background: qlineargradient(x1:0, y1:0, x2:1, y2:0,
+                                          stop:0 #4c51bf, stop:1 #553c8b);
+          }
+         </string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
+   </layout>
   </widget>
+  <!-- Скрываем стандартные меню и статусбар, они не нужны -->
   <widget class="QMenuBar" name="menubar">
-   <property name="geometry">
-    <rect>
-     <x>0</x>
-     <y>0</y>
-     <width>601</width>
-     <height>21</height>
-    </rect>
+   <property name="visible">
+    <bool>false</bool>
    </property>
   </widget>
-  <widget class="QStatusBar" name="statusbar"/>
+  <widget class="QStatusBar" name="statusbar">
+   <property name="visible">
+    <bool>false</bool>
+   </property>
+  </widget>
  </widget>
  <resources/>
  <connections/>

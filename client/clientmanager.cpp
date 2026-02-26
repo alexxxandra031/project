@@ -2,8 +2,6 @@
 #include <QDebug>
 #include "crypto.h"
 
-const QByteArray SECRET_KEY = "SuperSEECretKey123123123123123213";
-
 ClientManager* ClientManager::getInstance() {
     static ClientManager instance;
     return &instance;
@@ -44,7 +42,7 @@ void ClientManager::disconnectFromServer() {
 
 void ClientManager::sendMessage(const QByteArray &message) {
     if (m_socket->state() == QAbstractSocket::ConnectedState) {
-        QByteArray encryptedData = Crypto::encryptDecrypt(message, SECRET_KEY);
+        QByteArray encryptedData = Crypto::encryptDecrypt(message, m_secretKey);
 
         m_socket->write(encryptedData);
         m_socket->flush();
@@ -56,7 +54,11 @@ void ClientManager::sendMessage(const QByteArray &message) {
 void ClientManager::onReadyRead() {
     QByteArray encryptedData = m_socket->readAll();
 
-    QByteArray decryptedData = Crypto::encryptDecrypt(encryptedData, SECRET_KEY);
+    QByteArray decryptedData = Crypto::encryptDecrypt(encryptedData, m_secretKey);
 
     emit dataReceived(decryptedData);
+}
+
+void ClientManager::setSecretKey(const QString &key) {
+    m_secretKey = key.toUtf8();
 }

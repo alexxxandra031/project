@@ -11,6 +11,8 @@ public:
     explicit AuthWindow(QWidget *parent = nullptr);
     ~AuthWindow();
 
+    QString getCryptoKey() const;
+
     bool isAdmin() const;
 
 private slots:
