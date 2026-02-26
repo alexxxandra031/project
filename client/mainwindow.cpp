@@ -9,7 +9,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
 
     ui->pushButton_markImportant->setCheckable(true);
-    ui->pushButton_markImportant->setText("Пометить как важное");
+    ui->pushButton_markImportant->setText("Отметить как важное");
 
     ClientManager *client = ClientManager::getInstance();
 
