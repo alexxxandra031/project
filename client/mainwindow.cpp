@@ -8,6 +8,9 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
 
+    ui->pushButton_markImportant->setCheckable(true);
+    ui->pushButton_markImportant->setText("Пометить как важное");
+
     ClientManager *client = ClientManager::getInstance();
 
     connect(client, &ClientManager::connected, this, &MainWindow::onConnected);
@@ -37,11 +40,21 @@ void MainWindow::on_pushButton_send_clicked()
     if ( text.isEmpty())
         return;
 
-    ui->textEdit_chat->append("<b>[Я]:</b> " + text);
+    QString finalMessage;
+
+    text = "<b>[Я]:</b> " + text;
+
+    if (ui->pushButton_markImportant->isChecked()) {
+        text = "<font color='red'><b>[ВАЖНО]</b></font> " + text;
+    }
+
+    ui->textEdit_chat->append(text.toUtf8());
 
     ClientManager::getInstance()->sendMessage(text.toUtf8());
 
     ui->lineEdit_message->clear();
+
+    ui->pushButton_markImportant->setChecked(false);
 }
 
 void MainWindow::setAdminRole(bool isAdmin) {

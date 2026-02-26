@@ -22,13 +22,16 @@ set(PROJECT_SOURCES
     authwindow.h
     authwindow.cpp
     authwindow.ui
+    adminwindow.h
+    adminwindow.cpp
+    adminwindow.ui
+    crypto.h
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
     qt_add_executable(client
         MANUAL_FINALIZATION
         ${PROJECT_SOURCES}
-        adminwindow.h adminwindow.cpp adminwindow.ui
     )
 else()
     if(ANDROID)

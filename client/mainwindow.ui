@@ -32,7 +32,7 @@
      <rect>
       <x>20</x>
       <y>480</y>
-      <width>351</width>
+      <width>301</width>
       <height>71</height>
      </rect>
     </property>
@@ -40,19 +40,19 @@
    <widget class="QPushButton" name="pushButton_send">
     <property name="geometry">
      <rect>
-      <x>380</x>
-      <y>480</y>
-      <width>80</width>
-      <height>71</height>
+      <x>329</x>
+      <y>520</y>
+      <width>121</width>
+      <height>31</height>
      </rect>
     </property>
     <property name="font">
      <font>
-      <pointsize>32</pointsize>
+      <pointsize>17</pointsize>
      </font>
     </property>
     <property name="text">
-     <string>✈</string>
+     <string>Отправить</string>
     </property>
    </widget>
    <widget class="QPushButton" name="pushButton_adminPanel">
@@ -66,6 +66,24 @@
     </property>
     <property name="text">
      <string>Панель управления</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButton_markImportant">
+    <property name="geometry">
+     <rect>
+      <x>330</x>
+      <y>480</y>
+      <width>121</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>8</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>Отметить как важное</string>
     </property>
    </widget>
   </widget>
