@@ -40,7 +40,7 @@ void ClientManager::disconnectFromServer() {
     }
 }
 
-void sendSystemMessage(const QString &command) {
+void ClientManager::sendSystemMessage(const QString &command) {
     if (m_socket->state() == QAbstractSocket::ConnectedState) {
         m_socket->write(command.toUtf8());
         m_socket->flush();
@@ -48,8 +48,10 @@ void sendSystemMessage(const QString &command) {
 }
 
 void ClientManager::sendMessage(const QByteArray &message) {
-    if (m_socket->state() == QAbstractSocket::ConnectedState) {
-        QByteArray encryptedData = Crypto::encryptDecrypt(message, m_secretKey);
+    if (this->isConnected()) {
+        QString fullMessage = m_userName + ": " + QString::fromUtf8(message);
+
+        QByteArray encryptedData = Crypto::encryptDecrypt(fullMessage.toUtf8(), m_secretKey);
 
         m_socket->write(encryptedData);
         m_socket->flush();
@@ -59,7 +61,12 @@ void ClientManager::sendMessage(const QByteArray &message) {
 }
 
 void ClientManager::onReadyRead() {
+    QByteArray data = m_socket->readAll();
     if (data.startsWith("AUTH_SUCCESS") || data.startsWith("STATS|")) {
+        QList<QByteArray> parts = data.split('|');
+        if (parts.size() > 1) {
+            m_userName = QString::fromUtf8(parts[1]);
+        }
         emit dataReceived(data);
     } else {
         QByteArray decryptedData = Crypto::encryptDecrypt(data, m_secretKey);
@@ -69,4 +76,12 @@ void ClientManager::onReadyRead() {
 
 void ClientManager::setSecretKey(const QString &key) {
     m_secretKey = key.toUtf8();
+}
+
+QString ClientManager::username() const {
+    return m_userName;
+}
+
+bool ClientManager::isConnected() const {
+    return m_socket->state() == QAbstractSocket::ConnectedState;
 }

@@ -17,10 +17,15 @@ public:
 
 private slots:
     void on_pushButton_login_clicked();
+    void onDataReceived(const QByteArray &data);
+    void onConnected();
 
 private:
-        Ui::AuthWindow *ui;
-        bool m_isAdmin = false;
+    Ui::AuthWindow *ui;
+    bool m_isAdmin = false;
+
+    QString m_pendingLogin;
+    QString m_pendingPassword;
 };
 
 #endif // AUTHWINDOW_H

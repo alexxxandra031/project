@@ -1,12 +1,18 @@
 #include "authwindow.h"
 #include "ui_authwindow.h"
 #include <QMessageBox>
+#include "clientmanager.h"
 
 AuthWindow::AuthWindow(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::AuthWindow)
 {
     ui->setupUi(this);
+
+    ClientManager *client = ClientManager::getInstance();
+
+    connect(client, &ClientManager::dataReceived, this, &AuthWindow::onDataReceived);
+    connect(client, &ClientManager::connected, this, &AuthWindow::onConnected);
 }
 
 AuthWindow::~AuthWindow()
@@ -19,26 +25,39 @@ bool AuthWindow::isAdmin() const {
 }
 
 void AuthWindow::on_pushButton_login_clicked() {
-    QString login = ui->lineEdit_login->text();
-    QString password = ui->lineEdit_password->text();
+    m_pendingLogin = ui->lineEdit_login->text();
+    m_pendingPassword = ui->lineEdit_password->text();
+    QString key = ui->lineEdit_cryptoKey->text();
 
-    if(ui->lineEdit_login->text().isEmpty() || ui->lineEdit_cryptoKey->text().isEmpty()) {
+    if(m_pendingLogin.isEmpty() || m_pendingPassword.isEmpty() || key.isEmpty()) {
         QMessageBox::warning(this, "Внимание", "Заполните Логин, Пароль и Ключ шифрования!");
         return;
     }
 
 
-    // ЗАГЛУШКА
-    // ClientManager::getInstance()->connectToServer("127.0.0.1", 33333);
-    // ClientManager::getInstance()->sendSystemMessage("AUTH|" + login + "|" + password);
+    ClientManager *client = ClientManager::getInstance();
 
-    if(login == "admin" && password == "123") {
-            m_isAdmin = true;
-            accept();
+    if (client->isConnected()) {
+        onConnected();
     } else {
-        m_isAdmin = false;
-        accept();
+        client->connectToServer("127.0.0.1", 33333);
     }
+
+}
+
+void AuthWindow::onDataReceived(const QByteArray &data) {
+    if (data.startsWith("AUTH_SUCCESS")) {
+        m_isAdmin = data.contains("|admin");
+        this->accept();
+    } else if (data.startsWith("AUTH_ERROR")) {
+        QMessageBox::critical(this, "Ошибка", "Неверный логин или пароль!");
+    }
+}
+
+void AuthWindow::onConnected() {
+    QString authmsg = "AUTH|" + m_pendingLogin + "|" + m_pendingPassword;
+    ClientManager::getInstance()->sendSystemMessage(authmsg);
+
 }
 
 QString AuthWindow::getCryptoKey() const {

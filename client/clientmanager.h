@@ -18,6 +18,9 @@ public:
     void sendMessage(const QByteArray &message);
     void setSecretKey(const QString &key);
     void sendSystemMessage(const QString &command);
+    bool isConnected() const;
+
+    QString username() const;
 
 signals:
     void connected();
@@ -33,6 +36,7 @@ private:
     ~ClientManager();
 
     QByteArray m_secretKey;
+    QString m_userName;
 
     QTcpSocket *m_socket;
 };

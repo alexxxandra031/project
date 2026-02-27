@@ -41,3 +41,7 @@ target_link_libraries(test_client PRIVATE
 if(QT_VERSION_MAJOR EQUAL 6)
     qt_finalize_executable(client)
 endif()
+
+if(MSVC)
+    add_compile_options(/utf-8)
+endif()
