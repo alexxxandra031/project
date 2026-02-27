@@ -29,7 +29,7 @@ ClientManager::~ClientManager() {
 void ClientManager::connectToServer(const QString &ip, quint16 port)
 {
     if (m_socket->state() != QAbstractSocket::ConnectedState) {
-        qDebug() << "Подключение к серверу..." << ip << port;
+        qDebug() << "Connecting to server..." << ip << port;
         m_socket->connectToHost(ip, port);
     }
 }
@@ -56,7 +56,7 @@ void ClientManager::sendMessage(const QByteArray &message) {
         m_socket->write(encryptedData);
         m_socket->flush();
     } else {
-        qDebug() << "Не удалось отправить сообщение: нет подключения к серверу.";
+        qDebug() << "Failed to send message: not connected to server.";
     }
 }
 
