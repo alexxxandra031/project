@@ -12,7 +12,10 @@ MainWindow::MainWindow(QWidget *parent)
 
     connect(client, &ClientManager::connected, this, &MainWindow::onConnected);
     connect(client, &ClientManager::dataReceived, this, &MainWindow::onDataReceived);
-
+    connect(ui->lineEdit_message,
+            &QLineEdit::returnPressed,
+            this,
+            &MainWindow::on_pushButton_send_clicked);
 }
 
 MainWindow::~MainWindow()
@@ -21,7 +24,7 @@ MainWindow::~MainWindow()
 }
 
 void MainWindow::onConnected() {
-    ui->textEdit_chat->append("<b>[Система]:</b> Успешное подключение к серверу!");
+    addMessage("Система", "Успешное подключение к серверу!", false);
 }
 
 void MainWindow::onDataReceived(const QByteArray &data)
@@ -41,11 +44,7 @@ void MainWindow::onDataReceived(const QByteArray &data)
     }
 
     if (!isReadable) {
-        ui->textEdit_chat->append(
-            "<div style='color: #888; font-style: italic; margin:5px 0;'>"
-            "[Зашифрованное сообщение: неверный ключ]"
-            "</div>"
-        );
+        addMessage("⚠️ Система", "Зашифрованное сообщение: неверный ключ", false);
         return;
     }
 
@@ -53,27 +52,13 @@ void MainWindow::onDataReceived(const QByteArray &data)
     int colonIndex = raw.indexOf(": ");
 
     if (colonIndex == -1) {
-        ui->textEdit_chat->append(raw);
+        addMessage("⚠️ Система", raw, false);
         return;
     }
 
     QString senderName = raw.left(colonIndex);
     QString messageBody = raw.mid(colonIndex + 2);
-
-    QString escapedName = senderName.toHtmlEscaped();
-    QString escapedText = messageBody.toHtmlEscaped();
-
-    // 4. Генерируем HTML
-    QString messageHtml = QString(
-        "<div style='margin-bottom:12px; text-align:left;'>"
-        "<div style='background-color: #f1f0f0; color: #1a202c; padding:8px 12px; "
-        "border-radius:18px; max-width:80%; display:inline-block;'>"
-        "<b style='color:#2d3748;'>%1:</b><br>"
-        "<span>%2</span>"
-        "</div></div>"
-    ).arg(escapedName, escapedText);
-
-    ui->textEdit_chat->append(messageHtml);
+    addMessage(senderName, messageBody, false);
 }
 
 void MainWindow::on_pushButton_send_clicked()
@@ -85,19 +70,7 @@ void MainWindow::on_pushButton_send_clicked()
     QString myName = ClientManager::getInstance()->username();
     if(myName.isEmpty()) myName = "Я";
 
-    QString escapedText = text.toHtmlEscaped();
-
-    QString myMessageHtml = QString(
-        "<div style='margin-bottom:12px; text-align:right;'>"
-        "<div style='background-color: #e2e8f0; color: #1a202c; padding:8px 12px; "
-        "border-radius:18px; max-width:80%; display:inline-block; text-align:left;'>"
-        "<b style='color:#2d3748;'>%1:</b><br>"
-        "<span>%2</span>"
-        "</div></div>"
-    ).arg(myName, escapedText);
-
-
-    ui->textEdit_chat->append(myMessageHtml);
+    addMessage(myName, text, true);
 
     ClientManager::getInstance()->sendMessage(text.toUtf8());
     ui->lineEdit_message->clear();
@@ -121,3 +94,57 @@ void MainWindow::on_pushButton_adminPanel_clicked()
     adminWin.exec();
 }
 
+void MainWindow::addMessage(const QString &sender, const QString &text, bool isOutgoing) {
+    QWidget *container = new QWidget();
+    QHBoxLayout *layout = new QHBoxLayout(container);
+    layout->setContentsMargins(5, 2, 5, 2);
+
+
+    QFrame *bubble = new QFrame();
+    QString bgColor = isOutgoing ? "qlineargradient(x1:0, y1:0, x2:1, y2:0, stop:0 #667eea, stop:1 #764ba2)" : "#f1f3f5";
+    QString textColor = isOutgoing ? "white" : "#2d3748";
+    QString senderColor = isOutgoing ? "#e0e7ff" : "#764ba2";
+
+    bubble->setStyleSheet(
+        "QFrame {"
+        "   background-color: " + bgColor + ";"
+        "   border-radius: 12px;"
+        "   padding: 6px 10px;"
+        "}"
+    );
+
+    QLabel *label = new QLabel();
+    label->setTextFormat(Qt::RichText);
+    label->setWordWrap(true);
+
+    label->setMaximumWidth(this->width() * 0.75);
+
+    label->setText(
+        "<b style='color:" + senderColor + "; font-size: 11px;'>" + sender + "</b><br>"
+        "<span style='color:" + textColor + "; font-size: 14px; font-family: Segoe UI, sans-serif;'>" + text + "</span>"
+    );
+
+    label->setStyleSheet("background: transparent; border: none;");
+
+    QVBoxLayout *bubbleLayout = new QVBoxLayout(bubble);
+    bubbleLayout->setContentsMargins(0, 0, 0, 0);
+    bubbleLayout->addWidget(label);
+
+    if (isOutgoing) {
+        layout->addStretch();
+        layout->addWidget(bubble);
+    } else {
+        layout->addWidget(bubble);
+        layout->addStretch();
+    }
+
+    QListWidgetItem *item = new QListWidgetItem(ui->listWidget_chat);
+    item->setFlags(item->flags() & ~Qt::ItemIsSelectable);
+
+    container->setLayout(layout);
+    item->setSizeHint(container->sizeHint());
+    ui->listWidget_chat->addItem(item);
+    ui->listWidget_chat->setItemWidget(item, container);
+
+    ui->listWidget_chat->scrollToBottom();
+}

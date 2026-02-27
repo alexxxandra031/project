@@ -115,26 +115,29 @@
      </layout>
     </item>
     <item>
-     <widget class="QTextEdit" name="textEdit_chat">
-      <property name="styleSheet">
-       <string notr="true">
-        QTextEdit {
-            background-color: white;
-            border: none;
-            border-radius: 20px;
-            padding: 15px;
-            font-size: 14px;
-            selection-background-color: #667eea;
-        }
-        QTextEdit:focus {
-            border: 2px solid #667eea;
-        }
-       </string>
-      </property>
-      <property name="readOnly">
-       <bool>true</bool>
-      </property>
-     </widget>
+     <widget class="QListWidget" name="listWidget_chat">
+		 <property name="styleSheet">
+		  <string notr="true">
+		   QListWidget {
+			   background-color: white;
+			   border: none;
+			   border-radius: 20px;
+			   padding: 10px;
+			   outline: none;
+		   }
+		   QListWidget::item {
+			   border: none;
+			   background-color: transparent;
+		   }
+		  </string>
+		 </property>
+		 <property name="verticalScrollMode" stdset="0">
+		  <enum>QAbstractItemView::ScrollPerPixel</enum>
+		 </property>
+		 <property name="horizontalScrollBarPolicy">
+		  <enum>Qt::ScrollBarAlwaysOff</enum>
+		 </property>
+		</widget>
     </item>
     <item>
      <layout class="QHBoxLayout" name="horizontalLayout_bottom">

@@ -29,5 +29,6 @@ private slots:
 private:
     Ui::MainWindow *ui;
     bool m_isAdmin;
+    void addMessage(const QString &sender, const QString &text, bool isOutgoing);
 };
 #endif // MAINWINDOW_H
