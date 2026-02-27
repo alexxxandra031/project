@@ -17,10 +17,10 @@ public:
 
 private slots:
     void on_pushButton_refresh_clicked();
+    void onDataReceived(const QByteArray &data);
 
 private:
     Ui::AdminWindow *ui;
-    void loadMockData();
 };
 
 #endif // ADMINWINDOW_H

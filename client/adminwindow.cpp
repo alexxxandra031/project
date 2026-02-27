@@ -1,5 +1,6 @@
 #include "adminwindow.h"
 #include "ui_adminwindow.h"
+#include "clientmanager.h"
 #include <QTableWidgetItem>
 
 AdminWindow::AdminWindow(QWidget *parent) :
@@ -13,7 +14,12 @@ AdminWindow::AdminWindow(QWidget *parent) :
 
     ui->tableWidget_stats->horizontalHeader()->setStretchLastSection(true);
 
-    loadMockData();
+    connect(ClientManager::getInstance(),
+            &ClientManager::dataReceived,
+            this,
+            &AdminWindow::onDataReceived);
+
+    on_pushButton_refresh_clicked();
 }
 
 AdminWindow::~AdminWindow()
@@ -21,31 +27,31 @@ AdminWindow::~AdminWindow()
     delete ui;
 }
 
-void AdminWindow::loadMockData()
-{
+void AdminWindow::onDataReceived(const QByteArray &data) {
+    if (!data.startsWith("STATS|")) return;
+
+    QString rawData = QString::fromUtf8(data).mid(6);
+
     ui->tableWidget_stats->setRowCount(0);
 
-    // ЗАГЛУШКА
-    // ClientManager::getInstance()->sendMessage("GET_STATS");
-    // в теории сервером возвращается текст который распарсится на клиенте
+    QStringList users = rawData.split(';');
 
-    ui->tableWidget_stats->insertRow(0);
-    ui->tableWidget_stats->setItem(0, 0, new QTableWidgetItem("admin"));
-    ui->tableWidget_stats->setItem(0, 1, new QTableWidgetItem("Online"));
-    ui->tableWidget_stats->setItem(0, 2, new QTableWidgetItem("15"));
+    for (const QString &userRow : users) {
+        if (userRow.isEmpty()) continue;
 
-    ui->tableWidget_stats->insertRow(1);
-    ui->tableWidget_stats->setItem(1, 0, new QTableWidgetItem("user1"));
-    ui->tableWidget_stats->setItem(1, 1, new QTableWidgetItem("Offline"));
-    ui->tableWidget_stats->setItem(1, 2, new QTableWidgetItem("42"));
+        QStringList details = userRow.split(':');
 
-    ui->tableWidget_stats->insertRow(2);
-    ui->tableWidget_stats->setItem(2, 0, new QTableWidgetItem("cyka"));
-    ui->tableWidget_stats->setItem(2, 1, new QTableWidgetItem("Online"));
-    ui->tableWidget_stats->setItem(2, 2, new QTableWidgetItem("666"));
+        if (details.size() == 3) {
+            int row = ui->tableWidget_stats->rowCount();
+            ui->tableWidget_stats->insertRow(row);
+
+            ui->tableWidget_stats->setItem(row, 0, new QTableWidgetItem(details[0]));
+            ui->tableWidget_stats->setItem(row, 1, new QTableWidgetItem(details[1]));
+            ui->tableWidget_stats->setItem(row, 2, new QTableWidgetItem(details[2]));
+        }
+    }
 }
 
 void AdminWindow::on_pushButton_refresh_clicked() {
-
-    loadMockData();
+    ClientManager::getInstance()->sendSystemMessage("GET_STATS");
 }
