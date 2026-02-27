@@ -44,7 +44,7 @@ void MainWindow::onDataReceived(const QByteArray &data)
     }
 
     if (!isReadable) {
-        addMessage("⚠️ Система", "Зашифрованное сообщение: неверный ключ", false);
+        addMessage("⚠️ Система", ("Зашифрованное сообщение: неверный ключ (" + raw + ")"), false);
         return;
     }
 
