@@ -35,30 +35,39 @@ void MainWindow::onDataReceived(const QByteArray &data)
         return;
     }
 
-    bool isReadable = true;
-    for (QChar ch : raw) {
-        if (ch.unicode() < 32 && !ch.isSpace()) {
-            isReadable = false;
-            break;
+
+
+    if (raw.startsWith("NEW_MESSAGE|")) {
+        QStringList parts = raw.split('|');
+        if (parts.size() >= 4) {
+            QString sender = parts[2];
+            QString message = parts[3];
         }
+
+
+        bool isReadable = true;
+        for (QChar ch : message) {
+            if (ch.unicode() < 32 && !ch.isSpace()) {
+                isReadable = false;
+                break;
+            }
+        }
+
+        if (!isReadable) {
+            addMessage("⚠️ Система", ("Зашифрованное сообщение: неверный ключ (" + raw + ")"), false);
+            return;
+        }
+
+
+        int colonIndex = raw.indexOf(": ");
+
+        if (colonIndex == -1) {
+            addMessage("⚠️ Система", raw, false);
+            return;
+        }
+
+        addMessage(sender, message, false);
     }
-
-    if (!isReadable) {
-        addMessage("⚠️ Система", ("Зашифрованное сообщение: неверный ключ (" + raw + ")"), false);
-        return;
-    }
-
-
-    int colonIndex = raw.indexOf(": ");
-
-    if (colonIndex == -1) {
-        addMessage("⚠️ Система", raw, false);
-        return;
-    }
-
-    QString senderName = raw.left(colonIndex);
-    QString messageBody = raw.mid(colonIndex + 2);
-    addMessage(senderName, messageBody, false);
 }
 
 void MainWindow::on_pushButton_send_clicked()

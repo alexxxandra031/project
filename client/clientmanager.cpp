@@ -62,11 +62,23 @@ void ClientManager::sendMessage(const QByteArray &message) {
 
 void ClientManager::onReadyRead() {
     QByteArray data = m_socket->readAll();
-    if (data.startsWith("OK|") || data.startsWith("ERROR|")) {
+
+    if (data.startsWith("NEW_MESSAGE|")) {
+        QList<QByteArray> parts = data.split('|');
+        if (parts.size() >= 4) {
+            QByteArray encryptedMessage = parts[3];
+            QByteArray decryptedMessage = Crypto::encryptDecrypt(encryptedMessage, m_secretKey);
+
+            QByteArray result = "NEW_MESSAGE|" + parts[1] + "|" + parts[2] + decryptedMessage;
+            emit dataReceived(result);
+        } else {
+            emit dataReceived(data);
+        }
+    } else if (data.startsWith("OK|") || data.startsWith("ERROR|")) {
         emit dataReceived(data);
     } else {
-        QByteArray decryptedData = Crypto::encryptDecrypt(data, m_secretKey);
-        emit dataReceived(decryptedData);
+        emit dataReceived(Crypto::encryptDecrypt(data, m_secretKey));
+        // На всякий случай если вдруг понадобится. (старая логика приема сообщений)
     }
 }
 
@@ -84,4 +96,19 @@ bool ClientManager::isConnected() const {
 
 void ClientManager::setUserName(const QString &name) {
     m_userName = name;
+}
+
+void ClientManager::sendChatMessage(const QString &chatId, const QByteArray &message) {
+    if (!this->isConnected()) {
+        qDebug() << "Failed to send message: not connected to server.";
+        return;
+    }
+
+    QByteArray encryptedMessage = Crypto::encryptDecrypt(message, m_secretKey);
+
+    QString command = "SEND|" + chatId + "|";
+    QByteArray fullCommand  = command.toUtf8() + encryptedMessage;
+
+    m_socket->write(fullCommand);
+    m_socket->flush();
 }

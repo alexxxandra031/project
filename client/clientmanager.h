@@ -15,6 +15,7 @@ public:
 
     void connectToServer(const QString &ip, quint16 port);
     void disconnectFromServer();
+    void sendChatMessage(const QString &chatId, const QByteArray &message);
     void sendMessage(const QByteArray &message);
     void setSecretKey(const QString &key);
     void setUserName(const QString &name);

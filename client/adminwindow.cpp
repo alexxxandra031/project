@@ -28,9 +28,10 @@ AdminWindow::~AdminWindow()
 }
 
 void AdminWindow::onDataReceived(const QByteArray &data) {
-    if (!data.startsWith("STATS|")) return;
+    QString str = QString::fromUtf8(data);
+    if (!data.startsWith("OK|ONLINE_USERS|")) return;
 
-    QString rawData = QString::fromUtf8(data).mid(6);
+    QString rawData = str.mid(16);
 
     ui->tableWidget_stats->setRowCount(0);
 
