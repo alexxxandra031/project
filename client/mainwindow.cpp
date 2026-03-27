@@ -25,17 +25,38 @@ MainWindow::~MainWindow()
 
 void MainWindow::onConnected() {
     addMessage("Система", "Успешное подключение к серверу!", false);
+
+    Clientmanager::getInstance()->sendSystemMessage("HISTORY|general");
 }
 
 void MainWindow::onDataReceived(const QByteArray &data)
 {
     QString raw = QString::fromUtf8(data);
 
-    if (raw.startsWith("OK|") || raw.startsWith("ERROR|")) {
+    if (raw.startsWith("OK|HISTORY")) {
+        QString current_user = ClientManager::getInstance()->username();
+
+        QStringList parts = raw.split('|');
+        if (parts.size() >= 4) {
+            QStringList messages  = parts[3].split(';');
+            for (const QString &msg : messages ) {
+                if (msg.isEmpty()) continue;
+                int colonPos = msg.indexOf(':');
+                if (colonPos != -1) {
+                    QString sender = msg.left(colonPos);
+                    QString message = msg.mid(colonPos + 1);
+
+                    addMessage(sender, message, current_user == sender);
+                }
+            }
+        }
+
         return;
     }
 
-
+    if (raw.startsWith("OK|") || raw.startsWith("ERROR|")) {
+        return;
+    }
 
     if (raw.startsWith("NEW_MESSAGE|")) {
         QStringList parts = raw.split('|');
@@ -69,6 +90,7 @@ void MainWindow::onDataReceived(const QByteArray &data)
         }
 
         addMessage(sender, message, false);
+        return;
     }
 }
 
