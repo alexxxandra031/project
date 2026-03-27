@@ -7,14 +7,11 @@
     <x>0</x>
     <y>0</y>
     <width>420</width>
-    <height>520</height>
+    <height>571</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Авторизация</string>
-  </property>
-  <property name="windowFlags">
-   <set>Qt::FramelessWindowHint</set>
   </property>
   <property name="styleSheet">
    <string notr="true">
@@ -24,14 +21,13 @@
     }
    </string>
   </property>
-  <!-- Основная карточка -->
   <widget class="QFrame" name="frame_card">
    <property name="geometry">
     <rect>
      <x>30</x>
      <y>40</y>
      <width>360</width>
-     <height>440</height>
+     <height>500</height>
     </rect>
    </property>
    <property name="styleSheet">
@@ -43,12 +39,11 @@
     </string>
    </property>
    <property name="frameShape">
-    <enum>QFrame::StyledPanel</enum>
+    <enum>QFrame::Shape::StyledPanel</enum>
    </property>
    <property name="frameShadow">
-    <enum>QFrame::Raised</enum>
+    <enum>QFrame::Shadow::Raised</enum>
    </property>
-   <!-- Заголовок -->
    <widget class="QLabel" name="label_title">
     <property name="geometry">
      <rect>
@@ -58,12 +53,6 @@
       <height>40</height>
      </rect>
     </property>
-    <property name="text">
-     <string>&lt;h2&gt;Добро пожаловать&lt;/h2&gt;</string>
-    </property>
-    <property name="alignment">
-     <set>Qt::AlignCenter</set>
-    </property>
     <property name="styleSheet">
      <string notr="true">
       QLabel {
@@ -71,8 +60,13 @@
       }
      </string>
     </property>
+    <property name="text">
+     <string>&lt;h2&gt;Добро пожаловать&lt;/h2&gt;</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignmentFlag::AlignCenter</set>
+    </property>
    </widget>
-   <!-- Поле Логин -->
    <widget class="QLineEdit" name="lineEdit_login">
     <property name="geometry">
      <rect>
@@ -81,9 +75,6 @@
       <width>300</width>
       <height>40</height>
      </rect>
-    </property>
-    <property name="placeholderText">
-     <string>Логин</string>
     </property>
     <property name="styleSheet">
      <string notr="true">
@@ -100,8 +91,10 @@
       }
      </string>
     </property>
+    <property name="placeholderText">
+     <string>Логин</string>
+    </property>
    </widget>
-   <!-- Поле Пароль -->
    <widget class="QLineEdit" name="lineEdit_password">
     <property name="geometry">
      <rect>
@@ -111,12 +104,6 @@
       <height>40</height>
      </rect>
     </property>
-    <property name="placeholderText">
-     <string>Пароль</string>
-    </property>
-    <property name="echoMode">
-     <enum>QLineEdit::Password</enum>
-    </property>
     <property name="styleSheet">
      <string notr="true">QLineEdit {
           border: 1px solid #ddd;
@@ -130,8 +117,13 @@
           background-color: white;
       }</string>
     </property>
+    <property name="echoMode">
+     <enum>QLineEdit::EchoMode::Password</enum>
+    </property>
+    <property name="placeholderText">
+     <string>Пароль</string>
+    </property>
    </widget>
-   <!-- Поле Ключ шифрования -->
    <widget class="QLineEdit" name="lineEdit_cryptoKey">
     <property name="geometry">
      <rect>
@@ -141,12 +133,6 @@
       <height>40</height>
      </rect>
     </property>
-    <property name="placeholderText">
-     <string>Ключ шифрования</string>
-    </property>
-    <property name="echoMode">
-     <enum>QLineEdit::Password</enum>
-    </property>
     <property name="styleSheet">
      <string notr="true">QLineEdit {
           border: 1px solid #ddd;
@@ -160,8 +146,13 @@
           background-color: white;
       }</string>
     </property>
+    <property name="echoMode">
+     <enum>QLineEdit::EchoMode::Password</enum>
+    </property>
+    <property name="placeholderText">
+     <string>Ключ шифрования</string>
+    </property>
    </widget>
-   <!-- Кнопка Войти -->
    <widget class="QPushButton" name="pushButton_login">
     <property name="geometry">
      <rect>
@@ -170,9 +161,6 @@
       <width>300</width>
       <height>50</height>
      </rect>
-    </property>
-    <property name="text">
-     <string>Войти</string>
     </property>
     <property name="cursor">
      <cursorShape>PointingHandCursor</cursorShape>
@@ -198,25 +186,64 @@
       }
      </string>
     </property>
+    <property name="text">
+     <string>Войти</string>
+    </property>
    </widget>
-   <!-- Дополнительная информация (необязательно) -->
+   <widget class="QPushButton" name="pushButton_register">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>340</y>
+      <width>300</width>
+      <height>50</height>
+     </rect>
+    </property>
+    <property name="cursor">
+     <cursorShape>PointingHandCursor</cursorShape>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">
+      QPushButton {
+          background: qlineargradient(x1:0, y1:0, x2:1, y2:0,
+                                      stop:0 #9f7aea, stop:1 #6b46c1);
+          border: none;
+          border-radius: 25px;
+          color: white;
+          font-size: 16px;
+          font-weight: bold;
+      }
+      QPushButton:hover {
+          background: qlineargradient(x1:0, y1:0, x2:1, y2:0,
+                                      stop:0 #b794f4, stop:1 #805ad5);
+      }
+      QPushButton:pressed {
+          background: qlineargradient(x1:0, y1:0, x2:1, y2:0,
+                                      stop:0 #8b5cf6, stop:1 #5b21b6);
+      }
+     </string>
+    </property>
+    <property name="text">
+     <string>Регистрация</string>
+    </property>
+   </widget>
    <widget class="QLabel" name="label_footer">
     <property name="geometry">
      <rect>
       <x>30</x>
-      <y>350</y>
+      <y>420</y>
       <width>300</width>
       <height>30</height>
      </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QLabel { color: #888; }</string>
     </property>
     <property name="text">
      <string>Введите данные для входа</string>
     </property>
     <property name="alignment">
-     <set>Qt::AlignCenter</set>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">QLabel { color: #888; }</string>
+     <set>Qt::AlignmentFlag::AlignCenter</set>
     </property>
    </widget>
   </widget>

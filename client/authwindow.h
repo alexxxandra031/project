@@ -17,6 +17,7 @@ public:
 
 private slots:
     void on_pushButton_login_clicked();
+    void on_pushButton_register_clicked();
     void onDataReceived(const QByteArray &data);
     void onConnected();
 
@@ -26,6 +27,7 @@ private:
 
     QString m_pendingLogin;
     QString m_pendingPassword;
+    QString m_pendingCommand;
 };
 
 #endif // AUTHWINDOW_H
