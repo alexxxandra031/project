@@ -26,7 +26,7 @@ MainWindow::~MainWindow()
 void MainWindow::onConnected() {
     addMessage("Система", "Успешное подключение к серверу!", false);
 
-    Clientmanager::getInstance()->sendSystemMessage("HISTORY|general");
+    ClientManager::getInstance()->sendSystemMessage("HISTORY|general");
 }
 
 void MainWindow::onDataReceived(const QByteArray &data)
@@ -119,7 +119,7 @@ void MainWindow::on_pushButton_send_clicked()
 
     addMessage(myName, text, true);
 
-    ClientManager::getInstance()->sendMessage(text.toUtf8());
+    ClientManager::getInstance()->sendChatMessage("general", text.toUtf8());
     ui->lineEdit_message->clear();
 }
 
