@@ -47,19 +47,6 @@ void ClientManager::sendSystemMessage(const QString &command) {
     }
 }
 
-void ClientManager::sendMessage(const QByteArray &message) {
-    if (this->isConnected()) {
-        QString fullMessage = m_userName + ": " + QString::fromUtf8(message);
-
-        QByteArray encryptedData = Crypto::encryptDecrypt(fullMessage.toUtf8(), m_secretKey);
-
-        m_socket->write(encryptedData);
-        m_socket->flush();
-    } else {
-        qDebug() << "Failed to send message: not connected to server.";
-    }
-}
-
 void ClientManager::onReadyRead() {
     QByteArray data = m_socket->readAll();
 
