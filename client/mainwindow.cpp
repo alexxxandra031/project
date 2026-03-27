@@ -31,7 +31,7 @@ void MainWindow::onDataReceived(const QByteArray &data)
 {
     QString raw = QString::fromUtf8(data);
 
-    if (raw.startsWith("AUTH_SUCCESS") || raw.startsWith("STATS|")) {
+    if (raw.startsWith("OK|") || raw.startsWith("ERROR|")) {
         return;
     }
 
