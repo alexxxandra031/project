@@ -62,11 +62,7 @@ void ClientManager::sendMessage(const QByteArray &message) {
 
 void ClientManager::onReadyRead() {
     QByteArray data = m_socket->readAll();
-    if (data.startsWith("AUTH_SUCCESS") || data.startsWith("STATS|")) {
-        QList<QByteArray> parts = data.split('|');
-        if (parts.size() > 1) {
-            m_userName = QString::fromUtf8(parts[1]);
-        }
+    if (data.startsWith("OK|") || data.startsWith("ERROR|")) {
         emit dataReceived(data);
     } else {
         QByteArray decryptedData = Crypto::encryptDecrypt(data, m_secretKey);
