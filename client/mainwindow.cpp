@@ -54,6 +54,20 @@ void MainWindow::onDataReceived(const QByteArray &data)
         return;
     }
 
+    if (raw.startsWith("ERROR|")) {
+        QStringList parts = raw.split('|');
+        QString errorType = parts.size() > 1 ? parts[1] : "UNKNOWN";
+
+        if (errorType == "NOT_AUTHORIZED") {
+            addMessage("⚠️ Система", "Не авторизован. Перезайдите.", false);
+        } else if (errorType == "SEND_FAILED") {
+            addMessage("⚠️ Система", "Не удалось отправить сообщение.", false);
+        } else {
+            addMessage("⚠️ Система", "Ошибка: " + errorType, false);
+        }
+        return;
+    }
+
     if (raw.startsWith("OK|") || raw.startsWith("ERROR|")) {
         return;
     }
