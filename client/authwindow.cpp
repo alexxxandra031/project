@@ -46,16 +46,20 @@ void AuthWindow::on_pushButton_login_clicked() {
 }
 
 void AuthWindow::onDataReceived(const QByteArray &data) {
-    if (data.startsWith("AUTH_SUCCESS")) {
-        m_isAdmin = data.contains("|admin");
-        this->accept();
-    } else if (data.startsWith("AUTH_ERROR")) {
+    QString response = QString::fromUtf8(data);
+    if (response.startsWith("OK|LOGIN")) {
+        ClientManager::getInstance()->setUserName(m_pendingLogin);
+        m_isAdmin = (m_pendingLogin == "admin");
+        accept();
+    } else if (response.startsWith("ERROR|")) {
         QMessageBox::critical(this, "Ошибка", "Неверный логин или пароль!");
     }
+
+
 }
 
 void AuthWindow::onConnected() {
-    QString authmsg = "AUTH|" + m_pendingLogin + "|" + m_pendingPassword;
+    QString authmsg = "LOGIN|" + m_pendingLogin + "|" + m_pendingPassword;
     ClientManager::getInstance()->sendSystemMessage(authmsg);
 
 }

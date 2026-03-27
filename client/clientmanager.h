@@ -17,6 +17,7 @@ public:
     void disconnectFromServer();
     void sendMessage(const QByteArray &message);
     void setSecretKey(const QString &key);
+    void setUserName(const QString &name);
     void sendSystemMessage(const QString &command);
     bool isConnected() const;
 

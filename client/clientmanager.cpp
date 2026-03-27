@@ -85,3 +85,7 @@ QString ClientManager::username() const {
 bool ClientManager::isConnected() const {
     return m_socket->state() == QAbstractSocket::ConnectedState;
 }
+
+void ClientManager::setUserName(const QString &name) {
+    m_userName = name;
+}
