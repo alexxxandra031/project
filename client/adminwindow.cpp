@@ -53,5 +53,5 @@ void AdminWindow::onDataReceived(const QByteArray &data) {
 }
 
 void AdminWindow::on_pushButton_refresh_clicked() {
-    ClientManager::getInstance()->sendSystemMessage("GET_STATS");
+    ClientManager::getInstance()->sendSystemMessage("ONLINE_USERS");
 }
