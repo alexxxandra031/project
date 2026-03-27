@@ -39,9 +39,11 @@ void MainWindow::onDataReceived(const QByteArray &data)
 
     if (raw.startsWith("NEW_MESSAGE|")) {
         QStringList parts = raw.split('|');
+        QString sender;
+        QString message;
         if (parts.size() >= 4) {
-            QString sender = parts[2];
-            QString message = parts[3];
+            sender = parts[2];
+            message = parts[3];
         }
 
 
