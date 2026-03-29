@@ -1,0 +1,92 @@
+\doxysection{databasemanager.\+h}
+\hypertarget{databasemanager_8h_source}{}\label{databasemanager_8h_source}\doxymbox{\hyperlink{databasemanager_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{databasemanager_8h_source_l00001}00001\ \textcolor{preprocessor}{\#ifndef\ DATABASEMANAGER\_H}}
+\DoxyCodeLine{\Hypertarget{databasemanager_8h_source_l00002}00002\ \textcolor{preprocessor}{\#define\ DATABASEMANAGER\_H}}
+\DoxyCodeLine{\Hypertarget{databasemanager_8h_source_l00003}00003\ }
+\DoxyCodeLine{\Hypertarget{databasemanager_8h_source_l00004}00004\ \textcolor{preprocessor}{\#include\ <QSqlDatabase>}}
+\DoxyCodeLine{\Hypertarget{databasemanager_8h_source_l00005}00005\ \textcolor{preprocessor}{\#include\ <QSqlQuery>}}
+\DoxyCodeLine{\Hypertarget{databasemanager_8h_source_l00006}00006\ \textcolor{preprocessor}{\#include\ <QSqlError>}}
+\DoxyCodeLine{\Hypertarget{databasemanager_8h_source_l00007}00007\ \textcolor{preprocessor}{\#include\ <QDebug>}}
+\DoxyCodeLine{\Hypertarget{databasemanager_8h_source_l00008}00008\ }
+\DoxyCodeLine{\Hypertarget{databasemanager_8h_source_l00009}00009\ \textcolor{keyword}{class\ }\doxymbox{\hyperlink{class_database_manager}{DatabaseManager}};}
+\DoxyCodeLine{\Hypertarget{databasemanager_8h_source_l00010}00010\ }
+\DoxyCodeLine{\Hypertarget{databasemanager_8h_source_l00014}\doxymbox{\hyperlink{class_database_destroyer}{00014}}\ \textcolor{keyword}{class\ }\doxymbox{\hyperlink{class_database_destroyer}{DatabaseDestroyer}}}
+\DoxyCodeLine{\Hypertarget{databasemanager_8h_source_l00015}00015\ \{}
+\DoxyCodeLine{\Hypertarget{databasemanager_8h_source_l00016}00016\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{\Hypertarget{databasemanager_8h_source_l00017}\doxymbox{\hyperlink{class_database_destroyer_af0c3cc69a59070c7c9e87885933e6fb3}{00017}}\ \ \ \ \ \doxymbox{\hyperlink{class_database_manager}{DatabaseManager}}*\ \doxymbox{\hyperlink{class_database_destroyer_af0c3cc69a59070c7c9e87885933e6fb3}{p\_instance}};\ }
+\DoxyCodeLine{\Hypertarget{databasemanager_8h_source_l00018}00018\ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{databasemanager_8h_source_l00019}00019\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{\Hypertarget{databasemanager_8h_source_l00023}\doxymbox{\hyperlink{class_database_destroyer_a85d3f148c74da0df13368b0579703ad3}{00023}}\ \ \ \ \ \doxymbox{\hyperlink{class_database_destroyer_a85d3f148c74da0df13368b0579703ad3}{\string~DatabaseDestroyer}}();}
+\DoxyCodeLine{\Hypertarget{databasemanager_8h_source_l00024}00024\ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{databasemanager_8h_source_l00029}\doxymbox{\hyperlink{class_database_destroyer_ac8080be6895589875817b072be7616d2}{00029}}\ \ \ \ \ \textcolor{keywordtype}{void}\ \doxymbox{\hyperlink{class_database_destroyer_ac8080be6895589875817b072be7616d2}{initialize}}(\doxymbox{\hyperlink{class_database_manager}{DatabaseManager}}*\ p);}
+\DoxyCodeLine{\Hypertarget{databasemanager_8h_source_l00030}00030\ \};}
+\DoxyCodeLine{\Hypertarget{databasemanager_8h_source_l00031}00031\ }
+\DoxyCodeLine{\Hypertarget{databasemanager_8h_source_l00035}\doxymbox{\hyperlink{class_database_manager}{00035}}\ \textcolor{keyword}{class\ }\doxymbox{\hyperlink{class_database_manager_aa162d97472e6c31a4e873adda435dbb6}{DatabaseManager}}}
+\DoxyCodeLine{\Hypertarget{databasemanager_8h_source_l00036}00036\ \{}
+\DoxyCodeLine{\Hypertarget{databasemanager_8h_source_l00037}00037\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{\Hypertarget{databasemanager_8h_source_l00038}\doxymbox{\hyperlink{class_database_manager_a67e52d84a846333cce50cb0d1409b817}{00038}}\ \ \ \ \ \textcolor{keyword}{static}\ \doxymbox{\hyperlink{class_database_manager_aa162d97472e6c31a4e873adda435dbb6}{DatabaseManager}}*\ \doxymbox{\hyperlink{class_database_manager_a67e52d84a846333cce50cb0d1409b817}{p\_instance}};\ }
+\DoxyCodeLine{\Hypertarget{databasemanager_8h_source_l00039}\doxymbox{\hyperlink{class_database_manager_a6dda42d2db64493c9436eb32be2d77db}{00039}}\ \ \ \ \ \textcolor{keyword}{static}\ \doxymbox{\hyperlink{class_database_manager_a4588ee946c5d5c8fcff08e29489f676e}{DatabaseDestroyer}}\ \doxymbox{\hyperlink{class_database_manager_a6dda42d2db64493c9436eb32be2d77db}{destroyer}};\ }
+\DoxyCodeLine{\Hypertarget{databasemanager_8h_source_l00040}00040\ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{databasemanager_8h_source_l00041}\doxymbox{\hyperlink{class_database_manager_a48728975c70722593bb73736d7e76efb}{00041}}\ \ \ \ \ QSqlDatabase\ \doxymbox{\hyperlink{class_database_manager_a48728975c70722593bb73736d7e76efb}{db}};\ }
+\DoxyCodeLine{\Hypertarget{databasemanager_8h_source_l00042}00042\ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{databasemanager_8h_source_l00043}00043\ \textcolor{keyword}{protected}:}
+\DoxyCodeLine{\Hypertarget{databasemanager_8h_source_l00047}\doxymbox{\hyperlink{class_database_manager_aa162d97472e6c31a4e873adda435dbb6}{00047}}\ \ \ \ \ \doxymbox{\hyperlink{class_database_manager_aa162d97472e6c31a4e873adda435dbb6}{DatabaseManager}}();}
+\DoxyCodeLine{\Hypertarget{databasemanager_8h_source_l00048}00048\ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{databasemanager_8h_source_l00049}00049\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{\Hypertarget{databasemanager_8h_source_l00054}\doxymbox{\hyperlink{class_database_manager_ad06ebc64d5b847f0dffc69bb0f5dd0b6}{00054}}\ \ \ \ \ \textcolor{keyword}{static}\ \doxymbox{\hyperlink{class_database_manager_aa162d97472e6c31a4e873adda435dbb6}{DatabaseManager}}*\ \doxymbox{\hyperlink{class_database_manager_ad06ebc64d5b847f0dffc69bb0f5dd0b6}{getInstance}}();}
+\DoxyCodeLine{\Hypertarget{databasemanager_8h_source_l00055}00055\ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{databasemanager_8h_source_l00060}\doxymbox{\hyperlink{class_database_manager_a3cbc0c691ef2b9e7851a33959817dee6}{00060}}\ \ \ \ \ \textcolor{keywordtype}{bool}\ \doxymbox{\hyperlink{class_database_manager_a3cbc0c691ef2b9e7851a33959817dee6}{connect}}();}
+\DoxyCodeLine{\Hypertarget{databasemanager_8h_source_l00061}00061\ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{databasemanager_8h_source_l00062}00062\ \ \ \ \ \textcolor{comment}{//\ -\/-\/-\/\ создание\ структуры\ -\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{databasemanager_8h_source_l00063}00063\ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{databasemanager_8h_source_l00068}\doxymbox{\hyperlink{class_database_manager_a90600e6de3ad5fd99a81409054626dfa}{00068}}\ \ \ \ \ \textcolor{keywordtype}{bool}\ \doxymbox{\hyperlink{class_database_manager_a90600e6de3ad5fd99a81409054626dfa}{createTables}}();}
+\DoxyCodeLine{\Hypertarget{databasemanager_8h_source_l00069}00069\ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{databasemanager_8h_source_l00074}\doxymbox{\hyperlink{class_database_manager_a039c5724966998a74b0ea9d3832abc0c}{00074}}\ \ \ \ \ \textcolor{keywordtype}{bool}\ \doxymbox{\hyperlink{class_database_manager_a039c5724966998a74b0ea9d3832abc0c}{createMainChat}}();}
+\DoxyCodeLine{\Hypertarget{databasemanager_8h_source_l00075}00075\ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{databasemanager_8h_source_l00083}\doxymbox{\hyperlink{class_database_manager_a0b1dccec946bf82dbdd35d8fcdfe5f7f}{00083}}\ \ \ \ \ \textcolor{keywordtype}{bool}\ \doxymbox{\hyperlink{class_database_manager_a0b1dccec946bf82dbdd35d8fcdfe5f7f}{createAdmin}}(\textcolor{keyword}{const}\ QString\&\ username,\ \textcolor{keyword}{const}\ QString\&\ password,\ \textcolor{keyword}{const}\ QString\&\ displayName);}
+\DoxyCodeLine{\Hypertarget{databasemanager_8h_source_l00084}00084\ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{databasemanager_8h_source_l00088}\doxymbox{\hyperlink{class_database_manager_a06b19615ba3b6227f05ada50cfb99865}{00088}}\ \ \ \ \ \textcolor{keyword}{enum}\ \doxymbox{\hyperlink{class_database_manager_a06b19615ba3b6227f05ada50cfb99865}{DbResult}}\ \{}
+\DoxyCodeLine{\Hypertarget{databasemanager_8h_source_l00089}\doxymbox{\hyperlink{class_database_manager_a06b19615ba3b6227f05ada50cfb99865a49919f61d6679644bb6ea10c064087b3}{00089}}\ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{class_database_manager_a06b19615ba3b6227f05ada50cfb99865a49919f61d6679644bb6ea10c064087b3}{DB\_OK}},\ }
+\DoxyCodeLine{\Hypertarget{databasemanager_8h_source_l00090}\doxymbox{\hyperlink{class_database_manager_a06b19615ba3b6227f05ada50cfb99865a216c77dd0fb599aef4845c7c3fa4a749}{00090}}\ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{class_database_manager_a06b19615ba3b6227f05ada50cfb99865a216c77dd0fb599aef4845c7c3fa4a749}{DB\_ERROR}},\ }
+\DoxyCodeLine{\Hypertarget{databasemanager_8h_source_l00091}\doxymbox{\hyperlink{class_database_manager_a06b19615ba3b6227f05ada50cfb99865ae713758eb247d3b4af015274463fd662}{00091}}\ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{class_database_manager_a06b19615ba3b6227f05ada50cfb99865ae713758eb247d3b4af015274463fd662}{DB\_USER\_EXISTS}},\ }
+\DoxyCodeLine{\Hypertarget{databasemanager_8h_source_l00092}\doxymbox{\hyperlink{class_database_manager_a06b19615ba3b6227f05ada50cfb99865afdc9f87d8392d6f3d850b47603cc903d}{00092}}\ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{class_database_manager_a06b19615ba3b6227f05ada50cfb99865afdc9f87d8392d6f3d850b47603cc903d}{DB\_USER\_NOT\_FOUND}},\ }
+\DoxyCodeLine{\Hypertarget{databasemanager_8h_source_l00093}\doxymbox{\hyperlink{class_database_manager_a06b19615ba3b6227f05ada50cfb99865acb630a6fc66881f33f98c2f52532df95}{00093}}\ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{class_database_manager_a06b19615ba3b6227f05ada50cfb99865acb630a6fc66881f33f98c2f52532df95}{DB\_WRONG\_PASSWORD}}\ }
+\DoxyCodeLine{\Hypertarget{databasemanager_8h_source_l00094}00094\ \ \ \ \ \};}
+\DoxyCodeLine{\Hypertarget{databasemanager_8h_source_l00095}00095\ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{databasemanager_8h_source_l00103}\doxymbox{\hyperlink{class_database_manager_a7178f19b88b06b2000cb9d6f9902a628}{00103}}\ \ \ \ \ \doxymbox{\hyperlink{class_database_manager_a06b19615ba3b6227f05ada50cfb99865}{DbResult}}\ \doxymbox{\hyperlink{class_database_manager_a7178f19b88b06b2000cb9d6f9902a628}{loginUser}}(\textcolor{keyword}{const}\ QString\&\ username,\ \textcolor{keyword}{const}\ QString\&\ password,\ \textcolor{keywordtype}{int}\&\ outUserId);}
+\DoxyCodeLine{\Hypertarget{databasemanager_8h_source_l00104}00104\ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{databasemanager_8h_source_l00112}\doxymbox{\hyperlink{class_database_manager_a130fe16b4229df253a5b9e491d4167e7}{00112}}\ \ \ \ \ \doxymbox{\hyperlink{class_database_manager_a06b19615ba3b6227f05ada50cfb99865}{DbResult}}\ \doxymbox{\hyperlink{class_database_manager_a130fe16b4229df253a5b9e491d4167e7}{registerUser}}(\textcolor{keyword}{const}\ QString\&\ username,\ \textcolor{keyword}{const}\ QString\&\ password,\ \textcolor{keywordtype}{int}\&\ outUserId);}
+\DoxyCodeLine{\Hypertarget{databasemanager_8h_source_l00113}00113\ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{databasemanager_8h_source_l00120}\doxymbox{\hyperlink{class_database_manager_a4a8d5ce31d171850380a7ae052b9a85a}{00120}}\ \ \ \ \ \doxymbox{\hyperlink{class_database_manager_a06b19615ba3b6227f05ada50cfb99865}{DbResult}}\ \doxymbox{\hyperlink{class_database_manager_a4a8d5ce31d171850380a7ae052b9a85a}{getUser}}(\textcolor{keywordtype}{int}\ userId,\ QVariantMap\&\ outUser);}
+\DoxyCodeLine{\Hypertarget{databasemanager_8h_source_l00121}00121\ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{databasemanager_8h_source_l00128}\doxymbox{\hyperlink{class_database_manager_aa225bbb04a2c7e3bb4efe4a67f1aa839}{00128}}\ \ \ \ \ \doxymbox{\hyperlink{class_database_manager_a06b19615ba3b6227f05ada50cfb99865}{DbResult}}\ \doxymbox{\hyperlink{class_database_manager_aa225bbb04a2c7e3bb4efe4a67f1aa839}{updateUserStatus}}(\textcolor{keywordtype}{int}\ userId,\ \textcolor{keyword}{const}\ QString\&\ status);}
+\DoxyCodeLine{\Hypertarget{databasemanager_8h_source_l00129}00129\ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{databasemanager_8h_source_l00134}\doxymbox{\hyperlink{class_database_manager_aaf537666c6e6043b1b89660bb6c184b5}{00134}}\ \ \ \ \ \textcolor{keywordtype}{int}\ \doxymbox{\hyperlink{class_database_manager_aaf537666c6e6043b1b89660bb6c184b5}{getUserCount}}();}
+\DoxyCodeLine{\Hypertarget{databasemanager_8h_source_l00135}00135\ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{databasemanager_8h_source_l00140}\doxymbox{\hyperlink{class_database_manager_a3b4558071f8f3b67ae53e76c6449bec8}{00140}}\ \ \ \ \ \textcolor{keywordtype}{int}\ \doxymbox{\hyperlink{class_database_manager_a3b4558071f8f3b67ae53e76c6449bec8}{getMessageCount}}();}
+\DoxyCodeLine{\Hypertarget{databasemanager_8h_source_l00141}00141\ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{databasemanager_8h_source_l00147}\doxymbox{\hyperlink{class_database_manager_a9bf2fa4956a18d8e2c83047b94f1fdd6}{00147}}\ \ \ \ \ \doxymbox{\hyperlink{class_database_manager_a06b19615ba3b6227f05ada50cfb99865}{DbResult}}\ \doxymbox{\hyperlink{class_database_manager_a9bf2fa4956a18d8e2c83047b94f1fdd6}{getOnlineUsers}}(QList<QString>\&\ outUsers);}
+\DoxyCodeLine{\Hypertarget{databasemanager_8h_source_l00148}00148\ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{databasemanager_8h_source_l00149}00149\ \ \ \ \ \textcolor{comment}{//\ -\/-\/-\/\ чаты\ -\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{databasemanager_8h_source_l00150}00150\ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{databasemanager_8h_source_l00158}\doxymbox{\hyperlink{class_database_manager_a82c107fcddf482ece128e4155bab0bce}{00158}}\ \ \ \ \ \doxymbox{\hyperlink{class_database_manager_a06b19615ba3b6227f05ada50cfb99865}{DbResult}}\ \doxymbox{\hyperlink{class_database_manager_a82c107fcddf482ece128e4155bab0bce}{createChat}}(\textcolor{keywordtype}{int}\ creatorId,\ \textcolor{keyword}{const}\ QString\&\ type,\ \textcolor{keywordtype}{int}\&\ outChatId);}
+\DoxyCodeLine{\Hypertarget{databasemanager_8h_source_l00159}00159\ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{databasemanager_8h_source_l00167}\doxymbox{\hyperlink{class_database_manager_a96d7b7ada4c9e6f01e4c7b5cb88f40e1}{00167}}\ \ \ \ \ \doxymbox{\hyperlink{class_database_manager_a06b19615ba3b6227f05ada50cfb99865}{DbResult}}\ \doxymbox{\hyperlink{class_database_manager_a96d7b7ada4c9e6f01e4c7b5cb88f40e1}{addUserToChat}}(\textcolor{keywordtype}{int}\ chatId,\ \textcolor{keywordtype}{int}\ userId,\ \textcolor{keyword}{const}\ QString\&\ role);}
+\DoxyCodeLine{\Hypertarget{databasemanager_8h_source_l00168}00168\ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{databasemanager_8h_source_l00175}\doxymbox{\hyperlink{class_database_manager_a1c73da630fcfa154f778711c8cfe9501}{00175}}\ \ \ \ \ \textcolor{keywordtype}{bool}\ \doxymbox{\hyperlink{class_database_manager_a1c73da630fcfa154f778711c8cfe9501}{isUserInChat}}(\textcolor{keywordtype}{int}\ userId,\ \textcolor{keywordtype}{int}\ chatId);}
+\DoxyCodeLine{\Hypertarget{databasemanager_8h_source_l00176}00176\ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{databasemanager_8h_source_l00182}\doxymbox{\hyperlink{class_database_manager_a438706477c5212063e1b7b09870a5e28}{00182}}\ \ \ \ \ QList<int>\ \doxymbox{\hyperlink{class_database_manager_a438706477c5212063e1b7b09870a5e28}{getChatParticipants}}(\textcolor{keywordtype}{int}\ chatId);}
+\DoxyCodeLine{\Hypertarget{databasemanager_8h_source_l00183}00183\ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{databasemanager_8h_source_l00184}00184\ \ \ \ \ \textcolor{comment}{//\ -\/-\/-\/\ сообщения\ -\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{databasemanager_8h_source_l00185}00185\ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{databasemanager_8h_source_l00193}\doxymbox{\hyperlink{class_database_manager_a5c4eae2258bea25e322e228274cd03f2}{00193}}\ \ \ \ \ \doxymbox{\hyperlink{class_database_manager_a06b19615ba3b6227f05ada50cfb99865}{DbResult}}\ \doxymbox{\hyperlink{class_database_manager_a5c4eae2258bea25e322e228274cd03f2}{saveMessage}}(\textcolor{keywordtype}{int}\ userId,\ \textcolor{keywordtype}{int}\ chatId,\ \textcolor{keyword}{const}\ QString\&\ message);}
+\DoxyCodeLine{\Hypertarget{databasemanager_8h_source_l00194}00194\ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{databasemanager_8h_source_l00201}\doxymbox{\hyperlink{class_database_manager_a2369994ae444a22e21c50623c2ebd5c7}{00201}}\ \ \ \ \ \doxymbox{\hyperlink{class_database_manager_a06b19615ba3b6227f05ada50cfb99865}{DbResult}}\ \doxymbox{\hyperlink{class_database_manager_a2369994ae444a22e21c50623c2ebd5c7}{getChatHistory}}(\textcolor{keywordtype}{int}\ chatId,\ QList<QVariantMap>\&\ outMessages);}
+\DoxyCodeLine{\Hypertarget{databasemanager_8h_source_l00202}00202\ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{databasemanager_8h_source_l00203}\doxymbox{\hyperlink{class_database_manager_a4588ee946c5d5c8fcff08e29489f676e}{00203}}\ \ \ \ \ \textcolor{keyword}{friend}\ \textcolor{keyword}{class\ }\doxymbox{\hyperlink{class_database_manager_a4588ee946c5d5c8fcff08e29489f676e}{DatabaseDestroyer}};}
+\DoxyCodeLine{\Hypertarget{databasemanager_8h_source_l00204}00204\ \};}
+\DoxyCodeLine{\Hypertarget{databasemanager_8h_source_l00205}00205\ }
+\DoxyCodeLine{\Hypertarget{databasemanager_8h_source_l00206}00206\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

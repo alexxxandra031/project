@@ -1,0 +1,25 @@
+var class_client_manager =
+[
+    [ "ClientManager", "class_client_manager.html#aff7a2683ae9199b604e23319bbd78418", null ],
+    [ "ClientManager", "class_client_manager.html#acbda82a5100374c991f134b85b910c48", null ],
+    [ "~ClientManager", "class_client_manager.html#af605d4fa9dab04b9874bf307277cd8a3", null ],
+    [ "connected", "class_client_manager.html#a93849c8c755c7cfebaf0c0561ae62b0e", null ],
+    [ "connectToServer", "class_client_manager.html#ae8eae5f16bb0277f959fe30aa4e5e34a", null ],
+    [ "dataReceived", "class_client_manager.html#a59326d11e805258dc99ea70ff16dbee9", null ],
+    [ "disconnected", "class_client_manager.html#aa8ddceb4440790d21e51b46f08ae85f6", null ],
+    [ "disconnectFromServer", "class_client_manager.html#a04d461e2b8f6c51bd5beaf3bc5b957b4", null ],
+    [ "errorOccurred", "class_client_manager.html#a243b1d3ae7f9a6029e73a9c44c59a88c", null ],
+    [ "getInstance", "class_client_manager.html#ab0a16b14b1b88419538b922792abc932", null ],
+    [ "isConnected", "class_client_manager.html#a8b68d6ccc61477be3e5f90760434b4b9", null ],
+    [ "onReadyRead", "class_client_manager.html#a60b1bca3fb013ea2dffc6a6553779836", null ],
+    [ "operator=", "class_client_manager.html#a73e84fe067199cd04f618892ac03812c", null ],
+    [ "sendChatMessage", "class_client_manager.html#a45b7801027c2f23808cf95644f20de4b", null ],
+    [ "sendMessage", "class_client_manager.html#aec2afdbfa45eecf76c45b03208630a3a", null ],
+    [ "sendSystemMessage", "class_client_manager.html#a72edbbe349a2cbb277e0744b51525cf6", null ],
+    [ "setSecretKey", "class_client_manager.html#a316358dfa1d9ddc7437f9ffa70cf0d7d", null ],
+    [ "setUserName", "class_client_manager.html#aef5a592eea22c828b130f570b4ffc5ad", null ],
+    [ "username", "class_client_manager.html#a1de090e917c75f3b2bb1c099797c373c", null ],
+    [ "m_secretKey", "class_client_manager.html#a325146be4877d876f5fb768e7f568cc3", null ],
+    [ "m_socket", "class_client_manager.html#a266a4da3574792a23cd58b8a88fb9775", null ],
+    [ "m_userName", "class_client_manager.html#a2d488ffd9d4220b9aa7d8977d92dd0ff", null ]
+];

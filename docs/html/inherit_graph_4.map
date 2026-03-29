@@ -1,0 +1,7 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="Node000000" title=" " alt="" coords="5,31,74,57"/>
+<area shape="rect" id="Node000001" href="$class_admin_window.html" title="AdminWindow &#45; окно администратора" alt="" coords="122,5,227,32"/>
+<area shape="poly" id="edge1_Node000000_Node000001" title=" " alt="" coords="88,32,124,27,119,30,90,37"/>
+<area shape="rect" id="Node000002" href="$class_auth_window.html" title="AuthWindow &#45; окно авторизации пользователя" alt="" coords="127,56,222,83"/>
+<area shape="poly" id="edge2_Node000000_Node000002" title=" " alt="" coords="89,51,129,60,124,61,89,56"/>
+</map>

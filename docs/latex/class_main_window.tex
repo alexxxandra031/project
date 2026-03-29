@@ -1,0 +1,220 @@
+\doxysection{Main\+Window Class Reference}
+\hypertarget{class_main_window}{}\label{class_main_window}\index{MainWindow@{MainWindow}}
+
+
+\doxylink{class_main_window}{Main\+Window} -\/ главное окно приложения  
+
+
+
+
+{\ttfamily \+\#include $<$mainwindow.\+h$>$}
+
+
+
+Inheritance diagram for Main\+Window:\+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=220pt]{class_main_window__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for Main\+Window:\+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=220pt]{class_main_window__coll__graph}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\doxymbox{\hyperlink{class_main_window_a996c5a2b6f77944776856f08ec30858d}{Main\+Window}} (QWidget \texorpdfstring{$\ast$}{*}parent=nullptr)
+\begin{DoxyCompactList}\small\item\em \doxylink{class_main_window}{Main\+Window} -\/ конструктор окна \end{DoxyCompactList}\item 
+\doxymbox{\hyperlink{class_main_window_ae98d00a93bc118200eeef9f9bba1dba7}{\texorpdfstring{$\sim$}{\string~}\+Main\+Window}} ()
+\begin{DoxyCompactList}\small\item\em \texorpdfstring{$\sim$}{\string~}\+Main\+Window -\/ деструктор окна \end{DoxyCompactList}\item 
+void \doxymbox{\hyperlink{class_main_window_aa73d50a7a4ff3a157893db14c3b9a22e}{set\+Admin\+Role}} (bool is\+Admin)
+\begin{DoxyCompactList}\small\item\em set\+Admin\+Role -\/ устанавливает роль администратора \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Private Slots}
+\begin{DoxyCompactItemize}
+\item 
+void \doxymbox{\hyperlink{class_main_window_a7be1c1388fbfa4b0148a1625bf3d7dbd}{on\+\_\+push\+Button\+\_\+send\+\_\+clicked}} ()
+\begin{DoxyCompactList}\small\item\em on\+\_\+push\+Button\+\_\+send\+\_\+clicked -\/ вызывается при нажатии кнопки отправки сообщения \end{DoxyCompactList}\item 
+void \doxymbox{\hyperlink{class_main_window_a95c5779447a66e87120526d332aaef1f}{on\+Connected}} ()
+\begin{DoxyCompactList}\small\item\em on\+Connected -\/ вызывается при подключении к серверу \end{DoxyCompactList}\item 
+void \doxymbox{\hyperlink{class_main_window_a96bee10c1c7b8b70e9ce0a69811700bc}{on\+Data\+Received}} (const QByte\+Array \&data)
+\begin{DoxyCompactList}\small\item\em on\+Data\+Received -\/ вызывается при получении данных \end{DoxyCompactList}\item 
+void \doxymbox{\hyperlink{class_main_window_ac219827a1663411b1f83888f883b63ef}{on\+\_\+push\+Button\+\_\+admin\+Panel\+\_\+clicked}} ()
+\begin{DoxyCompactList}\small\item\em on\+\_\+push\+Button\+\_\+admin\+Panel\+\_\+clicked -\/ открывает панель администратора \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \doxymbox{\hyperlink{class_main_window_a5ce65d15e2f9f5685ebaf9e64507bceb}{add\+Message}} (const QString \&sender, const QString \&text, bool is\+Outgoing)
+\begin{DoxyCompactList}\small\item\em add\+Message -\/ добавляет сообщение в окно чата \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+Ui::\+\+Main\+Window \texorpdfstring{$\ast$}{*} \doxymbox{\hyperlink{class_main_window_a35466a70ed47252a0191168126a352a5}{ui}}
+\begin{DoxyCompactList}\small\item\em указатель на интерфейс окна \end{DoxyCompactList}\item 
+bool \doxymbox{\hyperlink{class_main_window_a07032b1f5341d6c10026df486c8a0499}{m\+\_\+is\+Admin}}
+\begin{DoxyCompactList}\small\item\em флаг администратора \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\doxylink{class_main_window}{Main\+Window} -\/ главное окно приложения 
+
+Definition at line \doxymbox{\hyperlink{mainwindow_8h_source_l00025}{25}} of file \doxymbox{\hyperlink{mainwindow_8h_source}{mainwindow.\+h}}.
+
+
+
+\label{doc-constructors}
+\Hypertarget{class_main_window_doc-constructors}
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{class_main_window_a996c5a2b6f77944776856f08ec30858d}\index{MainWindow@{MainWindow}!MainWindow@{MainWindow}}
+\index{MainWindow@{MainWindow}!MainWindow@{MainWindow}}
+\doxysubsubsection{\texorpdfstring{MainWindow()}{MainWindow()}}
+{\footnotesize\ttfamily \label{class_main_window_a996c5a2b6f77944776856f08ec30858d} 
+Main\+Window::\+\+Main\+Window (\begin{DoxyParamCaption}\item[{QWidget \texorpdfstring{$\ast$}{*}}]{parent}{ = {\ttfamily nullptr}}\end{DoxyParamCaption})}
+
+
+
+\doxylink{class_main_window}{Main\+Window} -\/ конструктор окна 
+
+
+\begin{DoxyParams}{Parameters}
+{\em parent} & -\/ родительский виджет \\
+\hline
+\end{DoxyParams}
+\Hypertarget{class_main_window_ae98d00a93bc118200eeef9f9bba1dba7}\index{MainWindow@{MainWindow}!````~MainWindow@{\texorpdfstring{$\sim$}{\string~}MainWindow}}
+\index{````~MainWindow@{\texorpdfstring{$\sim$}{\string~}MainWindow}!MainWindow@{MainWindow}}
+\doxysubsubsection{\texorpdfstring{\texorpdfstring{$\sim$}{\string~}MainWindow()}{\string~MainWindow()}}
+{\footnotesize\ttfamily \label{class_main_window_ae98d00a93bc118200eeef9f9bba1dba7} 
+Main\+Window::\+\texorpdfstring{$\sim$}{\string~}\+Main\+Window (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+\texorpdfstring{$\sim$}{\string~}\+Main\+Window -\/ деструктор окна 
+
+
+
+\label{doc-func-members}
+\Hypertarget{class_main_window_doc-func-members}
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_main_window_a5ce65d15e2f9f5685ebaf9e64507bceb}\index{MainWindow@{MainWindow}!addMessage@{addMessage}}
+\index{addMessage@{addMessage}!MainWindow@{MainWindow}}
+\doxysubsubsection{\texorpdfstring{addMessage()}{addMessage()}}
+{\footnotesize\ttfamily \label{class_main_window_a5ce65d15e2f9f5685ebaf9e64507bceb} 
+void Main\+Window::\+add\+Message (\begin{DoxyParamCaption}\item[{const QString \&}]{sender}{, }\item[{const QString \&}]{text}{, }\item[{bool}]{is\+Outgoing}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+add\+Message -\/ добавляет сообщение в окно чата 
+
+
+\begin{DoxyParams}{Parameters}
+{\em sender} & -\/ отправитель сообщения \\
+\hline
+{\em text} & -\/ текст сообщения \\
+\hline
+{\em is\+Outgoing} & -\/ true, если сообщение отправлено пользователем \\
+\hline
+\end{DoxyParams}
+\Hypertarget{class_main_window_ac219827a1663411b1f83888f883b63ef}\index{MainWindow@{MainWindow}!on\_pushButton\_adminPanel\_clicked@{on\_pushButton\_adminPanel\_clicked}}
+\index{on\_pushButton\_adminPanel\_clicked@{on\_pushButton\_adminPanel\_clicked}!MainWindow@{MainWindow}}
+\doxysubsubsection{\texorpdfstring{on\_pushButton\_adminPanel\_clicked}{on\_pushButton\_adminPanel\_clicked}}
+{\footnotesize\ttfamily \label{class_main_window_ac219827a1663411b1f83888f883b63ef} 
+void Main\+Window::\+on\+\_\+push\+Button\+\_\+admin\+Panel\+\_\+clicked (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}, {\ttfamily [slot]}}
+
+
+
+on\+\_\+push\+Button\+\_\+admin\+Panel\+\_\+clicked -\/ открывает панель администратора 
+
+\Hypertarget{class_main_window_a7be1c1388fbfa4b0148a1625bf3d7dbd}\index{MainWindow@{MainWindow}!on\_pushButton\_send\_clicked@{on\_pushButton\_send\_clicked}}
+\index{on\_pushButton\_send\_clicked@{on\_pushButton\_send\_clicked}!MainWindow@{MainWindow}}
+\doxysubsubsection{\texorpdfstring{on\_pushButton\_send\_clicked}{on\_pushButton\_send\_clicked}}
+{\footnotesize\ttfamily \label{class_main_window_a7be1c1388fbfa4b0148a1625bf3d7dbd} 
+void Main\+Window::\+on\+\_\+push\+Button\+\_\+send\+\_\+clicked (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}, {\ttfamily [slot]}}
+
+
+
+on\+\_\+push\+Button\+\_\+send\+\_\+clicked -\/ вызывается при нажатии кнопки отправки сообщения 
+
+\Hypertarget{class_main_window_a95c5779447a66e87120526d332aaef1f}\index{MainWindow@{MainWindow}!onConnected@{onConnected}}
+\index{onConnected@{onConnected}!MainWindow@{MainWindow}}
+\doxysubsubsection{\texorpdfstring{onConnected}{onConnected}}
+{\footnotesize\ttfamily \label{class_main_window_a95c5779447a66e87120526d332aaef1f} 
+void Main\+Window::\+on\+Connected (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}, {\ttfamily [slot]}}
+
+
+
+on\+Connected -\/ вызывается при подключении к серверу 
+
+\Hypertarget{class_main_window_a96bee10c1c7b8b70e9ce0a69811700bc}\index{MainWindow@{MainWindow}!onDataReceived@{onDataReceived}}
+\index{onDataReceived@{onDataReceived}!MainWindow@{MainWindow}}
+\doxysubsubsection{\texorpdfstring{onDataReceived}{onDataReceived}}
+{\footnotesize\ttfamily \label{class_main_window_a96bee10c1c7b8b70e9ce0a69811700bc} 
+void Main\+Window::\+on\+Data\+Received (\begin{DoxyParamCaption}\item[{const QByte\+Array \&}]{data}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}, {\ttfamily [slot]}}
+
+
+
+on\+Data\+Received -\/ вызывается при получении данных 
+
+
+\begin{DoxyParams}{Parameters}
+{\em data} & -\/ полученные данные \\
+\hline
+\end{DoxyParams}
+\Hypertarget{class_main_window_aa73d50a7a4ff3a157893db14c3b9a22e}\index{MainWindow@{MainWindow}!setAdminRole@{setAdminRole}}
+\index{setAdminRole@{setAdminRole}!MainWindow@{MainWindow}}
+\doxysubsubsection{\texorpdfstring{setAdminRole()}{setAdminRole()}}
+{\footnotesize\ttfamily \label{class_main_window_aa73d50a7a4ff3a157893db14c3b9a22e} 
+void Main\+Window::\+set\+Admin\+Role (\begin{DoxyParamCaption}\item[{bool}]{is\+Admin}{}\end{DoxyParamCaption})}
+
+
+
+set\+Admin\+Role -\/ устанавливает роль администратора 
+
+
+\begin{DoxyParams}{Parameters}
+{\em is\+Admin} & -\/ true, если пользователь администратор \\
+\hline
+\end{DoxyParams}
+
+
+\label{doc-variable-members}
+\Hypertarget{class_main_window_doc-variable-members}
+\doxysubsection{Member Data Documentation}
+\Hypertarget{class_main_window_a07032b1f5341d6c10026df486c8a0499}\index{MainWindow@{MainWindow}!m\_isAdmin@{m\_isAdmin}}
+\index{m\_isAdmin@{m\_isAdmin}!MainWindow@{MainWindow}}
+\doxysubsubsection{\texorpdfstring{m\_isAdmin}{m\_isAdmin}}
+{\footnotesize\ttfamily \label{class_main_window_a07032b1f5341d6c10026df486c8a0499} 
+bool Main\+Window::\+m\+\_\+is\+Admin\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+флаг администратора 
+
+
+
+Definition at line \doxymbox{\hyperlink{mainwindow_8h_source_l00071}{71}} of file \doxymbox{\hyperlink{mainwindow_8h_source}{mainwindow.\+h}}.
+
+\Hypertarget{class_main_window_a35466a70ed47252a0191168126a352a5}\index{MainWindow@{MainWindow}!ui@{ui}}
+\index{ui@{ui}!MainWindow@{MainWindow}}
+\doxysubsubsection{\texorpdfstring{ui}{ui}}
+{\footnotesize\ttfamily \label{class_main_window_a35466a70ed47252a0191168126a352a5} 
+Ui::\+\+Main\+Window\texorpdfstring{$\ast$}{*} Main\+Window::\+ui\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+указатель на интерфейс окна 
+
+
+
+Definition at line \doxymbox{\hyperlink{mainwindow_8h_source_l00070}{70}} of file \doxymbox{\hyperlink{mainwindow_8h_source}{mainwindow.\+h}}.
+
+
+
+The documentation for this class was generated from the following file:\+\begin{DoxyCompactItemize}
+\item 
+\doxymbox{\hyperlink{mainwindow_8h}{mainwindow.\+h}}\end{DoxyCompactItemize}

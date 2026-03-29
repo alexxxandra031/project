@@ -1,0 +1,43 @@
+\doxysection{authwindow.\+h}
+\hypertarget{authwindow_8h_source}{}\label{authwindow_8h_source}\doxymbox{\hyperlink{authwindow_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{authwindow_8h_source_l00001}00001\ \textcolor{preprocessor}{\#ifndef\ AUTHWINDOW\_H}}
+\DoxyCodeLine{\Hypertarget{authwindow_8h_source_l00002}00002\ \textcolor{preprocessor}{\#define\ AUTHWINDOW\_H}}
+\DoxyCodeLine{\Hypertarget{authwindow_8h_source_l00003}00003\ }
+\DoxyCodeLine{\Hypertarget{authwindow_8h_source_l00004}00004\ \textcolor{preprocessor}{\#include\ <QDialog>}}
+\DoxyCodeLine{\Hypertarget{authwindow_8h_source_l00005}00005\ }
+\DoxyCodeLine{\Hypertarget{authwindow_8h_source_l00006}00006\ \textcolor{keyword}{namespace\ }\doxymbox{\hyperlink{namespace_ui}{Ui}}\ \{\textcolor{keyword}{class\ }AuthWindow;\}}
+\DoxyCodeLine{\Hypertarget{authwindow_8h_source_l00007}00007\ }
+\DoxyCodeLine{\Hypertarget{authwindow_8h_source_l00011}\doxymbox{\hyperlink{class_auth_window}{00011}}\ \textcolor{keyword}{class\ }\doxymbox{\hyperlink{class_auth_window_af2cdee37721f32406db8fef61cdb3dc1}{AuthWindow}}:\ \textcolor{keyword}{public}\ QDialog\ \{}
+\DoxyCodeLine{\Hypertarget{authwindow_8h_source_l00012}00012\ \ \ \ \ Q\_OBJECT}
+\DoxyCodeLine{\Hypertarget{authwindow_8h_source_l00013}00013\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{\Hypertarget{authwindow_8h_source_l00018}\doxymbox{\hyperlink{class_auth_window_af2cdee37721f32406db8fef61cdb3dc1}{00018}}\ \ \ \ \ \textcolor{keyword}{explicit}\ \doxymbox{\hyperlink{class_auth_window_af2cdee37721f32406db8fef61cdb3dc1}{AuthWindow}}(QWidget\ *parent\ =\ \textcolor{keyword}{nullptr});}
+\DoxyCodeLine{\Hypertarget{authwindow_8h_source_l00019}00019\ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{authwindow_8h_source_l00023}\doxymbox{\hyperlink{class_auth_window_a4f110ced4881e0f20495175f73e5e572}{00023}}\ \ \ \ \ \doxymbox{\hyperlink{class_auth_window_a4f110ced4881e0f20495175f73e5e572}{\string~AuthWindow}}();}
+\DoxyCodeLine{\Hypertarget{authwindow_8h_source_l00024}00024\ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{authwindow_8h_source_l00029}\doxymbox{\hyperlink{class_auth_window_a5f206458bf1532b3008a55971716792f}{00029}}\ \ \ \ \ QString\ \doxymbox{\hyperlink{class_auth_window_a5f206458bf1532b3008a55971716792f}{getCryptoKey}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{\Hypertarget{authwindow_8h_source_l00030}00030\ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{authwindow_8h_source_l00035}\doxymbox{\hyperlink{class_auth_window_a0cf17148f5c08957e5bb06a724b9fc26}{00035}}\ \ \ \ \ \textcolor{keywordtype}{bool}\ \doxymbox{\hyperlink{class_auth_window_a0cf17148f5c08957e5bb06a724b9fc26}{isAdmin}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{\Hypertarget{authwindow_8h_source_l00036}00036\ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{authwindow_8h_source_l00037}00037\ \textcolor{keyword}{private}\ slots:}
+\DoxyCodeLine{\Hypertarget{authwindow_8h_source_l00041}\doxymbox{\hyperlink{class_auth_window_a2d320f3f34aaa5a46e71f8f85204e40b}{00041}}\ \ \ \ \ \textcolor{keywordtype}{void}\ \doxymbox{\hyperlink{class_auth_window_a2d320f3f34aaa5a46e71f8f85204e40b}{on\_pushButton\_login\_clicked}}();}
+\DoxyCodeLine{\Hypertarget{authwindow_8h_source_l00042}00042\ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{authwindow_8h_source_l00046}\doxymbox{\hyperlink{class_auth_window_a3b4c9c6cc3200c5ea8ca719cd3425518}{00046}}\ \ \ \ \ \textcolor{keywordtype}{void}\ \doxymbox{\hyperlink{class_auth_window_a3b4c9c6cc3200c5ea8ca719cd3425518}{on\_pushButton\_register\_clicked}}();}
+\DoxyCodeLine{\Hypertarget{authwindow_8h_source_l00047}00047\ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{authwindow_8h_source_l00052}\doxymbox{\hyperlink{class_auth_window_a215f8af0473752a56dde9f17f5e1ff89}{00052}}\ \ \ \ \ \textcolor{keywordtype}{void}\ \doxymbox{\hyperlink{class_auth_window_a215f8af0473752a56dde9f17f5e1ff89}{onDataReceived}}(\textcolor{keyword}{const}\ QByteArray\ \&data);}
+\DoxyCodeLine{\Hypertarget{authwindow_8h_source_l00053}00053\ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{authwindow_8h_source_l00057}\doxymbox{\hyperlink{class_auth_window_ac0295f11e8ce5a09f8c8fab18ae319cb}{00057}}\ \ \ \ \ \textcolor{keywordtype}{void}\ \doxymbox{\hyperlink{class_auth_window_ac0295f11e8ce5a09f8c8fab18ae319cb}{onConnected}}();}
+\DoxyCodeLine{\Hypertarget{authwindow_8h_source_l00058}00058\ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{authwindow_8h_source_l00059}00059\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{\Hypertarget{authwindow_8h_source_l00060}\doxymbox{\hyperlink{class_auth_window_a814ef8b2d1de566e382f18e7db8cc830}{00060}}\ \ \ \ \ Ui::AuthWindow\ *\doxymbox{\hyperlink{class_auth_window_a814ef8b2d1de566e382f18e7db8cc830}{ui}};\ }
+\DoxyCodeLine{\Hypertarget{authwindow_8h_source_l00061}00061\ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{authwindow_8h_source_l00062}\doxymbox{\hyperlink{class_auth_window_a3e53766431a7c1da8748d0cb0bb7ec4b}{00062}}\ \ \ \ \ \textcolor{keywordtype}{bool}\ \doxymbox{\hyperlink{class_auth_window_a3e53766431a7c1da8748d0cb0bb7ec4b}{m\_isAdmin}}\ =\ \textcolor{keyword}{false};\ }
+\DoxyCodeLine{\Hypertarget{authwindow_8h_source_l00063}00063\ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{authwindow_8h_source_l00064}\doxymbox{\hyperlink{class_auth_window_a8de640b0c9a808007c1b3fcde6193a6c}{00064}}\ \ \ \ \ QString\ \doxymbox{\hyperlink{class_auth_window_a8de640b0c9a808007c1b3fcde6193a6c}{m\_pendingLogin}};\ \ \ \ }
+\DoxyCodeLine{\Hypertarget{authwindow_8h_source_l00065}\doxymbox{\hyperlink{class_auth_window_ae3beacdc079cde275bcd553800a5aea3}{00065}}\ \ \ \ \ QString\ \doxymbox{\hyperlink{class_auth_window_ae3beacdc079cde275bcd553800a5aea3}{m\_pendingPassword}};\ }
+\DoxyCodeLine{\Hypertarget{authwindow_8h_source_l00066}\doxymbox{\hyperlink{class_auth_window_a652334881b7290c3971d619df06641a5}{00066}}\ \ \ \ \ QString\ \doxymbox{\hyperlink{class_auth_window_a652334881b7290c3971d619df06641a5}{m\_pendingCommand}};\ \ }
+\DoxyCodeLine{\Hypertarget{authwindow_8h_source_l00067}00067\ \};}
+\DoxyCodeLine{\Hypertarget{authwindow_8h_source_l00068}00068\ }
+\DoxyCodeLine{\Hypertarget{authwindow_8h_source_l00069}00069\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ AUTHWINDOW\_H}}
+
+\end{DoxyCode}

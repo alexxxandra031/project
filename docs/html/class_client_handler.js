@@ -1,0 +1,26 @@
+var class_client_handler =
+[
+    [ "ClientHandler", "class_client_handler.html#ad71cb09f6e4fe6bb1aa599dbfae890e7", null ],
+    [ "addOnlineClient", "class_client_handler.html#a82012c19eba8d621a5c205c85818a4b3", null ],
+    [ "checkAuthorization", "class_client_handler.html#aba170a61dc16b3b0478c679841137391", null ],
+    [ "getSocket", "class_client_handler.html#a277220c222144ad0dbf9ad39166c63c9", null ],
+    [ "getUserId", "class_client_handler.html#ac61e47ef83af50f323ea5ce512fad00d", null ],
+    [ "handleAddUser", "class_client_handler.html#a00c65a032da811a203b40a9746bb6472", null ],
+    [ "handleCreateChat", "class_client_handler.html#a8b027b60f1d0e66ff06833452a9732fe", null ],
+    [ "handleGetChatHistory", "class_client_handler.html#a04e0c802ee5613e0418a3b550a906429", null ],
+    [ "handleGetOnlineUsers", "class_client_handler.html#af8a22a7ebe84ebb5af0bf1cf7a60e029", null ],
+    [ "handleGetUserInfo", "class_client_handler.html#a0f199c5f5d7b1b914b50a05f10de8c02", null ],
+    [ "handleLoginUser", "class_client_handler.html#a2689a056ff352234f20ebe929dbf0310", null ],
+    [ "handleLogout", "class_client_handler.html#a3cdc13d3ad7efffd2011fbfab2955df5", null ],
+    [ "handleRegisterUser", "class_client_handler.html#abb517e74c16d6f0dcdee3f96818443ab", null ],
+    [ "handleSendMessage", "class_client_handler.html#aaf59a33a7895be2a61a7e364b0e66493", null ],
+    [ "parseRequest", "class_client_handler.html#a1f094a28b1afa629123916319b9273c4", null ],
+    [ "removeOnlineClient", "class_client_handler.html#a40989c40f1997c3b844c01e070375274", null ],
+    [ "sendToClient", "class_client_handler.html#a641430b36a2e787f6a39bbf90f03a906", null ],
+    [ "setUser", "class_client_handler.html#a21d96fb63ea5a7de15feea3ac68acd62", null ],
+    [ "m_chatService", "class_client_handler.html#ae89e5cebd8ad941a917f17617f16b371", null ],
+    [ "m_onlineSocketUsers", "class_client_handler.html#ad72379d35bbf4f0cfc74882849de4975", null ],
+    [ "m_onlineUserSockets", "class_client_handler.html#aba7a253e2c911b0461e0deb6529aa2df", null ],
+    [ "m_userId", "class_client_handler.html#a4ef2859b3bedff5efa97f92e3734f231", null ],
+    [ "socket", "class_client_handler.html#ab5f0782502158ca9de3921581ff2ff96", null ]
+];

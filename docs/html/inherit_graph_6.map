@@ -1,0 +1,9 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="Node000000" title=" " alt="" coords="5,56,75,83"/>
+<area shape="rect" id="Node000001" href="$class_client_handler.html" title="ClientHandler &#45; класс для обработки клиента на сервере" alt="" coords="125,5,226,32"/>
+<area shape="poly" id="edge4_Node000000_Node000001" title=" " alt="" coords="88,49,139,31,135,34,90,53"/>
+<area shape="rect" id="Node000002" href="$class_client_manager.html" title="ClientManager &#45; класс для управления подключением клиента к серверу" alt="" coords="123,56,228,83"/>
+<area shape="poly" id="edge5_Node000000_Node000002" title=" " alt="" coords="90,67,125,68,120,70,91,72"/>
+<area shape="rect" id="Node000003" href="$classtcp_server.html" title="tcpServer &#45; класс сервера для обработки подключений клиентов" alt="" coords="137,107,214,133"/>
+<area shape="poly" id="edge6_Node000000_Node000003" title=" " alt="" coords="90,85,140,105,135,107,89,90"/>
+</map>

@@ -1,0 +1,537 @@
+\doxysection{Client\+Handler Class Reference}
+\hypertarget{class_client_handler}{}\label{class_client_handler}\index{ClientHandler@{ClientHandler}}
+
+
+\doxylink{class_client_handler}{Client\+Handler} -\/ класс для обработки клиента на сервере  
+
+
+
+
+{\ttfamily \+\#include $<$clienthandler.\+h$>$}
+
+
+
+Inheritance diagram for Client\+Handler:\+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=550pt]{class_client_handler__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for Client\+Handler:\+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=550pt]{class_client_handler__coll__graph}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\doxymbox{\hyperlink{class_client_handler_ad71cb09f6e4fe6bb1aa599dbfae890e7}{Client\+Handler}} (QTcp\+Socket \texorpdfstring{$\ast$}{*}\doxymbox{\hyperlink{class_client_handler_ab5f0782502158ca9de3921581ff2ff96}{socket}}, QObject \texorpdfstring{$\ast$}{*}parent=nullptr, \doxymbox{\hyperlink{class_chat_service}{Chat\+Service}} \texorpdfstring{$\ast$}{*}chat\+Svc=nullptr)
+\begin{DoxyCompactList}\small\item\em \doxylink{class_client_handler}{Client\+Handler} -\/ конструктор класса \end{DoxyCompactList}\item 
+void \doxymbox{\hyperlink{class_client_handler_a21d96fb63ea5a7de15feea3ac68acd62}{set\+User}} (const QString \&username, int id)
+\begin{DoxyCompactList}\small\item\em set\+User -\/ устанавливает данные пользователя \end{DoxyCompactList}\item 
+QTcp\+Socket \texorpdfstring{$\ast$}{*} \doxymbox{\hyperlink{class_client_handler_a277220c222144ad0dbf9ad39166c63c9}{get\+Socket}} () const
+\begin{DoxyCompactList}\small\item\em get\+Socket -\/ возвращает сокет клиента \end{DoxyCompactList}\item 
+int \doxymbox{\hyperlink{class_client_handler_ac61e47ef83af50f323ea5ce512fad00d}{get\+User\+Id}} () const
+\begin{DoxyCompactList}\small\item\em get\+User\+Id -\/ возвращает id пользователя \end{DoxyCompactList}\item 
+bool \doxymbox{\hyperlink{class_client_handler_aba170a61dc16b3b0478c679841137391}{check\+Authorization}} ()
+\begin{DoxyCompactList}\small\item\em check\+Authorization -\/ проверяет, авторизован ли пользователь \end{DoxyCompactList}\item 
+void \doxymbox{\hyperlink{class_client_handler_a1f094a28b1afa629123916319b9273c4}{parse\+Request}} (const QString \&request)
+\begin{DoxyCompactList}\small\item\em parse\+Request -\/ обрабатывает запрос от клиента \end{DoxyCompactList}\item 
+void \doxymbox{\hyperlink{class_client_handler_a2689a056ff352234f20ebe929dbf0310}{handle\+Login\+User}} (const QString \&login, const QString \&password)
+\begin{DoxyCompactList}\small\item\em handle\+Login\+User -\/ обрабатывает команду входа \end{DoxyCompactList}\item 
+void \doxymbox{\hyperlink{class_client_handler_abb517e74c16d6f0dcdee3f96818443ab}{handle\+Register\+User}} (const QString \&login, const QString \&password)
+\begin{DoxyCompactList}\small\item\em handle\+Register\+User -\/ обрабатывает команду регистрации \end{DoxyCompactList}\item 
+void \doxymbox{\hyperlink{class_client_handler_a0f199c5f5d7b1b914b50a05f10de8c02}{handle\+Get\+User\+Info}} ()
+\begin{DoxyCompactList}\small\item\em handle\+Get\+User\+Info -\/ получает информацию о пользователе \end{DoxyCompactList}\item 
+void \doxymbox{\hyperlink{class_client_handler_aaf59a33a7895be2a61a7e364b0e66493}{handle\+Send\+Message}} (const QString \&chat\+Id\+Str, const QString \&message)
+\begin{DoxyCompactList}\small\item\em handle\+Send\+Message -\/ отправляет сообщение \end{DoxyCompactList}\item 
+void \doxymbox{\hyperlink{class_client_handler_a04e0c802ee5613e0418a3b550a906429}{handle\+Get\+Chat\+History}} (const QString \&chat\+Id\+Str)
+\begin{DoxyCompactList}\small\item\em handle\+Get\+Chat\+History -\/ получает историю сообщений \end{DoxyCompactList}\item 
+void \doxymbox{\hyperlink{class_client_handler_a8b027b60f1d0e66ff06833452a9732fe}{handle\+Create\+Chat}} ()
+\begin{DoxyCompactList}\small\item\em handle\+Create\+Chat -\/ создает чат \end{DoxyCompactList}\item 
+void \doxymbox{\hyperlink{class_client_handler_a00c65a032da811a203b40a9746bb6472}{handle\+Add\+User}} (const QString \&chat\+Id\+Str, const QString \&user\+Id\+Str)
+\begin{DoxyCompactList}\small\item\em handle\+Add\+User -\/ добавляет пользователя в чат \end{DoxyCompactList}\item 
+void \doxymbox{\hyperlink{class_client_handler_af8a22a7ebe84ebb5af0bf1cf7a60e029}{handle\+Get\+Online\+Users}} ()
+\begin{DoxyCompactList}\small\item\em handle\+Get\+Online\+Users -\/ получает список онлайн пользователей \end{DoxyCompactList}\item 
+void \doxymbox{\hyperlink{class_client_handler_a3cdc13d3ad7efffd2011fbfab2955df5}{handle\+Logout}} ()
+\begin{DoxyCompactList}\small\item\em handle\+Logout -\/ выполняет выход пользователя \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static void \doxymbox{\hyperlink{class_client_handler_a82012c19eba8d621a5c205c85818a4b3}{add\+Online\+Client}} (int user\+Id, QTcp\+Socket \texorpdfstring{$\ast$}{*}\doxymbox{\hyperlink{class_client_handler_ab5f0782502158ca9de3921581ff2ff96}{socket}})
+\begin{DoxyCompactList}\small\item\em add\+Online\+Client -\/ добавляет клиента в список онлайн \end{DoxyCompactList}\item 
+static void \doxymbox{\hyperlink{class_client_handler_a40989c40f1997c3b844c01e070375274}{remove\+Online\+Client}} (QTcp\+Socket \texorpdfstring{$\ast$}{*}\doxymbox{\hyperlink{class_client_handler_ab5f0782502158ca9de3921581ff2ff96}{socket}})
+\begin{DoxyCompactList}\small\item\em remove\+Online\+Client -\/ удаляет клиента из списка онлайн \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \doxymbox{\hyperlink{class_client_handler_a641430b36a2e787f6a39bbf90f03a906}{send\+To\+Client}} (QTcp\+Socket \texorpdfstring{$\ast$}{*}\doxymbox{\hyperlink{class_client_handler_ab5f0782502158ca9de3921581ff2ff96}{socket}}, const QString \&message)
+\begin{DoxyCompactList}\small\item\em send\+To\+Client -\/ отправляет сообщение клиенту \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+QTcp\+Socket \texorpdfstring{$\ast$}{*} \doxymbox{\hyperlink{class_client_handler_ab5f0782502158ca9de3921581ff2ff96}{socket}}
+\begin{DoxyCompactList}\small\item\em сокет клиента \end{DoxyCompactList}\item 
+\doxymbox{\hyperlink{class_chat_service}{Chat\+Service}} \texorpdfstring{$\ast$}{*} \doxymbox{\hyperlink{class_client_handler_ae89e5cebd8ad941a917f17617f16b371}{m\+\_\+chat\+Service}}
+\begin{DoxyCompactList}\small\item\em сервис работы с чатом \end{DoxyCompactList}\item 
+int \doxymbox{\hyperlink{class_client_handler_a4ef2859b3bedff5efa97f92e3734f231}{m\+\_\+user\+Id}} = -\/1
+\begin{DoxyCompactList}\small\item\em id пользователя \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Static Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+static QMap$<$ int, QTcp\+Socket \texorpdfstring{$\ast$}{*} $>$ \doxymbox{\hyperlink{class_client_handler_aba7a253e2c911b0461e0deb6529aa2df}{m\+\_\+online\+User\+Sockets}}
+\begin{DoxyCompactList}\small\item\em соответствие user\+Id -\/\texorpdfstring{$>$}{>} socket \end{DoxyCompactList}\item 
+static QMap$<$ QTcp\+Socket \texorpdfstring{$\ast$}{*}, int $>$ \doxymbox{\hyperlink{class_client_handler_ad72379d35bbf4f0cfc74882849de4975}{m\+\_\+online\+Socket\+Users}}
+\begin{DoxyCompactList}\small\item\em соответствие socket -\/\texorpdfstring{$>$}{>} user\+Id \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\doxylink{class_client_handler}{Client\+Handler} -\/ класс для обработки клиента на сервере 
+
+Definition at line \doxymbox{\hyperlink{clienthandler_8h_source_l00013}{13}} of file \doxymbox{\hyperlink{clienthandler_8h_source}{clienthandler.\+h}}.
+
+
+
+\label{doc-constructors}
+\Hypertarget{class_client_handler_doc-constructors}
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{class_client_handler_ad71cb09f6e4fe6bb1aa599dbfae890e7}\index{ClientHandler@{ClientHandler}!ClientHandler@{ClientHandler}}
+\index{ClientHandler@{ClientHandler}!ClientHandler@{ClientHandler}}
+\doxysubsubsection{\texorpdfstring{ClientHandler()}{ClientHandler()}}
+{\footnotesize\ttfamily \label{class_client_handler_ad71cb09f6e4fe6bb1aa599dbfae890e7} 
+Client\+Handler::\+\+Client\+Handler (\begin{DoxyParamCaption}\item[{QTcp\+Socket \texorpdfstring{$\ast$}{*}}]{socket}{, }\item[{QObject \texorpdfstring{$\ast$}{*}}]{parent}{ = {\ttfamily nullptr}, }\item[{\doxymbox{\hyperlink{class_chat_service}{Chat\+Service}} \texorpdfstring{$\ast$}{*}}]{chat\+Svc}{ = {\ttfamily nullptr}}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [explicit]}}
+
+
+
+\doxylink{class_client_handler}{Client\+Handler} -\/ конструктор класса 
+
+
+\begin{DoxyParams}{Parameters}
+{\em \doxylink{class_client_handler_ab5f0782502158ca9de3921581ff2ff96}{socket}} & -\/ сокет клиента \\
+\hline
+{\em parent} & -\/ родительский объект \\
+\hline
+{\em chat\+Svc} & -\/ сервис для работы с чатом \\
+\hline
+\end{DoxyParams}
+
+
+References \doxymbox{\hyperlink{clienthandler_8h_source_l00145}{socket}}.
+
+
+
+\label{doc-func-members}
+\Hypertarget{class_client_handler_doc-func-members}
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_client_handler_a82012c19eba8d621a5c205c85818a4b3}\index{ClientHandler@{ClientHandler}!addOnlineClient@{addOnlineClient}}
+\index{addOnlineClient@{addOnlineClient}!ClientHandler@{ClientHandler}}
+\doxysubsubsection{\texorpdfstring{addOnlineClient()}{addOnlineClient()}}
+{\footnotesize\ttfamily \label{class_client_handler_a82012c19eba8d621a5c205c85818a4b3} 
+void Client\+Handler::\+add\+Online\+Client (\begin{DoxyParamCaption}\item[{int}]{user\+Id}{, }\item[{QTcp\+Socket \texorpdfstring{$\ast$}{*}}]{socket}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}
+
+
+
+add\+Online\+Client -\/ добавляет клиента в список онлайн 
+
+
+\begin{DoxyParams}{Parameters}
+{\em user\+Id} & -\/ id пользователя \\
+\hline
+{\em \doxylink{class_client_handler_ab5f0782502158ca9de3921581ff2ff96}{socket}} & -\/ сокет клиента \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \doxymbox{\hyperlink{clienthandler_8h_source_l00117}{117}} of file \doxymbox{\hyperlink{clienthandler_8h_source}{clienthandler.\+h}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00117\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00118\ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{class_client_handler_aba7a253e2c911b0461e0deb6529aa2df}{m\_onlineUserSockets}}[userId]\ =\ \doxymbox{\hyperlink{class_client_handler_ab5f0782502158ca9de3921581ff2ff96}{socket}};}
+\DoxyCodeLine{00119\ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{class_client_handler_ad72379d35bbf4f0cfc74882849de4975}{m\_onlineSocketUsers}}[\doxymbox{\hyperlink{class_client_handler_ab5f0782502158ca9de3921581ff2ff96}{socket}}]\ =\ userId;}
+\DoxyCodeLine{00120\ \ \ \ \ \}}
+
+\end{DoxyCode}
+
+
+References \doxymbox{\hyperlink{clienthandler_8h_source_l00151}{m\+\_\+online\+Socket\+Users}}, \doxymbox{\hyperlink{clienthandler_8h_source_l00150}{m\+\_\+online\+User\+Sockets}}, and \doxymbox{\hyperlink{clienthandler_8h_source_l00145}{socket}}.
+
+\Hypertarget{class_client_handler_aba170a61dc16b3b0478c679841137391}\index{ClientHandler@{ClientHandler}!checkAuthorization@{checkAuthorization}}
+\index{checkAuthorization@{checkAuthorization}!ClientHandler@{ClientHandler}}
+\doxysubsubsection{\texorpdfstring{checkAuthorization()}{checkAuthorization()}}
+{\footnotesize\ttfamily \label{class_client_handler_aba170a61dc16b3b0478c679841137391} 
+bool Client\+Handler::\+check\+Authorization (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+check\+Authorization -\/ проверяет, авторизован ли пользователь 
+
+\begin{DoxyReturn}{Returns}
+true, если авторизован, иначе false 
+\end{DoxyReturn}
+\Hypertarget{class_client_handler_a277220c222144ad0dbf9ad39166c63c9}\index{ClientHandler@{ClientHandler}!getSocket@{getSocket}}
+\index{getSocket@{getSocket}!ClientHandler@{ClientHandler}}
+\doxysubsubsection{\texorpdfstring{getSocket()}{getSocket()}}
+{\footnotesize\ttfamily \label{class_client_handler_a277220c222144ad0dbf9ad39166c63c9} 
+QTcp\+Socket \texorpdfstring{$\ast$}{*} Client\+Handler::\+get\+Socket (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+get\+Socket -\/ возвращает сокет клиента 
+
+\begin{DoxyReturn}{Returns}
+указатель на сокет 
+\end{DoxyReturn}
+
+
+Definition at line \doxymbox{\hyperlink{clienthandler_8h_source_l00036}{36}} of file \doxymbox{\hyperlink{clienthandler_8h_source}{clienthandler.\+h}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00036\ \{\ \textcolor{keywordflow}{return}\ \doxymbox{\hyperlink{class_client_handler_ab5f0782502158ca9de3921581ff2ff96}{socket}};\ \}}
+
+\end{DoxyCode}
+
+
+References \doxymbox{\hyperlink{clienthandler_8h_source_l00145}{socket}}.
+
+\Hypertarget{class_client_handler_ac61e47ef83af50f323ea5ce512fad00d}\index{ClientHandler@{ClientHandler}!getUserId@{getUserId}}
+\index{getUserId@{getUserId}!ClientHandler@{ClientHandler}}
+\doxysubsubsection{\texorpdfstring{getUserId()}{getUserId()}}
+{\footnotesize\ttfamily \label{class_client_handler_ac61e47ef83af50f323ea5ce512fad00d} 
+int Client\+Handler::\+get\+User\+Id (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+get\+User\+Id -\/ возвращает id пользователя 
+
+\begin{DoxyReturn}{Returns}
+id пользователя 
+\end{DoxyReturn}
+
+
+Definition at line \doxymbox{\hyperlink{clienthandler_8h_source_l00042}{42}} of file \doxymbox{\hyperlink{clienthandler_8h_source}{clienthandler.\+h}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00042\ \{\ \textcolor{keywordflow}{return}\ \doxymbox{\hyperlink{class_client_handler_a4ef2859b3bedff5efa97f92e3734f231}{m\_userId}};\ \}}
+
+\end{DoxyCode}
+
+
+References \doxymbox{\hyperlink{clienthandler_8h_source_l00148}{m\+\_\+user\+Id}}.
+
+\Hypertarget{class_client_handler_a00c65a032da811a203b40a9746bb6472}\index{ClientHandler@{ClientHandler}!handleAddUser@{handleAddUser}}
+\index{handleAddUser@{handleAddUser}!ClientHandler@{ClientHandler}}
+\doxysubsubsection{\texorpdfstring{handleAddUser()}{handleAddUser()}}
+{\footnotesize\ttfamily \label{class_client_handler_a00c65a032da811a203b40a9746bb6472} 
+void Client\+Handler::\+handle\+Add\+User (\begin{DoxyParamCaption}\item[{const QString \&}]{chat\+Id\+Str}{, }\item[{const QString \&}]{user\+Id\+Str}{}\end{DoxyParamCaption})}
+
+
+
+handle\+Add\+User -\/ добавляет пользователя в чат 
+
+
+\begin{DoxyParams}{Parameters}
+{\em chat\+Id\+Str} & -\/ id чата (строкой) \\
+\hline
+{\em user\+Id\+Str} & -\/ id пользователя (строкой) \\
+\hline
+\end{DoxyParams}
+\Hypertarget{class_client_handler_a8b027b60f1d0e66ff06833452a9732fe}\index{ClientHandler@{ClientHandler}!handleCreateChat@{handleCreateChat}}
+\index{handleCreateChat@{handleCreateChat}!ClientHandler@{ClientHandler}}
+\doxysubsubsection{\texorpdfstring{handleCreateChat()}{handleCreateChat()}}
+{\footnotesize\ttfamily \label{class_client_handler_a8b027b60f1d0e66ff06833452a9732fe} 
+void Client\+Handler::\+handle\+Create\+Chat (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+handle\+Create\+Chat -\/ создает чат 
+
+\Hypertarget{class_client_handler_a04e0c802ee5613e0418a3b550a906429}\index{ClientHandler@{ClientHandler}!handleGetChatHistory@{handleGetChatHistory}}
+\index{handleGetChatHistory@{handleGetChatHistory}!ClientHandler@{ClientHandler}}
+\doxysubsubsection{\texorpdfstring{handleGetChatHistory()}{handleGetChatHistory()}}
+{\footnotesize\ttfamily \label{class_client_handler_a04e0c802ee5613e0418a3b550a906429} 
+void Client\+Handler::\+handle\+Get\+Chat\+History (\begin{DoxyParamCaption}\item[{const QString \&}]{chat\+Id\+Str}{}\end{DoxyParamCaption})}
+
+
+
+handle\+Get\+Chat\+History -\/ получает историю сообщений 
+
+
+\begin{DoxyParams}{Parameters}
+{\em chat\+Id\+Str} & -\/ id чата (строкой) \\
+\hline
+\end{DoxyParams}
+\Hypertarget{class_client_handler_af8a22a7ebe84ebb5af0bf1cf7a60e029}\index{ClientHandler@{ClientHandler}!handleGetOnlineUsers@{handleGetOnlineUsers}}
+\index{handleGetOnlineUsers@{handleGetOnlineUsers}!ClientHandler@{ClientHandler}}
+\doxysubsubsection{\texorpdfstring{handleGetOnlineUsers()}{handleGetOnlineUsers()}}
+{\footnotesize\ttfamily \label{class_client_handler_af8a22a7ebe84ebb5af0bf1cf7a60e029} 
+void Client\+Handler::\+handle\+Get\+Online\+Users (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+handle\+Get\+Online\+Users -\/ получает список онлайн пользователей 
+
+\Hypertarget{class_client_handler_a0f199c5f5d7b1b914b50a05f10de8c02}\index{ClientHandler@{ClientHandler}!handleGetUserInfo@{handleGetUserInfo}}
+\index{handleGetUserInfo@{handleGetUserInfo}!ClientHandler@{ClientHandler}}
+\doxysubsubsection{\texorpdfstring{handleGetUserInfo()}{handleGetUserInfo()}}
+{\footnotesize\ttfamily \label{class_client_handler_a0f199c5f5d7b1b914b50a05f10de8c02} 
+void Client\+Handler::\+handle\+Get\+User\+Info (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+handle\+Get\+User\+Info -\/ получает информацию о пользователе 
+
+\Hypertarget{class_client_handler_a2689a056ff352234f20ebe929dbf0310}\index{ClientHandler@{ClientHandler}!handleLoginUser@{handleLoginUser}}
+\index{handleLoginUser@{handleLoginUser}!ClientHandler@{ClientHandler}}
+\doxysubsubsection{\texorpdfstring{handleLoginUser()}{handleLoginUser()}}
+{\footnotesize\ttfamily \label{class_client_handler_a2689a056ff352234f20ebe929dbf0310} 
+void Client\+Handler::\+handle\+Login\+User (\begin{DoxyParamCaption}\item[{const QString \&}]{login}{, }\item[{const QString \&}]{password}{}\end{DoxyParamCaption})}
+
+
+
+handle\+Login\+User -\/ обрабатывает команду входа 
+
+
+\begin{DoxyParams}{Parameters}
+{\em login} & -\/ логин \\
+\hline
+{\em password} & -\/ пароль \\
+\hline
+\end{DoxyParams}
+\Hypertarget{class_client_handler_a3cdc13d3ad7efffd2011fbfab2955df5}\index{ClientHandler@{ClientHandler}!handleLogout@{handleLogout}}
+\index{handleLogout@{handleLogout}!ClientHandler@{ClientHandler}}
+\doxysubsubsection{\texorpdfstring{handleLogout()}{handleLogout()}}
+{\footnotesize\ttfamily \label{class_client_handler_a3cdc13d3ad7efffd2011fbfab2955df5} 
+void Client\+Handler::\+handle\+Logout (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+handle\+Logout -\/ выполняет выход пользователя 
+
+\Hypertarget{class_client_handler_abb517e74c16d6f0dcdee3f96818443ab}\index{ClientHandler@{ClientHandler}!handleRegisterUser@{handleRegisterUser}}
+\index{handleRegisterUser@{handleRegisterUser}!ClientHandler@{ClientHandler}}
+\doxysubsubsection{\texorpdfstring{handleRegisterUser()}{handleRegisterUser()}}
+{\footnotesize\ttfamily \label{class_client_handler_abb517e74c16d6f0dcdee3f96818443ab} 
+void Client\+Handler::\+handle\+Register\+User (\begin{DoxyParamCaption}\item[{const QString \&}]{login}{, }\item[{const QString \&}]{password}{}\end{DoxyParamCaption})}
+
+
+
+handle\+Register\+User -\/ обрабатывает команду регистрации 
+
+
+\begin{DoxyParams}{Parameters}
+{\em login} & -\/ логин \\
+\hline
+{\em password} & -\/ пароль \\
+\hline
+\end{DoxyParams}
+\Hypertarget{class_client_handler_aaf59a33a7895be2a61a7e364b0e66493}\index{ClientHandler@{ClientHandler}!handleSendMessage@{handleSendMessage}}
+\index{handleSendMessage@{handleSendMessage}!ClientHandler@{ClientHandler}}
+\doxysubsubsection{\texorpdfstring{handleSendMessage()}{handleSendMessage()}}
+{\footnotesize\ttfamily \label{class_client_handler_aaf59a33a7895be2a61a7e364b0e66493} 
+void Client\+Handler::\+handle\+Send\+Message (\begin{DoxyParamCaption}\item[{const QString \&}]{chat\+Id\+Str}{, }\item[{const QString \&}]{message}{}\end{DoxyParamCaption})}
+
+
+
+handle\+Send\+Message -\/ отправляет сообщение 
+
+
+\begin{DoxyParams}{Parameters}
+{\em chat\+Id\+Str} & -\/ id чата (строкой) \\
+\hline
+{\em message} & -\/ текст сообщения \\
+\hline
+\end{DoxyParams}
+\Hypertarget{class_client_handler_a1f094a28b1afa629123916319b9273c4}\index{ClientHandler@{ClientHandler}!parseRequest@{parseRequest}}
+\index{parseRequest@{parseRequest}!ClientHandler@{ClientHandler}}
+\doxysubsubsection{\texorpdfstring{parseRequest()}{parseRequest()}}
+{\footnotesize\ttfamily \label{class_client_handler_a1f094a28b1afa629123916319b9273c4} 
+void Client\+Handler::\+parse\+Request (\begin{DoxyParamCaption}\item[{const QString \&}]{request}{}\end{DoxyParamCaption})}
+
+
+
+parse\+Request -\/ обрабатывает запрос от клиента 
+
+
+\begin{DoxyParams}{Parameters}
+{\em request} & -\/ строка запроса \\
+\hline
+\end{DoxyParams}
+\Hypertarget{class_client_handler_a40989c40f1997c3b844c01e070375274}\index{ClientHandler@{ClientHandler}!removeOnlineClient@{removeOnlineClient}}
+\index{removeOnlineClient@{removeOnlineClient}!ClientHandler@{ClientHandler}}
+\doxysubsubsection{\texorpdfstring{removeOnlineClient()}{removeOnlineClient()}}
+{\footnotesize\ttfamily \label{class_client_handler_a40989c40f1997c3b844c01e070375274} 
+void Client\+Handler::\+remove\+Online\+Client (\begin{DoxyParamCaption}\item[{QTcp\+Socket \texorpdfstring{$\ast$}{*}}]{socket}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}
+
+
+
+remove\+Online\+Client -\/ удаляет клиента из списка онлайн 
+
+
+\begin{DoxyParams}{Parameters}
+{\em \doxylink{class_client_handler_ab5f0782502158ca9de3921581ff2ff96}{socket}} & -\/ сокет клиента \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \doxymbox{\hyperlink{clienthandler_8h_source_l00126}{126}} of file \doxymbox{\hyperlink{clienthandler_8h_source}{clienthandler.\+h}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00126\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00127\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(!\doxymbox{\hyperlink{class_client_handler_ad72379d35bbf4f0cfc74882849de4975}{m\_onlineSocketUsers}}.contains(\doxymbox{\hyperlink{class_client_handler_ab5f0782502158ca9de3921581ff2ff96}{socket}}))}
+\DoxyCodeLine{00128\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{00129\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00130\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ userId\ =\ \doxymbox{\hyperlink{class_client_handler_ad72379d35bbf4f0cfc74882849de4975}{m\_onlineSocketUsers}}.value(\doxymbox{\hyperlink{class_client_handler_ab5f0782502158ca9de3921581ff2ff96}{socket}},\ -\/1);}
+\DoxyCodeLine{00131\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(userId\ !=\ -\/1)\ \{}
+\DoxyCodeLine{00132\ \ \ \ \ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{class_client_handler_aba7a253e2c911b0461e0deb6529aa2df}{m\_onlineUserSockets}}.remove(userId);}
+\DoxyCodeLine{00133\ \ \ \ \ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{class_client_handler_ad72379d35bbf4f0cfc74882849de4975}{m\_onlineSocketUsers}}.remove(\doxymbox{\hyperlink{class_client_handler_ab5f0782502158ca9de3921581ff2ff96}{socket}});}
+\DoxyCodeLine{00134\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00135\ \ \ \ \ \}}
+
+\end{DoxyCode}
+
+
+References \doxymbox{\hyperlink{clienthandler_8h_source_l00151}{m\+\_\+online\+Socket\+Users}}, \doxymbox{\hyperlink{clienthandler_8h_source_l00150}{m\+\_\+online\+User\+Sockets}}, and \doxymbox{\hyperlink{clienthandler_8h_source_l00145}{socket}}.
+
+\Hypertarget{class_client_handler_a641430b36a2e787f6a39bbf90f03a906}\index{ClientHandler@{ClientHandler}!sendToClient@{sendToClient}}
+\index{sendToClient@{sendToClient}!ClientHandler@{ClientHandler}}
+\doxysubsubsection{\texorpdfstring{sendToClient()}{sendToClient()}}
+{\footnotesize\ttfamily \label{class_client_handler_a641430b36a2e787f6a39bbf90f03a906} 
+void Client\+Handler::\+send\+To\+Client (\begin{DoxyParamCaption}\item[{QTcp\+Socket \texorpdfstring{$\ast$}{*}}]{socket}{, }\item[{const QString \&}]{message}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+send\+To\+Client -\/ отправляет сообщение клиенту 
+
+
+\begin{DoxyParams}{Parameters}
+{\em \doxylink{class_client_handler_ab5f0782502158ca9de3921581ff2ff96}{socket}} & -\/ сокет клиента \\
+\hline
+{\em message} & -\/ сообщение \\
+\hline
+\end{DoxyParams}
+
+
+References \doxymbox{\hyperlink{clienthandler_8h_source_l00145}{socket}}.
+
+\Hypertarget{class_client_handler_a21d96fb63ea5a7de15feea3ac68acd62}\index{ClientHandler@{ClientHandler}!setUser@{setUser}}
+\index{setUser@{setUser}!ClientHandler@{ClientHandler}}
+\doxysubsubsection{\texorpdfstring{setUser()}{setUser()}}
+{\footnotesize\ttfamily \label{class_client_handler_a21d96fb63ea5a7de15feea3ac68acd62} 
+void Client\+Handler::\+set\+User (\begin{DoxyParamCaption}\item[{const QString \&}]{username}{, }\item[{int}]{id}{}\end{DoxyParamCaption})}
+
+
+
+set\+User -\/ устанавливает данные пользователя 
+
+
+\begin{DoxyParams}{Parameters}
+{\em username} & -\/ имя пользователя \\
+\hline
+{\em id} & -\/ id пользователя \\
+\hline
+\end{DoxyParams}
+
+
+\label{doc-variable-members}
+\Hypertarget{class_client_handler_doc-variable-members}
+\doxysubsection{Member Data Documentation}
+\Hypertarget{class_client_handler_ae89e5cebd8ad941a917f17617f16b371}\index{ClientHandler@{ClientHandler}!m\_chatService@{m\_chatService}}
+\index{m\_chatService@{m\_chatService}!ClientHandler@{ClientHandler}}
+\doxysubsubsection{\texorpdfstring{m\_chatService}{m\_chatService}}
+{\footnotesize\ttfamily \label{class_client_handler_ae89e5cebd8ad941a917f17617f16b371} 
+\doxymbox{\hyperlink{class_chat_service}{Chat\+Service}}\texorpdfstring{$\ast$}{*} Client\+Handler::\+m\+\_\+chat\+Service\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+сервис работы с чатом 
+
+
+
+Definition at line \doxymbox{\hyperlink{clienthandler_8h_source_l00146}{146}} of file \doxymbox{\hyperlink{clienthandler_8h_source}{clienthandler.\+h}}.
+
+\Hypertarget{class_client_handler_ad72379d35bbf4f0cfc74882849de4975}\index{ClientHandler@{ClientHandler}!m\_onlineSocketUsers@{m\_onlineSocketUsers}}
+\index{m\_onlineSocketUsers@{m\_onlineSocketUsers}!ClientHandler@{ClientHandler}}
+\doxysubsubsection{\texorpdfstring{m\_onlineSocketUsers}{m\_onlineSocketUsers}}
+{\footnotesize\ttfamily \label{class_client_handler_ad72379d35bbf4f0cfc74882849de4975} 
+QMap$<$QTcp\+Socket\texorpdfstring{$\ast$}{*}, int$>$ Client\+Handler::\+m\+\_\+online\+Socket\+Users\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [private]}}
+
+
+
+соответствие socket -\/\texorpdfstring{$>$}{>} user\+Id 
+
+
+
+Definition at line \doxymbox{\hyperlink{clienthandler_8h_source_l00151}{151}} of file \doxymbox{\hyperlink{clienthandler_8h_source}{clienthandler.\+h}}.
+
+
+
+Referenced by \doxymbox{\hyperlink{clienthandler_8h_source_l00117}{add\+Online\+Client()}}, and \doxymbox{\hyperlink{clienthandler_8h_source_l00126}{remove\+Online\+Client()}}.
+
+\Hypertarget{class_client_handler_aba7a253e2c911b0461e0deb6529aa2df}\index{ClientHandler@{ClientHandler}!m\_onlineUserSockets@{m\_onlineUserSockets}}
+\index{m\_onlineUserSockets@{m\_onlineUserSockets}!ClientHandler@{ClientHandler}}
+\doxysubsubsection{\texorpdfstring{m\_onlineUserSockets}{m\_onlineUserSockets}}
+{\footnotesize\ttfamily \label{class_client_handler_aba7a253e2c911b0461e0deb6529aa2df} 
+QMap$<$int, QTcp\+Socket\texorpdfstring{$\ast$}{*}$>$ Client\+Handler::\+m\+\_\+online\+User\+Sockets\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [private]}}
+
+
+
+соответствие user\+Id -\/\texorpdfstring{$>$}{>} socket 
+
+
+
+Definition at line \doxymbox{\hyperlink{clienthandler_8h_source_l00150}{150}} of file \doxymbox{\hyperlink{clienthandler_8h_source}{clienthandler.\+h}}.
+
+
+
+Referenced by \doxymbox{\hyperlink{clienthandler_8h_source_l00117}{add\+Online\+Client()}}, and \doxymbox{\hyperlink{clienthandler_8h_source_l00126}{remove\+Online\+Client()}}.
+
+\Hypertarget{class_client_handler_a4ef2859b3bedff5efa97f92e3734f231}\index{ClientHandler@{ClientHandler}!m\_userId@{m\_userId}}
+\index{m\_userId@{m\_userId}!ClientHandler@{ClientHandler}}
+\doxysubsubsection{\texorpdfstring{m\_userId}{m\_userId}}
+{\footnotesize\ttfamily \label{class_client_handler_a4ef2859b3bedff5efa97f92e3734f231} 
+int Client\+Handler::\+m\+\_\+user\+Id = -\/1\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+id пользователя 
+
+
+
+Definition at line \doxymbox{\hyperlink{clienthandler_8h_source_l00148}{148}} of file \doxymbox{\hyperlink{clienthandler_8h_source}{clienthandler.\+h}}.
+
+
+
+Referenced by \doxymbox{\hyperlink{clienthandler_8h_source_l00042}{get\+User\+Id()}}.
+
+\Hypertarget{class_client_handler_ab5f0782502158ca9de3921581ff2ff96}\index{ClientHandler@{ClientHandler}!socket@{socket}}
+\index{socket@{socket}!ClientHandler@{ClientHandler}}
+\doxysubsubsection{\texorpdfstring{socket}{socket}}
+{\footnotesize\ttfamily \label{class_client_handler_ab5f0782502158ca9de3921581ff2ff96} 
+QTcp\+Socket\texorpdfstring{$\ast$}{*} Client\+Handler::\+socket\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+сокет клиента 
+
+
+
+Definition at line \doxymbox{\hyperlink{clienthandler_8h_source_l00145}{145}} of file \doxymbox{\hyperlink{clienthandler_8h_source}{clienthandler.\+h}}.
+
+
+
+Referenced by \doxymbox{\hyperlink{clienthandler_8h_source_l00117}{add\+Online\+Client()}}, \doxymbox{\hyperlink{class_client_handler_ad71cb09f6e4fe6bb1aa599dbfae890e7}{Client\+Handler()}}, \doxymbox{\hyperlink{clienthandler_8h_source_l00036}{get\+Socket()}}, \doxymbox{\hyperlink{clienthandler_8h_source_l00126}{remove\+Online\+Client()}}, and \doxymbox{\hyperlink{class_client_handler_a641430b36a2e787f6a39bbf90f03a906}{send\+To\+Client()}}.
+
+
+
+The documentation for this class was generated from the following file:\+\begin{DoxyCompactItemize}
+\item 
+\doxymbox{\hyperlink{clienthandler_8h}{clienthandler.\+h}}\end{DoxyCompactItemize}

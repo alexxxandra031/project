@@ -1,0 +1,257 @@
+\doxysection{Auth\+Window Class Reference}
+\hypertarget{class_auth_window}{}\label{class_auth_window}\index{AuthWindow@{AuthWindow}}
+
+
+\doxylink{class_auth_window}{Auth\+Window} -\/ окно авторизации пользователя  
+
+
+
+
+{\ttfamily \+\#include $<$authwindow.\+h$>$}
+
+
+
+Inheritance diagram for Auth\+Window:\+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=201pt]{class_auth_window__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for Auth\+Window:\+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=201pt]{class_auth_window__coll__graph}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\doxymbox{\hyperlink{class_auth_window_af2cdee37721f32406db8fef61cdb3dc1}{Auth\+Window}} (QWidget \texorpdfstring{$\ast$}{*}parent=nullptr)
+\begin{DoxyCompactList}\small\item\em \doxylink{class_auth_window}{Auth\+Window} -\/ конструктор окна \end{DoxyCompactList}\item 
+\doxymbox{\hyperlink{class_auth_window_a4f110ced4881e0f20495175f73e5e572}{\texorpdfstring{$\sim$}{\string~}\+Auth\+Window}} ()
+\begin{DoxyCompactList}\small\item\em \texorpdfstring{$\sim$}{\string~}\+Auth\+Window -\/ деструктор окна \end{DoxyCompactList}\item 
+QString \doxymbox{\hyperlink{class_auth_window_a5f206458bf1532b3008a55971716792f}{get\+Crypto\+Key}} () const
+\begin{DoxyCompactList}\small\item\em get\+Crypto\+Key -\/ возвращает ключ для шифрования \end{DoxyCompactList}\item 
+bool \doxymbox{\hyperlink{class_auth_window_a0cf17148f5c08957e5bb06a724b9fc26}{is\+Admin}} () const
+\begin{DoxyCompactList}\small\item\em is\+Admin -\/ проверяет, является ли пользователь администратором \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Private Slots}
+\begin{DoxyCompactItemize}
+\item 
+void \doxymbox{\hyperlink{class_auth_window_a2d320f3f34aaa5a46e71f8f85204e40b}{on\+\_\+push\+Button\+\_\+login\+\_\+clicked}} ()
+\begin{DoxyCompactList}\small\item\em on\+\_\+push\+Button\+\_\+login\+\_\+clicked -\/ вызывается при нажатии кнопки входа \end{DoxyCompactList}\item 
+void \doxymbox{\hyperlink{class_auth_window_a3b4c9c6cc3200c5ea8ca719cd3425518}{on\+\_\+push\+Button\+\_\+register\+\_\+clicked}} ()
+\begin{DoxyCompactList}\small\item\em on\+\_\+push\+Button\+\_\+register\+\_\+clicked -\/ вызывается при нажатии кнопки регистрации \end{DoxyCompactList}\item 
+void \doxymbox{\hyperlink{class_auth_window_a215f8af0473752a56dde9f17f5e1ff89}{on\+Data\+Received}} (const QByte\+Array \&data)
+\begin{DoxyCompactList}\small\item\em on\+Data\+Received -\/ вызывается при получении данных \end{DoxyCompactList}\item 
+void \doxymbox{\hyperlink{class_auth_window_ac0295f11e8ce5a09f8c8fab18ae319cb}{on\+Connected}} ()
+\begin{DoxyCompactList}\small\item\em on\+Connected -\/ вызывается при успешном подключении \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+Ui::\+\+Auth\+Window \texorpdfstring{$\ast$}{*} \doxymbox{\hyperlink{class_auth_window_a814ef8b2d1de566e382f18e7db8cc830}{ui}}
+\begin{DoxyCompactList}\small\item\em указатель на интерфейс окна \end{DoxyCompactList}\item 
+bool \doxymbox{\hyperlink{class_auth_window_a3e53766431a7c1da8748d0cb0bb7ec4b}{m\+\_\+is\+Admin}} = false
+\begin{DoxyCompactList}\small\item\em флаг, показывающий является ли пользователь администратором \end{DoxyCompactList}\item 
+QString \doxymbox{\hyperlink{class_auth_window_a8de640b0c9a808007c1b3fcde6193a6c}{m\+\_\+pending\+Login}}
+\begin{DoxyCompactList}\small\item\em временно хранит логин \end{DoxyCompactList}\item 
+QString \doxymbox{\hyperlink{class_auth_window_ae3beacdc079cde275bcd553800a5aea3}{m\+\_\+pending\+Password}}
+\begin{DoxyCompactList}\small\item\em временно хранит пароль \end{DoxyCompactList}\item 
+QString \doxymbox{\hyperlink{class_auth_window_a652334881b7290c3971d619df06641a5}{m\+\_\+pending\+Command}}
+\begin{DoxyCompactList}\small\item\em временно хранит команду \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\doxylink{class_auth_window}{Auth\+Window} -\/ окно авторизации пользователя 
+
+Definition at line \doxymbox{\hyperlink{authwindow_8h_source_l00011}{11}} of file \doxymbox{\hyperlink{authwindow_8h_source}{authwindow.\+h}}.
+
+
+
+\label{doc-constructors}
+\Hypertarget{class_auth_window_doc-constructors}
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{class_auth_window_af2cdee37721f32406db8fef61cdb3dc1}\index{AuthWindow@{AuthWindow}!AuthWindow@{AuthWindow}}
+\index{AuthWindow@{AuthWindow}!AuthWindow@{AuthWindow}}
+\doxysubsubsection{\texorpdfstring{AuthWindow()}{AuthWindow()}}
+{\footnotesize\ttfamily \label{class_auth_window_af2cdee37721f32406db8fef61cdb3dc1} 
+Auth\+Window::\+\+Auth\+Window (\begin{DoxyParamCaption}\item[{QWidget \texorpdfstring{$\ast$}{*}}]{parent}{ = {\ttfamily nullptr}}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [explicit]}}
+
+
+
+\doxylink{class_auth_window}{Auth\+Window} -\/ конструктор окна 
+
+
+\begin{DoxyParams}{Parameters}
+{\em parent} & -\/ родительский виджет \\
+\hline
+\end{DoxyParams}
+\Hypertarget{class_auth_window_a4f110ced4881e0f20495175f73e5e572}\index{AuthWindow@{AuthWindow}!````~AuthWindow@{\texorpdfstring{$\sim$}{\string~}AuthWindow}}
+\index{````~AuthWindow@{\texorpdfstring{$\sim$}{\string~}AuthWindow}!AuthWindow@{AuthWindow}}
+\doxysubsubsection{\texorpdfstring{\texorpdfstring{$\sim$}{\string~}AuthWindow()}{\string~AuthWindow()}}
+{\footnotesize\ttfamily \label{class_auth_window_a4f110ced4881e0f20495175f73e5e572} 
+Auth\+Window::\+\texorpdfstring{$\sim$}{\string~}\+Auth\+Window (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+\texorpdfstring{$\sim$}{\string~}\+Auth\+Window -\/ деструктор окна 
+
+
+
+\label{doc-func-members}
+\Hypertarget{class_auth_window_doc-func-members}
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_auth_window_a5f206458bf1532b3008a55971716792f}\index{AuthWindow@{AuthWindow}!getCryptoKey@{getCryptoKey}}
+\index{getCryptoKey@{getCryptoKey}!AuthWindow@{AuthWindow}}
+\doxysubsubsection{\texorpdfstring{getCryptoKey()}{getCryptoKey()}}
+{\footnotesize\ttfamily \label{class_auth_window_a5f206458bf1532b3008a55971716792f} 
+QString Auth\+Window::\+get\+Crypto\+Key (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const}
+
+
+
+get\+Crypto\+Key -\/ возвращает ключ для шифрования 
+
+\begin{DoxyReturn}{Returns}
+ключ шифрования 
+\end{DoxyReturn}
+\Hypertarget{class_auth_window_a0cf17148f5c08957e5bb06a724b9fc26}\index{AuthWindow@{AuthWindow}!isAdmin@{isAdmin}}
+\index{isAdmin@{isAdmin}!AuthWindow@{AuthWindow}}
+\doxysubsubsection{\texorpdfstring{isAdmin()}{isAdmin()}}
+{\footnotesize\ttfamily \label{class_auth_window_a0cf17148f5c08957e5bb06a724b9fc26} 
+bool Auth\+Window::\+is\+Admin (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const}
+
+
+
+is\+Admin -\/ проверяет, является ли пользователь администратором 
+
+\begin{DoxyReturn}{Returns}
+true, если пользователь администратор, иначе false 
+\end{DoxyReturn}
+\Hypertarget{class_auth_window_a2d320f3f34aaa5a46e71f8f85204e40b}\index{AuthWindow@{AuthWindow}!on\_pushButton\_login\_clicked@{on\_pushButton\_login\_clicked}}
+\index{on\_pushButton\_login\_clicked@{on\_pushButton\_login\_clicked}!AuthWindow@{AuthWindow}}
+\doxysubsubsection{\texorpdfstring{on\_pushButton\_login\_clicked}{on\_pushButton\_login\_clicked}}
+{\footnotesize\ttfamily \label{class_auth_window_a2d320f3f34aaa5a46e71f8f85204e40b} 
+void Auth\+Window::\+on\+\_\+push\+Button\+\_\+login\+\_\+clicked (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}, {\ttfamily [slot]}}
+
+
+
+on\+\_\+push\+Button\+\_\+login\+\_\+clicked -\/ вызывается при нажатии кнопки входа 
+
+\Hypertarget{class_auth_window_a3b4c9c6cc3200c5ea8ca719cd3425518}\index{AuthWindow@{AuthWindow}!on\_pushButton\_register\_clicked@{on\_pushButton\_register\_clicked}}
+\index{on\_pushButton\_register\_clicked@{on\_pushButton\_register\_clicked}!AuthWindow@{AuthWindow}}
+\doxysubsubsection{\texorpdfstring{on\_pushButton\_register\_clicked}{on\_pushButton\_register\_clicked}}
+{\footnotesize\ttfamily \label{class_auth_window_a3b4c9c6cc3200c5ea8ca719cd3425518} 
+void Auth\+Window::\+on\+\_\+push\+Button\+\_\+register\+\_\+clicked (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}, {\ttfamily [slot]}}
+
+
+
+on\+\_\+push\+Button\+\_\+register\+\_\+clicked -\/ вызывается при нажатии кнопки регистрации 
+
+\Hypertarget{class_auth_window_ac0295f11e8ce5a09f8c8fab18ae319cb}\index{AuthWindow@{AuthWindow}!onConnected@{onConnected}}
+\index{onConnected@{onConnected}!AuthWindow@{AuthWindow}}
+\doxysubsubsection{\texorpdfstring{onConnected}{onConnected}}
+{\footnotesize\ttfamily \label{class_auth_window_ac0295f11e8ce5a09f8c8fab18ae319cb} 
+void Auth\+Window::\+on\+Connected (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}, {\ttfamily [slot]}}
+
+
+
+on\+Connected -\/ вызывается при успешном подключении 
+
+\Hypertarget{class_auth_window_a215f8af0473752a56dde9f17f5e1ff89}\index{AuthWindow@{AuthWindow}!onDataReceived@{onDataReceived}}
+\index{onDataReceived@{onDataReceived}!AuthWindow@{AuthWindow}}
+\doxysubsubsection{\texorpdfstring{onDataReceived}{onDataReceived}}
+{\footnotesize\ttfamily \label{class_auth_window_a215f8af0473752a56dde9f17f5e1ff89} 
+void Auth\+Window::\+on\+Data\+Received (\begin{DoxyParamCaption}\item[{const QByte\+Array \&}]{data}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}, {\ttfamily [slot]}}
+
+
+
+on\+Data\+Received -\/ вызывается при получении данных 
+
+
+\begin{DoxyParams}{Parameters}
+{\em data} & -\/ полученные данные \\
+\hline
+\end{DoxyParams}
+
+
+\label{doc-variable-members}
+\Hypertarget{class_auth_window_doc-variable-members}
+\doxysubsection{Member Data Documentation}
+\Hypertarget{class_auth_window_a3e53766431a7c1da8748d0cb0bb7ec4b}\index{AuthWindow@{AuthWindow}!m\_isAdmin@{m\_isAdmin}}
+\index{m\_isAdmin@{m\_isAdmin}!AuthWindow@{AuthWindow}}
+\doxysubsubsection{\texorpdfstring{m\_isAdmin}{m\_isAdmin}}
+{\footnotesize\ttfamily \label{class_auth_window_a3e53766431a7c1da8748d0cb0bb7ec4b} 
+bool Auth\+Window::\+m\+\_\+is\+Admin = false\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+флаг, показывающий является ли пользователь администратором 
+
+
+
+Definition at line \doxymbox{\hyperlink{authwindow_8h_source_l00062}{62}} of file \doxymbox{\hyperlink{authwindow_8h_source}{authwindow.\+h}}.
+
+\Hypertarget{class_auth_window_a652334881b7290c3971d619df06641a5}\index{AuthWindow@{AuthWindow}!m\_pendingCommand@{m\_pendingCommand}}
+\index{m\_pendingCommand@{m\_pendingCommand}!AuthWindow@{AuthWindow}}
+\doxysubsubsection{\texorpdfstring{m\_pendingCommand}{m\_pendingCommand}}
+{\footnotesize\ttfamily \label{class_auth_window_a652334881b7290c3971d619df06641a5} 
+QString Auth\+Window::\+m\+\_\+pending\+Command\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+временно хранит команду 
+
+
+
+Definition at line \doxymbox{\hyperlink{authwindow_8h_source_l00066}{66}} of file \doxymbox{\hyperlink{authwindow_8h_source}{authwindow.\+h}}.
+
+\Hypertarget{class_auth_window_a8de640b0c9a808007c1b3fcde6193a6c}\index{AuthWindow@{AuthWindow}!m\_pendingLogin@{m\_pendingLogin}}
+\index{m\_pendingLogin@{m\_pendingLogin}!AuthWindow@{AuthWindow}}
+\doxysubsubsection{\texorpdfstring{m\_pendingLogin}{m\_pendingLogin}}
+{\footnotesize\ttfamily \label{class_auth_window_a8de640b0c9a808007c1b3fcde6193a6c} 
+QString Auth\+Window::\+m\+\_\+pending\+Login\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+временно хранит логин 
+
+
+
+Definition at line \doxymbox{\hyperlink{authwindow_8h_source_l00064}{64}} of file \doxymbox{\hyperlink{authwindow_8h_source}{authwindow.\+h}}.
+
+\Hypertarget{class_auth_window_ae3beacdc079cde275bcd553800a5aea3}\index{AuthWindow@{AuthWindow}!m\_pendingPassword@{m\_pendingPassword}}
+\index{m\_pendingPassword@{m\_pendingPassword}!AuthWindow@{AuthWindow}}
+\doxysubsubsection{\texorpdfstring{m\_pendingPassword}{m\_pendingPassword}}
+{\footnotesize\ttfamily \label{class_auth_window_ae3beacdc079cde275bcd553800a5aea3} 
+QString Auth\+Window::\+m\+\_\+pending\+Password\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+временно хранит пароль 
+
+
+
+Definition at line \doxymbox{\hyperlink{authwindow_8h_source_l00065}{65}} of file \doxymbox{\hyperlink{authwindow_8h_source}{authwindow.\+h}}.
+
+\Hypertarget{class_auth_window_a814ef8b2d1de566e382f18e7db8cc830}\index{AuthWindow@{AuthWindow}!ui@{ui}}
+\index{ui@{ui}!AuthWindow@{AuthWindow}}
+\doxysubsubsection{\texorpdfstring{ui}{ui}}
+{\footnotesize\ttfamily \label{class_auth_window_a814ef8b2d1de566e382f18e7db8cc830} 
+Ui::\+\+Auth\+Window\texorpdfstring{$\ast$}{*} Auth\+Window::\+ui\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+указатель на интерфейс окна 
+
+
+
+Definition at line \doxymbox{\hyperlink{authwindow_8h_source_l00060}{60}} of file \doxymbox{\hyperlink{authwindow_8h_source}{authwindow.\+h}}.
+
+
+
+The documentation for this class was generated from the following file:\+\begin{DoxyCompactItemize}
+\item 
+\doxymbox{\hyperlink{authwindow_8h}{authwindow.\+h}}\end{DoxyCompactItemize}

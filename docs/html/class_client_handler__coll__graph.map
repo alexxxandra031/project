@@ -1,0 +1,7 @@
+<map id="ClientHandler" name="ClientHandler">
+<area shape="rect" id="Node000001" title="ClientHandler &#45; класс для обработки клиента на сервере" alt="" coords="14,403,178,899"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,133,64,203"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="41,214,67,403,62,403,41,220"/>
+<area shape="rect" id="Node000003" href="$class_chat_service.html" title="ChatService &#45; класс для обработки логики чата" alt="" coords="88,5,226,331"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="137,328,132,386,127,385,136,333"/>
+</map>

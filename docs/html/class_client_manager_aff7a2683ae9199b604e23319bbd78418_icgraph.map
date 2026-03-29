@@ -1,0 +1,8 @@
+<map id="ClientManager::ClientManager" name="ClientManager::ClientManager">
+<area shape="rect" id="Node000001" title=" " alt="" coords="235,31,432,57"/>
+<area shape="poly" id="edge1_Node000001_Node000001" title=" " alt="" coords="373,16,361,12,333,9,308,11,295,16,292,21,298,31,293,29,286,22,291,12,307,6,333,4,362,7,378,16"/>
+<area shape="rect" id="Node000002" href="$class_client_manager.html#ab0a16b14b1b88419538b922792abc932" title="getInstance &#45; возвращает единственный экземпляр класса" alt="" coords="5,5,187,32"/>
+<area shape="poly" id="edge2_Node000001_Node000002" title=" " alt="" coords="216,32,187,31,187,26,222,31"/>
+<area shape="rect" id="Node000003" href="$class_client_manager.html#a73e84fe067199cd04f618892ac03812c" title=" " alt="" coords="12,56,180,83"/>
+<area shape="poly" id="edge3_Node000001_Node000003" title=" " alt="" coords="216,57,181,63,181,58,222,56"/>
+</map>

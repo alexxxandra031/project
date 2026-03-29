@@ -1,0 +1,59 @@
+\doxysection{clientmanager.\+h}
+\hypertarget{clientmanager_8h_source}{}\label{clientmanager_8h_source}\doxymbox{\hyperlink{clientmanager_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{clientmanager_8h_source_l00001}00001\ \textcolor{preprocessor}{\#ifndef\ CLIENTMANAGER\_H}}
+\DoxyCodeLine{\Hypertarget{clientmanager_8h_source_l00002}00002\ \textcolor{preprocessor}{\#define\ CLIENTMANAGER\_H}}
+\DoxyCodeLine{\Hypertarget{clientmanager_8h_source_l00003}00003\ }
+\DoxyCodeLine{\Hypertarget{clientmanager_8h_source_l00004}00004\ \textcolor{preprocessor}{\#include\ <QObject>}}
+\DoxyCodeLine{\Hypertarget{clientmanager_8h_source_l00005}00005\ \textcolor{preprocessor}{\#include\ <QTcpSocket>}}
+\DoxyCodeLine{\Hypertarget{clientmanager_8h_source_l00006}00006\ }
+\DoxyCodeLine{\Hypertarget{clientmanager_8h_source_l00010}\doxymbox{\hyperlink{class_client_manager}{00010}}\ \textcolor{keyword}{class\ }\doxymbox{\hyperlink{class_client_manager_aff7a2683ae9199b604e23319bbd78418}{ClientManager}}\ :\ \textcolor{keyword}{public}\ QObject\ \{}
+\DoxyCodeLine{\Hypertarget{clientmanager_8h_source_l00011}00011\ \ \ \ \ Q\_OBJECT}
+\DoxyCodeLine{\Hypertarget{clientmanager_8h_source_l00012}00012\ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{clientmanager_8h_source_l00013}00013\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{\Hypertarget{clientmanager_8h_source_l00018}\doxymbox{\hyperlink{class_client_manager_ab0a16b14b1b88419538b922792abc932}{00018}}\ \ \ \ \ \textcolor{keyword}{static}\ \doxymbox{\hyperlink{class_client_manager_aff7a2683ae9199b604e23319bbd78418}{ClientManager}}*\ \doxymbox{\hyperlink{class_client_manager_ab0a16b14b1b88419538b922792abc932}{getInstance}}();}
+\DoxyCodeLine{\Hypertarget{clientmanager_8h_source_l00019}00019\ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{clientmanager_8h_source_l00020}\doxymbox{\hyperlink{class_client_manager_aff7a2683ae9199b604e23319bbd78418}{00020}}\ \ \ \ \ \doxymbox{\hyperlink{class_client_manager_aff7a2683ae9199b604e23319bbd78418}{ClientManager}}(\textcolor{keyword}{const}\ \doxymbox{\hyperlink{class_client_manager_aff7a2683ae9199b604e23319bbd78418}{ClientManager}}\&)\ =\ \textcolor{keyword}{delete};}
+\DoxyCodeLine{\Hypertarget{clientmanager_8h_source_l00021}\doxymbox{\hyperlink{class_client_manager_a73e84fe067199cd04f618892ac03812c}{00021}}\ \ \ \ \ \doxymbox{\hyperlink{class_client_manager_aff7a2683ae9199b604e23319bbd78418}{ClientManager}}\&\ \doxymbox{\hyperlink{class_client_manager_a73e84fe067199cd04f618892ac03812c}{operator=}}(\textcolor{keyword}{const}\ \doxymbox{\hyperlink{class_client_manager_aff7a2683ae9199b604e23319bbd78418}{ClientManager}}\&)\ =\ \textcolor{keyword}{delete};}
+\DoxyCodeLine{\Hypertarget{clientmanager_8h_source_l00022}00022\ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{clientmanager_8h_source_l00028}\doxymbox{\hyperlink{class_client_manager_ae8eae5f16bb0277f959fe30aa4e5e34a}{00028}}\ \ \ \ \ \textcolor{keywordtype}{void}\ \doxymbox{\hyperlink{class_client_manager_ae8eae5f16bb0277f959fe30aa4e5e34a}{connectToServer}}(\textcolor{keyword}{const}\ QString\ \&ip,\ quint16\ port);}
+\DoxyCodeLine{\Hypertarget{clientmanager_8h_source_l00029}00029\ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{clientmanager_8h_source_l00033}\doxymbox{\hyperlink{class_client_manager_a04d461e2b8f6c51bd5beaf3bc5b957b4}{00033}}\ \ \ \ \ \textcolor{keywordtype}{void}\ \doxymbox{\hyperlink{class_client_manager_a04d461e2b8f6c51bd5beaf3bc5b957b4}{disconnectFromServer}}();}
+\DoxyCodeLine{\Hypertarget{clientmanager_8h_source_l00034}00034\ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{clientmanager_8h_source_l00040}\doxymbox{\hyperlink{class_client_manager_a45b7801027c2f23808cf95644f20de4b}{00040}}\ \ \ \ \ \textcolor{keywordtype}{void}\ \doxymbox{\hyperlink{class_client_manager_a45b7801027c2f23808cf95644f20de4b}{sendChatMessage}}(\textcolor{keyword}{const}\ QString\ \&chatId,\ \textcolor{keyword}{const}\ QByteArray\ \&message);}
+\DoxyCodeLine{\Hypertarget{clientmanager_8h_source_l00041}00041\ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{clientmanager_8h_source_l00046}\doxymbox{\hyperlink{class_client_manager_aec2afdbfa45eecf76c45b03208630a3a}{00046}}\ \ \ \ \ \textcolor{keywordtype}{void}\ \doxymbox{\hyperlink{class_client_manager_aec2afdbfa45eecf76c45b03208630a3a}{sendMessage}}(\textcolor{keyword}{const}\ QByteArray\ \&message);}
+\DoxyCodeLine{\Hypertarget{clientmanager_8h_source_l00047}00047\ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{clientmanager_8h_source_l00052}\doxymbox{\hyperlink{class_client_manager_a316358dfa1d9ddc7437f9ffa70cf0d7d}{00052}}\ \ \ \ \ \textcolor{keywordtype}{void}\ \doxymbox{\hyperlink{class_client_manager_a316358dfa1d9ddc7437f9ffa70cf0d7d}{setSecretKey}}(\textcolor{keyword}{const}\ QString\ \&key);}
+\DoxyCodeLine{\Hypertarget{clientmanager_8h_source_l00053}00053\ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{clientmanager_8h_source_l00058}\doxymbox{\hyperlink{class_client_manager_aef5a592eea22c828b130f570b4ffc5ad}{00058}}\ \ \ \ \ \textcolor{keywordtype}{void}\ \doxymbox{\hyperlink{class_client_manager_aef5a592eea22c828b130f570b4ffc5ad}{setUserName}}(\textcolor{keyword}{const}\ QString\ \&name);}
+\DoxyCodeLine{\Hypertarget{clientmanager_8h_source_l00059}00059\ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{clientmanager_8h_source_l00064}\doxymbox{\hyperlink{class_client_manager_a72edbbe349a2cbb277e0744b51525cf6}{00064}}\ \ \ \ \ \textcolor{keywordtype}{void}\ \doxymbox{\hyperlink{class_client_manager_a72edbbe349a2cbb277e0744b51525cf6}{sendSystemMessage}}(\textcolor{keyword}{const}\ QString\ \&command);}
+\DoxyCodeLine{\Hypertarget{clientmanager_8h_source_l00065}00065\ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{clientmanager_8h_source_l00070}\doxymbox{\hyperlink{class_client_manager_a8b68d6ccc61477be3e5f90760434b4b9}{00070}}\ \ \ \ \ \textcolor{keywordtype}{bool}\ \doxymbox{\hyperlink{class_client_manager_a8b68d6ccc61477be3e5f90760434b4b9}{isConnected}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{\Hypertarget{clientmanager_8h_source_l00071}00071\ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{clientmanager_8h_source_l00076}\doxymbox{\hyperlink{class_client_manager_a1de090e917c75f3b2bb1c099797c373c}{00076}}\ \ \ \ \ QString\ \doxymbox{\hyperlink{class_client_manager_a1de090e917c75f3b2bb1c099797c373c}{username}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{\Hypertarget{clientmanager_8h_source_l00077}00077\ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{clientmanager_8h_source_l00078}00078\ \ \ \ \ signals:}
+\DoxyCodeLine{\Hypertarget{clientmanager_8h_source_l00079}\doxymbox{\hyperlink{class_client_manager_a93849c8c755c7cfebaf0c0561ae62b0e}{00079}}\ \ \ \ \ \textcolor{keywordtype}{void}\ \doxymbox{\hyperlink{class_client_manager_a93849c8c755c7cfebaf0c0561ae62b0e}{connected}}();\ }
+\DoxyCodeLine{\Hypertarget{clientmanager_8h_source_l00080}\doxymbox{\hyperlink{class_client_manager_aa8ddceb4440790d21e51b46f08ae85f6}{00080}}\ \ \ \ \ \textcolor{keywordtype}{void}\ \doxymbox{\hyperlink{class_client_manager_aa8ddceb4440790d21e51b46f08ae85f6}{disconnected}}();\ }
+\DoxyCodeLine{\Hypertarget{clientmanager_8h_source_l00081}\doxymbox{\hyperlink{class_client_manager_a59326d11e805258dc99ea70ff16dbee9}{00081}}\ \ \ \ \ \textcolor{keywordtype}{void}\ \doxymbox{\hyperlink{class_client_manager_a59326d11e805258dc99ea70ff16dbee9}{dataReceived}}(\textcolor{keyword}{const}\ QByteArray\ \&data);\ }
+\DoxyCodeLine{\Hypertarget{clientmanager_8h_source_l00082}\doxymbox{\hyperlink{class_client_manager_a243b1d3ae7f9a6029e73a9c44c59a88c}{00082}}\ \ \ \ \ \textcolor{keywordtype}{void}\ \doxymbox{\hyperlink{class_client_manager_a243b1d3ae7f9a6029e73a9c44c59a88c}{errorOccurred}}(\textcolor{keyword}{const}\ QString\ \&errorString);\ }
+\DoxyCodeLine{\Hypertarget{clientmanager_8h_source_l00083}00083\ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{clientmanager_8h_source_l00084}00084\ \textcolor{keyword}{private}\ slots:}
+\DoxyCodeLine{\Hypertarget{clientmanager_8h_source_l00088}\doxymbox{\hyperlink{class_client_manager_a60b1bca3fb013ea2dffc6a6553779836}{00088}}\ \ \ \ \ \textcolor{keywordtype}{void}\ \doxymbox{\hyperlink{class_client_manager_a60b1bca3fb013ea2dffc6a6553779836}{onReadyRead}}();}
+\DoxyCodeLine{\Hypertarget{clientmanager_8h_source_l00089}00089\ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{clientmanager_8h_source_l00090}00090\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{\Hypertarget{clientmanager_8h_source_l00095}\doxymbox{\hyperlink{class_client_manager_acbda82a5100374c991f134b85b910c48}{00095}}\ \ \ \ \ \textcolor{keyword}{explicit}\ \doxymbox{\hyperlink{class_client_manager_acbda82a5100374c991f134b85b910c48}{ClientManager}}(QObject\ *parent\ =\ \textcolor{keyword}{nullptr});}
+\DoxyCodeLine{\Hypertarget{clientmanager_8h_source_l00096}00096\ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{clientmanager_8h_source_l00100}\doxymbox{\hyperlink{class_client_manager_af605d4fa9dab04b9874bf307277cd8a3}{00100}}\ \ \ \ \ \doxymbox{\hyperlink{class_client_manager_af605d4fa9dab04b9874bf307277cd8a3}{\string~ClientManager}}();}
+\DoxyCodeLine{\Hypertarget{clientmanager_8h_source_l00101}00101\ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{clientmanager_8h_source_l00102}\doxymbox{\hyperlink{class_client_manager_a325146be4877d876f5fb768e7f568cc3}{00102}}\ \ \ \ \ QByteArray\ \doxymbox{\hyperlink{class_client_manager_a325146be4877d876f5fb768e7f568cc3}{m\_secretKey}};\ }
+\DoxyCodeLine{\Hypertarget{clientmanager_8h_source_l00103}\doxymbox{\hyperlink{class_client_manager_a2d488ffd9d4220b9aa7d8977d92dd0ff}{00103}}\ \ \ \ \ QString\ \doxymbox{\hyperlink{class_client_manager_a2d488ffd9d4220b9aa7d8977d92dd0ff}{m\_userName}};\ }
+\DoxyCodeLine{\Hypertarget{clientmanager_8h_source_l00104}00104\ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{clientmanager_8h_source_l00105}\doxymbox{\hyperlink{class_client_manager_a266a4da3574792a23cd58b8a88fb9775}{00105}}\ \ \ \ \ QTcpSocket\ *\doxymbox{\hyperlink{class_client_manager_a266a4da3574792a23cd58b8a88fb9775}{m\_socket}};\ }
+\DoxyCodeLine{\Hypertarget{clientmanager_8h_source_l00106}00106\ \};}
+\DoxyCodeLine{\Hypertarget{clientmanager_8h_source_l00107}00107\ }
+\DoxyCodeLine{\Hypertarget{clientmanager_8h_source_l00108}00108\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ CLIENTMANAGER\_H}}
+
+\end{DoxyCode}

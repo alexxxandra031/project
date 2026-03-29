@@ -1,0 +1,5 @@
+<map id="DatabaseManager::DatabaseManager" name="DatabaseManager::DatabaseManager">
+<area shape="rect" id="Node000001" title="DatabaseManager &#45; конструктор (закрытый)." alt="" coords="257,5,448,48"/>
+<area shape="rect" id="Node000002" href="$class_database_manager.html#ad06ebc64d5b847f0dffc69bb0f5dd0b6" title="getInstance &#45; возвращает единственный экземпляр класса" alt="" coords="5,13,209,40"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="238,27,209,29,209,24,243,27"/>
+</map>
