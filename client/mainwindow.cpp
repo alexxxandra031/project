@@ -19,6 +19,10 @@ MainWindow::MainWindow(QWidget *parent)
             &QLineEdit::returnPressed,
             this,
             &MainWindow::on_pushButton_send_clicked);
+    connect(ui->comboBox_chats, QOverload<int>::of(&QComboBox::currentIndexChanged),
+            this, &MainWindow::onChatSelected);
+    connect(ui->pushButton_createChat, &QPushButton::clicked,
+            this, &MainWindow::onCreateChatClicked);
 }
 
 MainWindow::~MainWindow()
@@ -28,13 +32,49 @@ MainWindow::~MainWindow()
 
 void MainWindow::onConnected() {
     addMessage("Система", "Успешное подключение к серверу!", false);
-
-    ClientManager::getInstance()->sendSystemMessage("HISTORY|1");
+    ClientManager::getInstance()->sendSystemMessage("USER_INFO");
 }
 
 void MainWindow::onDataReceived(const QByteArray &data)
 {
     QString raw = QString::fromUtf8(data);
+
+    if (raw.startsWith("OK|CREATE_CHAT|")) {
+        int chatId = raw.mid(14).toInt();
+        // Запрашиваем информацию о новом чате
+        ClientManager::getInstance()->sendSystemMessage(QString("CHAT_INFO|%1").arg(chatId));
+        return;
+    }
+
+    if (raw.startsWith("OK|CHAT_INFO|")) {
+        QString jsonData = raw.mid(11);
+        QJsonDocument doc = QJsonDocument::fromJson(jsonData.toUtf8());
+        if (doc.isObject()) {
+            QJsonObject obj = doc.object();
+            int chatId = obj["chatId"].toInt();        // сервер должен включать chatId в JSON
+            QString chatName = obj["chatName"].toString();
+            m_chats[chatId] = chatName;
+            ui->comboBox_chats->addItem(chatName, chatId);
+        }
+        return;
+    }
+
+    if (raw.startsWith("OK|USER_INFO|")) {
+        QString jsonData = raw.mid(12);
+        QJsonDocument doc = QJsonDocument::fromJson(jsonData.toUtf8());
+        if (doc.isObject()) {
+            QJsonObject obj = doc.object();
+            QJsonArray chatsArray = obj["chats"].toArray();
+            m_chats.clear();
+            ui->comboBox_chats->clear();
+            for (const QJsonValue &val : chatsArray) {
+                int chatId = val.toInt();
+                // Запрашиваем информацию о чате, чтобы получить имя
+                ClientManager::getInstance()->sendSystemMessage(QString("CHAT_INFO|%1").arg(chatId));
+            }
+        }
+        return;
+    }
 
     if (raw.startsWith("OK|HISTORY|")) {
         QString jsonData = raw.mid(11);
@@ -107,7 +147,6 @@ void MainWindow::onDataReceived(const QByteArray &data)
 
 void MainWindow::on_pushButton_send_clicked()
 {
-
     QString text = ui->lineEdit_message->text();
     if (text.isEmpty()) return;
 
@@ -115,8 +154,7 @@ void MainWindow::on_pushButton_send_clicked()
     if(myName.isEmpty()) myName = "Я";
 
     addMessage(myName, text, true);
-
-    ClientManager::getInstance()->sendChatMessage("general", text.toUtf8());
+    ClientManager::getInstance()->sendChatMessage(QString::number(m_currentChatId), text.toUtf8());
     ui->lineEdit_message->clear();
 }
 
@@ -191,4 +229,19 @@ void MainWindow::addMessage(const QString &sender, const QString &text, bool isO
     ui->listWidget_chat->setItemWidget(item, container);
 
     ui->listWidget_chat->scrollToBottom();
+}
+
+void MainWindow::onCreateChatClicked() {
+    ClientManager::getInstance()->sendSystemMessage("CREATE_CHAT");
+}
+
+void MainWindow::onChatSelected(int index) {
+    if (index < 0) return;
+    int chatId = ui->comboBox_chats->itemData(index).toInt();
+    if (chatId == m_currentChatId) return;
+    m_currentChatId = chatId;
+    // Очищаем область сообщений
+    ui->listWidget_chat->clear();
+    // Загружаем историю выбранного чата
+    ClientManager::getInstance()->sendSystemMessage(QString("HISTORY|%1").arg(chatId));
 }

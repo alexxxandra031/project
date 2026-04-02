@@ -114,6 +114,52 @@
       </item>
      </layout>
     </item>
+	<item>
+ <layout class="QHBoxLayout" name="horizontalLayout_chatSelect">
+  <item>
+   <widget class="QComboBox" name="comboBox_chats">
+    <property name="minimumWidth">
+     <number>200</number>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">
+      QComboBox {
+          background-color: white;
+          border-radius: 15px;
+          padding: 5px 10px;
+          font-size: 12px;
+      }
+     </string>
+    </property>
+   </widget>
+  </item>
+  <item>
+   <widget class="QPushButton" name="pushButton_createChat">
+    <property name="text">
+     <string>➕ Создать чат</string>
+    </property>
+    <property name="cursor">
+     <cursorShape>PointingHandCursor</cursorShape>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">
+      QPushButton {
+          background: rgba(255,255,255,0.2);
+          border: 1px solid rgba(255,255,255,0.5);
+          border-radius: 15px;
+          padding: 5px 10px;
+          color: white;
+          font-weight: bold;
+      }
+      QPushButton:hover {
+          background: rgba(255,255,255,0.3);
+      }
+     </string>
+    </property>
+   </widget>
+  </item>
+ </layout>
+</item>
     <item>
      <widget class="QListWidget" name="listWidget_chat">
 		 <property name="styleSheet">
