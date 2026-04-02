@@ -30,6 +30,7 @@ private slots:
     void onChatSelected(int index);
 
     void onManageChatClicked();
+    void onLeaveChatClicked();
 
 private:
     Ui::MainWindow *ui;

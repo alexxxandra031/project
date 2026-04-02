@@ -3,6 +3,8 @@
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QJsonArray>
+#include <QMenu>
+#include <QAction>
 
 ManageChatDialog::ManageChatDialog(int chatId, const QString &chatName, QWidget *parent)
     : QDialog(parent), m_chatId(chatId), m_chatName(chatName)
@@ -24,8 +26,14 @@ ManageChatDialog::ManageChatDialog(int chatId, const QString &chatName, QWidget 
     btnLayout->addWidget(m_closeButton);
     mainLayout->addLayout(btnLayout);
 
-    connect(m_addButton, &QPushButton::clicked, this, &ManageChatDialog::onAddUserClicked);
-    connect(m_closeButton, &QPushButton::clicked, this, &QDialog::accept);
+    m_participantsList->setContextMenuPolicy(Qt::CustomContextMenu);
+
+    connect(m_participantsList, &QListWidget::customContextMenuRequested,
+            this, &ManageChatDialog::showContextMenu);
+    connect(m_addButton, &QPushButton::clicked,
+            this, &ManageChatDialog::onAddUserClicked);
+    connect(m_closeButton, &QPushButton::clicked,
+            this, &QDialog::accept);
     connect(ClientManager::getInstance(), &ClientManager::dataReceived,
             this, &ManageChatDialog::onDataReceived);
 
@@ -40,6 +48,7 @@ void ManageChatDialog::loadParticipants()
 void ManageChatDialog::onDataReceived(const QByteArray &data)
 {
     QString raw = QString::fromUtf8(data);
+
     if (raw.startsWith("OK|CHAT_INFO|")) {
         QString jsonData = raw.mid(13);
         QJsonDocument doc = QJsonDocument::fromJson(jsonData.toUtf8());
@@ -60,14 +69,20 @@ void ManageChatDialog::onDataReceived(const QByteArray &data)
         loadParticipants(); // обновляем список
         m_userNameEdit->clear();
     }
+    else if (raw.startsWith("OK|REMOVE_USER")) {
+        QMessageBox::information(this, "Успех", "Пользователь удалён из чата");
+        loadParticipants();
+    }
     else if (raw.startsWith("ERROR|")) {
         QString error = raw.mid(6);
-        if (error == "USER_NOT_FOUND")
+        if (error == "NOT_CREATOR")
+            QMessageBox::warning(this, "Ошибка", "Только создатель чата может удалять пользователей");
+        else if (error == "CANNOT_REMOVE_CREATOR")
+            QMessageBox::warning(this, "Ошибка", "Нельзя удалить создателя чата");
+        else if (error == "USER_NOT_FOUND")
             QMessageBox::warning(this, "Ошибка", "Пользователь не найден");
-        else if (error == "USER_ALREADY_IN_CHAT")
-            QMessageBox::warning(this, "Ошибка", "Пользователь уже в чате");
         else
-            QMessageBox::warning(this, "Ошибка", "Не удалось добавить пользователя");
+            QMessageBox::warning(this, "Ошибка", "Не удалось удалить пользователя");
     }
 }
 
@@ -79,4 +94,29 @@ void ManageChatDialog::onAddUserClicked()
         return;
     }
     ClientManager::getInstance()->sendSystemMessage(QString("ADD_USER|%1|%2").arg(m_chatId).arg(username));
+}
+
+void ManageChatDialog::showContextMenu(const QPoint &pos)
+{
+    QListWidgetItem *item = m_participantsList->itemAt(pos);
+    if (!item) return;
+    QString itemText = item->text();
+    QString username = itemText.split('(').first().trimmed();
+    QString currentUser = ClientManager::getInstance()->username();
+    if (username == currentUser) return;
+
+    QMenu menu(this);
+    QAction *removeAction = menu.addAction("Удалить пользователя");
+    connect(removeAction, &QAction::triggered, [this, username]() { onRemoveUser(username); });
+    menu.exec(m_participantsList->mapToGlobal(pos));
+}
+
+void ManageChatDialog::onRemoveUser(const QString &username)
+{
+    QMessageBox::StandardButton reply = QMessageBox::question(this, "Удаление пользователя",
+        QString("Удалить пользователя %1 из чата?").arg(username),
+        QMessageBox::Yes | QMessageBox::No);
+    if (reply == QMessageBox::Yes) {
+        ClientManager::getInstance()->sendSystemMessage(QString("REMOVE_USER|%1|%2").arg(m_chatId).arg(username));
+    }
 }

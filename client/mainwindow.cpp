@@ -26,6 +26,8 @@ MainWindow::MainWindow(QWidget *parent)
             this, &MainWindow::onCreateChatClicked);
     connect(ui->pushButton_manageChat, &QPushButton::clicked,
             this, &MainWindow::onManageChatClicked);
+    connect(ui->pushButton_leaveChat, &QPushButton::clicked,
+            this, &MainWindow::onLeaveChatClicked);
 }
 
 MainWindow::~MainWindow()
@@ -41,6 +43,12 @@ void MainWindow::onConnected() {
 void MainWindow::onDataReceived(const QByteArray &data)
 {
     QString raw = QString::fromUtf8(data);
+
+    if (raw.startsWith("OK|LEAVE_CHAT")) {
+        QMessageBox::information(this, "Успех", "Вы покинули чат");
+        ClientManager::getInstance()->sendSystemMessage("USER_INFO");
+        return;
+    }
 
     if (raw.startsWith("OK|CREATE_CHAT|")) {
         int chatId = raw.mid(15).toInt();
@@ -115,11 +123,13 @@ void MainWindow::onDataReceived(const QByteArray &data)
 
     if (raw.startsWith("NEW_MESSAGE|")) {
         QString jsonPart = raw.mid(12);
+        QString sender;
+        QString message;
         QJsonDocument doc = QJsonDocument::fromJson(jsonPart.toUtf8());
         if (doc.isObject()) {
             QJsonObject obj = doc.object();
-            QString sender = obj["username"].toString();
-            QString message = obj["message"].toString();
+            sender = obj["username"].toString();
+            message = obj["message"].toString();
         }
 
         bool isReadable = true;
@@ -254,4 +264,18 @@ void MainWindow::onManageChatClicked()
     QString chatName = ui->comboBox_chats->currentText();
     ManageChatDialog dialog(m_currentChatId, chatName, this);
     dialog.exec();
+}
+
+void MainWindow::onLeaveChatClicked()
+{
+    if (m_currentChatId == 1) {
+        QMessageBox::warning(this, "Внимание", "Нельзя покинуть общий чат");
+        return;
+    }
+    QMessageBox::StandardButton reply = QMessageBox::question(this, "Выход из чата",
+        "Вы уверены, что хотите покинуть чат \"" + ui->comboBox_chats->currentText() + "\"?",
+        QMessageBox::Yes | QMessageBox::No);
+    if (reply == QMessageBox::Yes) {
+        ClientManager::getInstance()->sendSystemMessage(QString("LEAVE_CHAT|%1").arg(m_currentChatId));
+    }
 }
