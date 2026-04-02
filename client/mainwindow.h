@@ -33,6 +33,7 @@ private slots:
     void onLeaveChatClicked();
 
     void onRenameChatClicked();
+    void onLogoutClicked();
 
 private:
     Ui::MainWindow *ui;

@@ -32,6 +32,8 @@ MainWindow::MainWindow(QWidget *parent)
             this, &MainWindow::onLeaveChatClicked);
     connect(ui->pushButton_renameChat, &QPushButton::clicked,
             this, &MainWindow::onRenameChatClicked);
+    connect(ui->pushButton_logout, &QPushButton::clicked,
+            this, &MainWindow::onLogoutClicked);
 }
 
 MainWindow::~MainWindow()
@@ -47,6 +49,26 @@ void MainWindow::onConnected() {
 void MainWindow::onDataReceived(const QByteArray &data)
 {
     QString raw = QString::fromUtf8(data);
+
+    if (raw.startsWith("OK|LOGOUT")) {
+        QMessageBox::information(this, "Успех", "Вы вышли из системы");
+        ClientManager::getInstance()->disconnectFromServer();
+        ClientManager::getInstance()->setUserName("");
+        m_chats.clear();
+        ui->comboBox_chats->clear();
+        ui->listWidget_chat->clear();
+        this->close();
+        AuthWindow auth;
+        if (auth.exec() == QDialog::Accepted) {
+            ClientManager::getInstance()->setSecretKey(auth.getCryptoKey());
+            ClientManager::getInstance()->connectToServer("127.0.0.1", 33333);
+            setAdminRole(auth.isAdmin());
+            this->show();
+        } else {
+            QApplication::quit();
+        }
+        return;
+    }
 
     if (raw.startsWith("OK|ADD_USER")) {
         addMessage("Система", "Пользователь добавлен в чат", false);
@@ -136,6 +158,8 @@ void MainWindow::onDataReceived(const QByteArray &data)
             QMessageBox::warning(this, "Ошибка", "Нельзя переименовать глобальный чат");
         } else if (errorType == "CHANGE_NAME_FAILED") {
             QMessageBox::warning(this, "Ошибка", "Не удалось изменить название чата");
+        } else if (errorType == "LOGOUT_ERROR") {
+            QMessageBox::warning(this, "Ошибка", "Не удалось выйти из системы");
         } else {
             addMessage("⚠️ Система", "Ошибка: " + errorType, false);
         }
@@ -319,5 +343,15 @@ void MainWindow::onRenameChatClicked()
                                             &ok);
     if (ok && !newName.isEmpty()) {
         ClientManager::getInstance()->sendSystemMessage(QString("CHANGE_CHAT_NAME|%1|%2").arg(m_currentChatId).arg(newName));
+    }
+}
+
+void MainWindow::onLogoutClicked()
+{
+    QMessageBox::StandardButton reply = QMessageBox::question(this, "Выход",
+        "Вы уверены, что хотите выйти из аккаунта?",
+        QMessageBox::Yes | QMessageBox::No);
+    if (reply == QMessageBox::Yes) {
+        ClientManager::getInstance()->sendSystemMessage("LOGOUT");
     }
 }
