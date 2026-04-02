@@ -6,6 +6,7 @@
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QJsonArray>
+#include <QMessageBox>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -46,6 +47,11 @@ void MainWindow::onConnected() {
 void MainWindow::onDataReceived(const QByteArray &data)
 {
     QString raw = QString::fromUtf8(data);
+
+    if (raw.startsWith("OK|ADD_USER")) {
+        addMessage("Система", "Пользователь добавлен в чат", false);
+        return;
+    }
 
     if (raw.startsWith("OK|CHANGE_CHAT_NAME")) {
         QMessageBox::information(this, "Успех", "Название чата изменено");

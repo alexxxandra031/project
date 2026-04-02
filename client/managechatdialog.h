@@ -19,6 +19,9 @@ private slots:
     void onAddUserClicked();
     void onDataReceived(const QByteArray &data);
     void loadParticipants();
+    void showContextMenu(const QPoint &pos);
+    void onRemoveUser(const QString &username);
+    void onFindUserClicked();
 
 private:
     int m_chatId;

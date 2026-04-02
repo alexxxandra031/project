@@ -1,6 +1,8 @@
 #include "clientmanager.h"
 #include <QDebug>
 #include "crypto.h"
+#include <QJsonDocument>
+#include <QJsonObject>
 
 ClientManager* ClientManager::getInstance() {
     static ClientManager instance;
@@ -51,12 +53,15 @@ void ClientManager::onReadyRead() {
     QByteArray data = m_socket->readAll();
 
     if (data.startsWith("NEW_MESSAGE|")) {
-        QList<QByteArray> parts = data.split('|');
-        if (parts.size() >= 4) {
-            QByteArray encryptedMessage = parts[3];
-            QByteArray decryptedMessage = Crypto::encryptDecrypt(encryptedMessage, m_secretKey);
-
-            QByteArray result = "NEW_MESSAGE|" + parts[1] + "|" + parts[2] + decryptedMessage;
+        QByteArray jsonPart = data.mid(12);
+        QJsonDocument doc = QJsonDocument::fromJson(jsonPart);
+        if (doc.isObject()) {
+            QJsonObject obj = doc.object();
+            QString encryptedMessage = obj["message"].toString();
+            QByteArray decryptedMessage = Crypto::encryptDecrypt(encryptedMessage.toUtf8(), m_secretKey);
+            obj["message"] = QString::fromUtf8(decryptedMessage);
+            QJsonDocument newDoc(obj);
+            QByteArray result = "NEW_MESSAGE|" + newDoc.toJson(QJsonDocument::Compact);
             emit dataReceived(result);
         } else {
             emit dataReceived(data);

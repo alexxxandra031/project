@@ -26,6 +26,8 @@ set(PROJECT_SOURCES
     crypto.h
     managechatdialog.h
     managechatdialog.cpp
+    finduserdialog.h
+    finduserdialog.cpp
 )
 
 add_executable(client ${PROJECT_SOURCES})

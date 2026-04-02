@@ -5,6 +5,12 @@
 #include <QJsonArray>
 #include <QMenu>
 #include <QAction>
+void ManageChatDialog::onFindUserClicked()
+{
+    FindUserDialog dialog(m_chatId, this);
+    dialog.exec();
+    loadParticipants(); // обновим список участников на случай добавления
+}
 
 ManageChatDialog::ManageChatDialog(int chatId, const QString &chatName, QWidget *parent)
     : QDialog(parent), m_chatId(chatId), m_chatName(chatName)
@@ -27,7 +33,12 @@ ManageChatDialog::ManageChatDialog(int chatId, const QString &chatName, QWidget 
     mainLayout->addLayout(btnLayout);
 
     m_participantsList->setContextMenuPolicy(Qt::CustomContextMenu);
+    m_findButton = new QPushButton("Поиск пользователей", this);
 
+    btnLayout->addWidget(m_findButton);
+
+    connect(m_findButton, &QPushButton::clicked,
+            this, &ManageChatDialog::onFindUserClicked);
     connect(m_participantsList, &QListWidget::customContextMenuRequested,
             this, &ManageChatDialog::showContextMenu);
     connect(m_addButton, &QPushButton::clicked,
@@ -119,4 +130,11 @@ void ManageChatDialog::onRemoveUser(const QString &username)
     if (reply == QMessageBox::Yes) {
         ClientManager::getInstance()->sendSystemMessage(QString("REMOVE_USER|%1|%2").arg(m_chatId).arg(username));
     }
+}
+
+void ManageChatDialog::onFindUserClicked()
+{
+    FindUserDialog dialog(m_chatId, this);
+    dialog.exec();
+    loadParticipants();
 }
