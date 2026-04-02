@@ -177,13 +177,10 @@ void MainWindow::onDataReceived(const QByteArray &data)
             QJsonObject obj = doc.object();
             QString sender = obj["username"].toString();
             QString message = obj["message"].toString();
-
-            // Игнорируем сообщения, отправленные самим собой (сервер возвращает их обратно)
             QString currentUser = ClientManager::getInstance()->username();
             if (sender == currentUser) {
                 return;
             }
-
             addMessage(sender, message, false);
         }
         return;

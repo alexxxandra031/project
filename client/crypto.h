@@ -12,8 +12,15 @@ public:
         for (int i = 0; i < result.size(); ++i) {
             result[i] = result[i] ^ key_hash[i % key_hash.size()];
         }
-
         return result;
+    }
+
+    static QByteArray toBase64(const QByteArray &data) {
+        return data.toBase64();
+    }
+
+    static QByteArray fromBase64(const QByteArray &data) {
+        return QByteArray::fromBase64(data);
     }
 };
 

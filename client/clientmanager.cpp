@@ -57,8 +57,9 @@ void ClientManager::onReadyRead() {
         QJsonDocument doc = QJsonDocument::fromJson(jsonPart);
         if (doc.isObject()) {
             QJsonObject obj = doc.object();
-            QString encryptedMessage = obj["message"].toString();
-            QByteArray decryptedMessage = Crypto::encryptDecrypt(encryptedMessage.toUtf8(), m_secretKey);
+            QString base64Message = obj["message"].toString();
+            QByteArray encryptedMessage = Crypto::fromBase64(base64Message.toUtf8());
+            QByteArray decryptedMessage = Crypto::encryptDecrypt(encryptedMessage, m_secretKey);
             obj["message"] = QString::fromUtf8(decryptedMessage);
             QJsonDocument newDoc(obj);
             QByteArray result = "NEW_MESSAGE|" + newDoc.toJson(QJsonDocument::Compact);
@@ -97,9 +98,10 @@ void ClientManager::sendChatMessage(const QString &chatId, const QByteArray &mes
     }
 
     QByteArray encryptedMessage = Crypto::encryptDecrypt(message, m_secretKey);
+    QByteArray base64Message = Crypto::toBase64(encryptedMessage);
 
     QString command = "SEND|" + chatId + "|";
-    QByteArray fullCommand  = command.toUtf8() + encryptedMessage;
+    QByteArray fullCommand = command.toUtf8() + base64Message;
 
     m_socket->write(fullCommand);
     m_socket->flush();
