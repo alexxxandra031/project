@@ -2,6 +2,8 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "managechatdialog.h"
+#include "authwindow.h"
+#include <QApplication>
 #include <QInputDialog>
 #include <QJsonDocument>
 #include <QJsonObject>
@@ -28,8 +30,6 @@ MainWindow::MainWindow(QWidget *parent)
             this, &MainWindow::onCreateChatClicked);
     connect(ui->pushButton_manageChat, &QPushButton::clicked,
             this, &MainWindow::onManageChatClicked);
-    connect(ui->pushButton_leaveChat, &QPushButton::clicked,
-            this, &MainWindow::onLeaveChatClicked);
     connect(ui->pushButton_renameChat, &QPushButton::clicked,
             this, &MainWindow::onRenameChatClicked);
     connect(ui->pushButton_logout, &QPushButton::clicked,
@@ -172,37 +172,20 @@ void MainWindow::onDataReceived(const QByteArray &data)
 
     if (raw.startsWith("NEW_MESSAGE|")) {
         QString jsonPart = raw.mid(12);
-        QString sender;
-        QString message;
         QJsonDocument doc = QJsonDocument::fromJson(jsonPart.toUtf8());
         if (doc.isObject()) {
             QJsonObject obj = doc.object();
-            sender = obj["username"].toString();
-            message = obj["message"].toString();
-        }
+            QString sender = obj["username"].toString();
+            QString message = obj["message"].toString();
 
-        bool isReadable = true;
-        for (QChar ch : message) {
-            if (ch.unicode() < 32 && !ch.isSpace()) {
-                isReadable = false;
-                break;
+            // Игнорируем сообщения, отправленные самим собой (сервер возвращает их обратно)
+            QString currentUser = ClientManager::getInstance()->username();
+            if (sender == currentUser) {
+                return;
             }
+
+            addMessage(sender, message, false);
         }
-
-        if (!isReadable) {
-            addMessage("⚠️ Система", ("Зашифрованное сообщение: неверный ключ (" + raw + ")"), false);
-            return;
-        }
-
-
-        int colonIndex = raw.indexOf(": ");
-
-        if (colonIndex == -1) {
-            addMessage("⚠️ Система", raw, false);
-            return;
-        }
-
-        addMessage(sender, message, false);
         return;
     }
 }

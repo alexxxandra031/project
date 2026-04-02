@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>700</width>
+    <width>812</width>
     <height>600</height>
    </rect>
   </property>
@@ -114,15 +114,12 @@
       </item>
      </layout>
     </item>
-	<item>
- <layout class="QHBoxLayout" name="horizontalLayout_chatSelect">
-  <item>
-   <widget class="QComboBox" name="comboBox_chats">
-    <property name="minimumWidth">
-     <number>200</number>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">
+    <item>
+     <layout class="QHBoxLayout" name="horizontalLayout_chatSelect">
+      <item>
+       <widget class="QComboBox" name="comboBox_chats">
+        <property name="styleSheet">
+         <string notr="true">
       QComboBox {
           background-color: white;
           border-radius: 15px;
@@ -130,19 +127,16 @@
           font-size: 12px;
       }
      </string>
-    </property>
-   </widget>
-  </item>
-  <item>
-   <widget class="QPushButton" name="pushButton_createChat">
-    <property name="text">
-     <string>➕ Создать чат</string>
-    </property>
-    <property name="cursor">
-     <cursorShape>PointingHandCursor</cursorShape>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="pushButton_createChat">
+        <property name="cursor">
+         <cursorShape>PointingHandCursor</cursorShape>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">
       QPushButton {
           background: rgba(255,255,255,0.2);
           border: 1px solid rgba(255,255,255,0.5);
@@ -155,19 +149,19 @@
           background: rgba(255,255,255,0.3);
       }
      </string>
-    </property>
-   </widget>
-  </item>
-  <item>
- <widget class="QPushButton" name="pushButton_manageChat">
-  <property name="text">
-   <string>👥 Участники</string>
-  </property>
-  <property name="cursor">
-   <cursorShape>PointingHandCursor</cursorShape>
-  </property>
-  <property name="styleSheet">
-   <string notr="true">
+        </property>
+        <property name="text">
+         <string>➕ Создать чат</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="pushButton_manageChat">
+        <property name="cursor">
+         <cursorShape>PointingHandCursor</cursorShape>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">
     QPushButton {
         background: rgba(255,255,255,0.2);
         border: 1px solid rgba(255,255,255,0.5);
@@ -180,19 +174,19 @@
         background: rgba(255,255,255,0.3);
     }
    </string>
-  </property>
- </widget>
-</item>
-<item>
- <widget class="QPushButton" name="pushButton_leaveChat">
-  <property name="text">
-   <string>🚪 Покинуть чат</string>
-  </property>
-  <property name="cursor">
-   <cursorShape>PointingHandCursor</cursorShape>
-  </property>
-  <property name="styleSheet">
-   <string notr="true">
+        </property>
+        <property name="text">
+         <string>👥 Участники</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="pushButton_renameChat">
+        <property name="cursor">
+         <cursorShape>PointingHandCursor</cursorShape>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">
     QPushButton {
         background: rgba(255,255,255,0.2);
         border: 1px solid rgba(255,255,255,0.5);
@@ -205,19 +199,19 @@
         background: rgba(255,255,255,0.3);
     }
    </string>
-  </property>
- </widget>
-</item>
-<item>
- <widget class="QPushButton" name="pushButton_renameChat">
-  <property name="text">
-   <string>✏️ Переименовать</string>
-  </property>
-  <property name="cursor">
-   <cursorShape>PointingHandCursor</cursorShape>
-  </property>
-  <property name="styleSheet">
-   <string notr="true">
+        </property>
+        <property name="text">
+         <string>✏️ Переименовать</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="pushButton_logout">
+        <property name="cursor">
+         <cursorShape>PointingHandCursor</cursorShape>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">
     QPushButton {
         background: rgba(255,255,255,0.2);
         border: 1px solid rgba(255,255,255,0.5);
@@ -230,40 +224,18 @@
         background: rgba(255,255,255,0.3);
     }
    </string>
-  </property>
- </widget>
-</item>
-<item>
- <widget class="QPushButton" name="pushButton_logout">
-  <property name="text">
-   <string>🚪 Выйти</string>
-  </property>
-  <property name="cursor">
-   <cursorShape>PointingHandCursor</cursorShape>
-  </property>
-  <property name="styleSheet">
-   <string notr="true">
-    QPushButton {
-        background: rgba(255,255,255,0.2);
-        border: 1px solid rgba(255,255,255,0.5);
-        border-radius: 15px;
-        padding: 5px 10px;
-        color: white;
-        font-weight: bold;
-    }
-    QPushButton:hover {
-        background: rgba(255,255,255,0.3);
-    }
-   </string>
-  </property>
- </widget>
-</item>
- </layout>
-</item>
+        </property>
+        <property name="text">
+         <string>🚪 Выйти</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
     <item>
      <widget class="QListWidget" name="listWidget_chat">
-		 <property name="styleSheet">
-		  <string notr="true">
+      <property name="styleSheet">
+       <string notr="true">
 		   QListWidget {
 			   background-color: white;
 			   border: none;
@@ -276,14 +248,14 @@
 			   background-color: transparent;
 		   }
 		  </string>
-		 </property>
-		 <property name="verticalScrollMode" stdset="0">
-		  <enum>QAbstractItemView::ScrollPerPixel</enum>
-		 </property>
-		 <property name="horizontalScrollBarPolicy">
-		  <enum>Qt::ScrollBarAlwaysOff</enum>
-		 </property>
-		</widget>
+      </property>
+      <property name="horizontalScrollBarPolicy">
+       <enum>Qt::ScrollBarPolicy::ScrollBarAlwaysOff</enum>
+      </property>
+      <property name="verticalScrollMode">
+       <enum>QAbstractItemView::ScrollMode::ScrollPerPixel</enum>
+      </property>
+     </widget>
     </item>
     <item>
      <layout class="QHBoxLayout" name="horizontalLayout_bottom">
@@ -355,7 +327,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>700</width>
+     <width>812</width>
      <height>21</height>
     </rect>
    </property>

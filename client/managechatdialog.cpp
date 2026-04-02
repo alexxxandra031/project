@@ -1,3 +1,4 @@
+#include "finduserdialog.h"
 #include "managechatdialog.h"
 #include <QMessageBox>
 #include <QJsonDocument>
@@ -5,12 +6,6 @@
 #include <QJsonArray>
 #include <QMenu>
 #include <QAction>
-void ManageChatDialog::onFindUserClicked()
-{
-    FindUserDialog dialog(m_chatId, this);
-    dialog.exec();
-    loadParticipants(); // обновим список участников на случай добавления
-}
 
 ManageChatDialog::ManageChatDialog(int chatId, const QString &chatName, QWidget *parent)
     : QDialog(parent), m_chatId(chatId), m_chatName(chatName)

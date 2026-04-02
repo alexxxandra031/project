@@ -30,6 +30,7 @@ private:
     QLineEdit *m_userNameEdit;
     QPushButton *m_addButton;
     QPushButton *m_closeButton;
+    QPushButton *m_findButton;
 };
 
 #endif // MANAGECHATDIALOG_H

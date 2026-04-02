@@ -15,7 +15,6 @@ public:
 
 private slots:
     void onSearchClicked();
-    void onAddUser(const QString &username);
     void onDataReceived(const QByteArray &data);
 
 private:

@@ -26,6 +26,13 @@ FindUserDialog::FindUserDialog(int chatId, QWidget *parent)
     connect(m_closeButton, &QPushButton::clicked, this, &QDialog::accept);
     connect(ClientManager::getInstance(), &ClientManager::dataReceived,
             this, &FindUserDialog::onDataReceived);
+
+    connect(m_resultsList, &QListWidget::itemDoubleClicked, this, [this](QListWidgetItem *item) {
+        QString username = item->data(Qt::UserRole).toString();
+        ClientManager::getInstance()->sendSystemMessage(QString("ADD_USER|%1|%2").arg(m_chatId).arg(username));
+        QMessageBox::information(this, "Успех", "Запрос на добавление отправлен");
+        accept();
+    });
 }
 
 void FindUserDialog::onSearchClicked()
@@ -61,12 +68,4 @@ void FindUserDialog::onDataReceived(const QByteArray &data)
         else
             QMessageBox::warning(this, "Ошибка", "Ошибка поиска: " + error);
     }
-}
-
-void FindUserDialog::onAddUser(const QString &username)
-{
-    ClientManager::getInstance()->sendSystemMessage(QString("ADD_USER|%1|%2").arg(m_chatId).arg(username));
-    QMessageBox::information(this, "Успех", "Запрос на добавление отправлен");
-    // Можно закрыть диалог или очистить список
-    accept();
 }
