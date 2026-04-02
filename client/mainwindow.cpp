@@ -1,6 +1,9 @@
 #include "adminwindow.h"
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include <QJsonDocument>
+#include <QJsonObject>
+#include <QJsonArray>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -26,31 +29,26 @@ MainWindow::~MainWindow()
 void MainWindow::onConnected() {
     addMessage("Система", "Успешное подключение к серверу!", false);
 
-    ClientManager::getInstance()->sendSystemMessage("HISTORY|general");
+    ClientManager::getInstance()->sendSystemMessage("HISTORY|1");
 }
 
 void MainWindow::onDataReceived(const QByteArray &data)
 {
     QString raw = QString::fromUtf8(data);
 
-    if (raw.startsWith("OK|HISTORY")) {
-        QString current_user = ClientManager::getInstance()->username();
-
-        QStringList parts = raw.split('|');
-        if (parts.size() >= 4) {
-            QStringList messages  = parts[3].split(';');
-            for (const QString &msg : messages ) {
-                if (msg.isEmpty()) continue;
-                int colonPos = msg.indexOf(':');
-                if (colonPos != -1) {
-                    QString sender = msg.left(colonPos);
-                    QString message = msg.mid(colonPos + 1);
-
-                    addMessage(sender, message, current_user == sender);
-                }
+    if (raw.startsWith("OK|HISTORY|")) {
+        QString jsonData = raw.mid(11);
+        QJsonDocument doc = QJsonDocument::fromJson(jsonData.toUtf8());
+        if (doc.isArray()) {
+            QString current_user = ClientManager::getInstance()->username();
+            QJsonArray messages = doc.array();
+            for (const QJsonValue &val : messages) {
+                QJsonObject obj = val.toObject();
+                QString sender = obj["user"].toString();
+                QString message = obj["message"].toString();
+                addMessage(sender, message, current_user == sender);
             }
         }
-
         return;
     }
 
@@ -73,14 +71,13 @@ void MainWindow::onDataReceived(const QByteArray &data)
     }
 
     if (raw.startsWith("NEW_MESSAGE|")) {
-        QStringList parts = raw.split('|');
-        QString sender;
-        QString message;
-        if (parts.size() >= 4) {
-            sender = parts[2];
-            message = parts[3];
+        QString jsonPart = raw.mid(12);
+        QJsonDocument doc = QJsonDocument::fromJson(jsonPart.toUtf8());
+        if (doc.isObject()) {
+            QJsonObject obj = doc.object();
+            QString sender = obj["username"].toString();
+            QString message = obj["message"].toString();
         }
-
 
         bool isReadable = true;
         for (QChar ch : message) {
