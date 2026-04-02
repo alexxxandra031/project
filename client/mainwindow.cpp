@@ -43,14 +43,14 @@ void MainWindow::onDataReceived(const QByteArray &data)
     QString raw = QString::fromUtf8(data);
 
     if (raw.startsWith("OK|CREATE_CHAT|")) {
-        int chatId = raw.mid(14).toInt();
+        int chatId = raw.mid(15).toInt();
         // Запрашиваем информацию о новом чате
         ClientManager::getInstance()->sendSystemMessage(QString("CHAT_INFO|%1").arg(chatId));
         return;
     }
 
     if (raw.startsWith("OK|CHAT_INFO|")) {
-        QString jsonData = raw.mid(11);
+        QString jsonData = raw.mid(13);
         QJsonDocument doc = QJsonDocument::fromJson(jsonData.toUtf8());
         if (doc.isObject()) {
             QJsonObject obj = doc.object();
@@ -63,7 +63,7 @@ void MainWindow::onDataReceived(const QByteArray &data)
     }
 
     if (raw.startsWith("OK|USER_INFO|")) {
-        QString jsonData = raw.mid(12);
+        QString jsonData = raw.mid(13);
         QJsonDocument doc = QJsonDocument::fromJson(jsonData.toUtf8());
         if (doc.isObject()) {
             QJsonObject obj = doc.object();

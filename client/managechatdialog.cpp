@@ -41,7 +41,7 @@ void ManageChatDialog::onDataReceived(const QByteArray &data)
 {
     QString raw = QString::fromUtf8(data);
     if (raw.startsWith("OK|CHAT_INFO|")) {
-        QString jsonData = raw.mid(11);
+        QString jsonData = raw.mid(13);
         QJsonDocument doc = QJsonDocument::fromJson(jsonData.toUtf8());
         if (doc.isObject()) {
             QJsonObject obj = doc.object();
