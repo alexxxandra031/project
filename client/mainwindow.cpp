@@ -2,6 +2,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "managechatdialog.h"
+#include <QInputDialog>
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QJsonArray>
@@ -28,6 +29,8 @@ MainWindow::MainWindow(QWidget *parent)
             this, &MainWindow::onManageChatClicked);
     connect(ui->pushButton_leaveChat, &QPushButton::clicked,
             this, &MainWindow::onLeaveChatClicked);
+    connect(ui->pushButton_renameChat, &QPushButton::clicked,
+            this, &MainWindow::onRenameChatClicked);
 }
 
 MainWindow::~MainWindow()
@@ -43,6 +46,18 @@ void MainWindow::onConnected() {
 void MainWindow::onDataReceived(const QByteArray &data)
 {
     QString raw = QString::fromUtf8(data);
+
+    if (raw.startsWith("OK|CHANGE_CHAT_NAME")) {
+        QMessageBox::information(this, "Успех", "Название чата изменено");
+        // Обновляем название в комбобоксе
+        int idx = ui->comboBox_chats->currentIndex();
+        if (idx != -1) {
+            QString newName = ui->comboBox_chats->currentText();
+            ui->comboBox_chats->setItemText(idx, newName);
+            m_chats[m_currentChatId] = newName;
+        }
+        return;
+    }
 
     if (raw.startsWith("OK|LEAVE_CHAT")) {
         QMessageBox::information(this, "Успех", "Вы покинули чат");
@@ -111,6 +126,10 @@ void MainWindow::onDataReceived(const QByteArray &data)
             addMessage("⚠️ Система", "Не авторизован. Перезайдите.", false);
         } else if (errorType == "SEND_FAILED") {
             addMessage("⚠️ Система", "Не удалось отправить сообщение.", false);
+        } else if (errorType == "CANNOT_RENAME_GLOBAL_CHAT") {
+            QMessageBox::warning(this, "Ошибка", "Нельзя переименовать глобальный чат");
+        } else if (errorType == "CHANGE_NAME_FAILED") {
+            QMessageBox::warning(this, "Ошибка", "Не удалось изменить название чата");
         } else {
             addMessage("⚠️ Система", "Ошибка: " + errorType, false);
         }
@@ -277,5 +296,22 @@ void MainWindow::onLeaveChatClicked()
         QMessageBox::Yes | QMessageBox::No);
     if (reply == QMessageBox::Yes) {
         ClientManager::getInstance()->sendSystemMessage(QString("LEAVE_CHAT|%1").arg(m_currentChatId));
+    }
+}
+
+void MainWindow::onRenameChatClicked()
+{
+    if (m_currentChatId == 1) {
+        QMessageBox::warning(this, "Внимание", "Нельзя переименовать общий чат");
+        return;
+    }
+    bool ok;
+    QString newName = QInputDialog::getText(this, "Переименование чата",
+                                            "Введите новое название чата:",
+                                            QLineEdit::Normal,
+                                            ui->comboBox_chats->currentText(),
+                                            &ok);
+    if (ok && !newName.isEmpty()) {
+        ClientManager::getInstance()->sendSystemMessage(QString("CHANGE_CHAT_NAME|%1|%2").arg(m_currentChatId).arg(newName));
     }
 }

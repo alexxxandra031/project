@@ -32,6 +32,8 @@ private slots:
     void onManageChatClicked();
     void onLeaveChatClicked();
 
+    void onRenameChatClicked();
+
 private:
     Ui::MainWindow *ui;
     bool m_isAdmin;
