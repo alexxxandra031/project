@@ -24,10 +24,11 @@ set(PROJECT_SOURCES
     adminwindow.cpp
     adminwindow.ui
     crypto.h
+    managechatdialog.h
+    managechatdialog.cpp
 )
 
-add_executable(client ${PROJECT_SOURCES}
-    managechatdialog.h managechatdialog.cpp)
+add_executable(client ${PROJECT_SOURCES})
 target_link_libraries(client PRIVATE
     Qt${QT_VERSION_MAJOR}::Widgets
     Qt${QT_VERSION_MAJOR}::Network

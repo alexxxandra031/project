@@ -29,6 +29,8 @@ private slots:
     void onCreateChatClicked();
     void onChatSelected(int index);
 
+    void onManageChatClicked();
+
 private:
     Ui::MainWindow *ui;
     bool m_isAdmin;

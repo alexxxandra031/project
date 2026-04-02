@@ -1,6 +1,7 @@
 #include "adminwindow.h"
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include "managechatdialog.h"
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QJsonArray>
@@ -13,16 +14,18 @@ MainWindow::MainWindow(QWidget *parent)
 
     ClientManager *client = ClientManager::getInstance();
 
-    connect(client, &ClientManager::connected, this, &MainWindow::onConnected);
-    connect(client, &ClientManager::dataReceived, this, &MainWindow::onDataReceived);
-    connect(ui->lineEdit_message,
-            &QLineEdit::returnPressed,
-            this,
-            &MainWindow::on_pushButton_send_clicked);
+    connect(client, &ClientManager::connected,
+            this, &MainWindow::onConnected);
+    connect(client, &ClientManager::dataReceived,
+            this, &MainWindow::onDataReceived);
+    connect(ui->lineEdit_message, &QLineEdit::returnPressed,
+            this, &MainWindow::on_pushButton_send_clicked);
     connect(ui->comboBox_chats, QOverload<int>::of(&QComboBox::currentIndexChanged),
             this, &MainWindow::onChatSelected);
     connect(ui->pushButton_createChat, &QPushButton::clicked,
             this, &MainWindow::onCreateChatClicked);
+    connect(ui->pushButton_manageChat, &QPushButton::clicked,
+            this, &MainWindow::onManageChatClicked);
 }
 
 MainWindow::~MainWindow()
@@ -244,4 +247,11 @@ void MainWindow::onChatSelected(int index) {
     ui->listWidget_chat->clear();
     // Загружаем историю выбранного чата
     ClientManager::getInstance()->sendSystemMessage(QString("HISTORY|%1").arg(chatId));
+}
+
+void MainWindow::onManageChatClicked()
+{
+    QString chatName = ui->comboBox_chats->currentText();
+    ManageChatDialog dialog(m_currentChatId, chatName, this);
+    dialog.exec();
 }
