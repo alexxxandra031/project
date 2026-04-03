@@ -59,6 +59,7 @@ private:
 
     // Очередь команд для последовательной отправки
     QQueue<QString> m_commandQueue;
+    QQueue<int> m_pendingChatInfoRequests;
     QTimer *m_commandTimer;
 };
 #endif // MAINWINDOW_H
