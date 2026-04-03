@@ -37,7 +37,6 @@ private slots:
     void onLeaveChatClicked();
 
     void onRenameChatClicked();
-    void onLogoutClicked();
 
     void onRefreshTimer();
     void processCommandQueue();

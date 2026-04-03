@@ -32,8 +32,8 @@ MainWindow::MainWindow(QWidget *parent)
             this, &MainWindow::onManageChatClicked);
     connect(ui->pushButton_renameChat, &QPushButton::clicked,
             this, &MainWindow::onRenameChatClicked);
-    connect(ui->pushButton_logout, &QPushButton::clicked,
-            this, &MainWindow::onLogoutClicked);
+    connect(ui->pushButton_leaveChat, &QPushButton::clicked,
+            this, &MainWindow::onLeaveChatClicked);
 
     // Таймер для периодического обновления списка чатов
     m_refreshTimer = new QTimer(this);
@@ -100,6 +100,17 @@ void MainWindow::onDataReceived(const QByteArray &data)
 {
     QString raw = QString::fromUtf8(data);
 
+    if (raw.startsWith("OK|CHANGE_CHAT_NAME")) {
+            QMessageBox::information(this, "Успех", "Название чата изменено");
+            m_pendingRenameName.clear(); // Больше не пытаемся менять текст вручную
+
+            // Отправляем запрос на получение свежих данных чата из БД.
+            // Наш новый обработчик CHAT_INFO автоматически обновит комбобокс и заголовок.
+            m_pendingChatInfoRequests.enqueue(m_currentChatId);
+            enqueueCommand(QString("CHAT_INFO|%1").arg(m_currentChatId));
+            return;
+        }
+
     if (raw.startsWith("OK|LOGOUT")) {
             m_refreshTimer->stop();
             m_commandTimer->stop();
@@ -132,11 +143,18 @@ void MainWindow::onDataReceived(const QByteArray &data)
         }
 
     if (raw.startsWith("OK|LEAVE_CHAT")) {
-        QMessageBox::information(this, "Успех", "Вы покинули чат");
-        m_currentChatId = 1;
-        requestUserInfo();
-        return;
-    }
+            QMessageBox::information(this, "Успех", "Вы покинули чат");
+
+            // Программно переключаем комбобокс на Общий чат (ID 1).
+            // Это автоматически вызовет onChatSelected, который очистит историю и запросит новую.
+            int globalIdx = ui->comboBox_chats->findData(1);
+            if (globalIdx != -1) {
+                ui->comboBox_chats->setCurrentIndex(globalIdx);
+            }
+
+            requestUserInfo(); // Обновляем список чатов, чтобы удаленный чат исчез из меню
+            return;
+        }
 
     if (raw.startsWith("OK|CREATE_CHAT|")) {
         int chatId = raw.mid(15).toInt();
@@ -477,12 +495,3 @@ void MainWindow::onRenameChatClicked()
     }
 }
 
-void MainWindow::onLogoutClicked()
-{
-    QMessageBox::StandardButton reply = QMessageBox::question(this, "Выход",
-        "Вы уверены, что хотите выйти из аккаунта?",
-        QMessageBox::Yes | QMessageBox::No);
-    if (reply == QMessageBox::Yes) {
-        ClientManager::getInstance()->sendSystemMessage("LOGOUT");
-    }
-}

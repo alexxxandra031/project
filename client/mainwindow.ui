@@ -206,7 +206,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QPushButton" name="pushButton_logout">
+       <widget class="QPushButton" name="pushButton_leaveChat">
         <property name="cursor">
          <cursorShape>PointingHandCursor</cursorShape>
         </property>
@@ -226,7 +226,7 @@
    </string>
         </property>
         <property name="text">
-         <string>🚪 Выйти</string>
+         <string>🚪 Выйти из чата</string>
         </property>
        </widget>
       </item>
