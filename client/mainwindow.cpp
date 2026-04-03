@@ -35,10 +35,15 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->pushButton_logout, &QPushButton::clicked,
             this, &MainWindow::onLogoutClicked);
 
-    // Таймер для периодического обновления списка чатов (синхронизация между клиентами)
+    // Таймер для периодического обновления списка чатов
     m_refreshTimer = new QTimer(this);
     connect(m_refreshTimer, &QTimer::timeout, this, &MainWindow::onRefreshTimer);
-    m_refreshTimer->start(5000); // каждые 5 секунд
+    m_refreshTimer->start(10000); // каждые 10 секунд
+
+    // Таймер для очереди команд — отправка с задержкой чтобы не склеивались
+    m_commandTimer = new QTimer(this);
+    m_commandTimer->setInterval(100); // 100мс между командами
+    connect(m_commandTimer, &QTimer::timeout, this, &MainWindow::processCommandQueue);
 
     requestUserInfo();
 }
@@ -46,6 +51,24 @@ MainWindow::MainWindow(QWidget *parent)
 MainWindow::~MainWindow()
 {
     delete ui;
+}
+
+void MainWindow::enqueueCommand(const QString &cmd)
+{
+    m_commandQueue.enqueue(cmd);
+    if (!m_commandTimer->isActive()) {
+        m_commandTimer->start();
+    }
+}
+
+void MainWindow::processCommandQueue()
+{
+    if (m_commandQueue.isEmpty()) {
+        m_commandTimer->stop();
+        return;
+    }
+    QString cmd = m_commandQueue.dequeue();
+    ClientManager::getInstance()->sendSystemMessage(cmd);
 }
 
 void MainWindow::requestUserInfo()
@@ -68,9 +91,8 @@ void MainWindow::updateChatTitle()
 
 void MainWindow::onRefreshTimer()
 {
-    // Периодически запрашиваем USER_INFO для синхронизации списка чатов
     if (ClientManager::getInstance()->isConnected()) {
-        ClientManager::getInstance()->sendSystemMessage("USER_INFO");
+        requestUserInfo();
     }
 }
 
@@ -80,8 +102,9 @@ void MainWindow::onDataReceived(const QByteArray &data)
 
     if (raw.startsWith("OK|LOGOUT")) {
         m_refreshTimer->stop();
+        m_commandTimer->stop();
+        m_commandQueue.clear();
         QMessageBox::information(this, "Успех", "Вы вышли из системы");
-        // НЕ отключаемся от сервера — просто закрываем окно и показываем авторизацию
         ClientManager::getInstance()->setUserName("");
         m_chats.clear();
         m_updatingChats = true;
@@ -94,7 +117,7 @@ void MainWindow::onDataReceived(const QByteArray &data)
         if (auth.exec() == QDialog::Accepted) {
             ClientManager::getInstance()->setSecretKey(auth.getCryptoKey());
             setAdminRole(auth.isAdmin());
-            m_refreshTimer->start(5000);
+            m_refreshTimer->start(10000);
             requestUserInfo();
             this->show();
         } else {
@@ -141,25 +164,25 @@ void MainWindow::onDataReceived(const QByteArray &data)
     }
 
     if (raw.startsWith("OK|CHAT_INFO|")) {
-        // Извлекаем имя чата из ответа CHAT_INFO и обновляем comboBox
         QString jsonData = raw.mid(13);
         QJsonDocument doc = QJsonDocument::fromJson(jsonData.toUtf8());
         if (doc.isObject()) {
             QJsonObject obj = doc.object();
-            QString chatName = obj["chatName"].toString();
-            // Ищем chatId по контексту — обновляем имя если оно отличается
-            // Этот ответ приходит когда мы запрашиваем CHAT_INFO для конкретного чата
-            // Обновим имя текущего чата если оно изменилось
+            QString chatName = obj["chatName"].toString().trimmed();
             if (!chatName.isEmpty()) {
-                for (int i = 0; i < ui->comboBox_chats->count(); ++i) {
-                    int cid = ui->comboBox_chats->itemData(i).toInt();
-                    if (cid == m_currentChatId) {
-                        if (m_chats[cid] != chatName && cid != 1) {
-                            m_chats[cid] = chatName;
-                            ui->comboBox_chats->setItemText(i, chatName);
-                            updateChatTitle();
+                // Обновляем имя для текущего выбранного чата
+                // (CHAT_INFO запрашивается только при выборе чата)
+                if (m_chats.contains(m_currentChatId) && m_currentChatId != 1) {
+                    if (m_chats[m_currentChatId] != chatName) {
+                        m_chats[m_currentChatId] = chatName;
+                        // Обновляем comboBox
+                        for (int i = 0; i < ui->comboBox_chats->count(); ++i) {
+                            if (ui->comboBox_chats->itemData(i).toInt() == m_currentChatId) {
+                                ui->comboBox_chats->setItemText(i, chatName);
+                                break;
+                            }
                         }
-                        break;
+                        updateChatTitle();
                     }
                 }
             }
@@ -174,14 +197,13 @@ void MainWindow::onDataReceived(const QByteArray &data)
             QJsonObject obj = doc.object();
             QJsonArray chatsArray = obj["chats"].toArray();
 
-            // Собираем новый список чатов
             QMap<int, QString> newChats;
             newChats[1] = "Global Chat";
 
             for (const QJsonValue &val : chatsArray) {
                 int chatId = val.toInt();
                 if (chatId == 1) continue;
-                // Сохраняем старое имя если было, иначе дефолтное
+                // Сохраняем старое имя если было
                 if (m_chats.contains(chatId)) {
                     newChats[chatId] = m_chats[chatId];
                 } else {
@@ -189,16 +211,28 @@ void MainWindow::onDataReceived(const QByteArray &data)
                 }
             }
 
-            // Проверяем изменился ли список
-            bool chatsChanged = (newChats.keys() != m_chats.keys());
+            // Проверяем изменился ли набор чатов
+            QList<int> oldKeys = m_chats.keys();
+            QList<int> newKeys = newChats.keys();
+            std::sort(oldKeys.begin(), oldKeys.end());
+            std::sort(newKeys.begin(), newKeys.end());
+            bool chatsChanged = (oldKeys != newKeys);
+
+            m_chats = newChats;
 
             if (chatsChanged) {
-                m_chats = newChats;
                 m_updatingChats = true;
                 ui->comboBox_chats->clear();
 
-                for (auto it = m_chats.begin(); it != m_chats.end(); ++it) {
-                    ui->comboBox_chats->addItem(it.value(), it.key());
+                // Сначала Global Chat
+                ui->comboBox_chats->addItem(m_chats[1], 1);
+
+                // Остальные чаты в порядке ID
+                QList<int> sortedKeys = m_chats.keys();
+                std::sort(sortedKeys.begin(), sortedKeys.end());
+                for (int key : sortedKeys) {
+                    if (key == 1) continue;
+                    ui->comboBox_chats->addItem(m_chats[key], key);
                 }
 
                 m_updatingChats = false;
@@ -209,18 +243,13 @@ void MainWindow::onDataReceived(const QByteArray &data)
                 } else {
                     m_currentChatId = 1;
                     ui->comboBox_chats->setCurrentIndex(0);
-                }
-            }
-
-            // Запрашиваем актуальные имена чатов с сервера
-            for (auto it = m_chats.begin(); it != m_chats.end(); ++it) {
-                if (it.key() != 1) {
+                    ui->listWidget_chat->clear();
                     ClientManager::getInstance()->sendSystemMessage(
-                        QString("CHAT_INFO|%1").arg(it.key()));
+                        QString("HISTORY|%1").arg(m_currentChatId));
                 }
             }
 
-            // Если это первая загрузка (чат пустой), загружаем историю
+            // Если чат пустой — загружаем историю (первый запуск)
             if (ui->listWidget_chat->count() == 0) {
                 ClientManager::getInstance()->sendSystemMessage(
                     QString("HISTORY|%1").arg(m_currentChatId));
@@ -263,10 +292,11 @@ void MainWindow::onDataReceived(const QByteArray &data)
             QMessageBox::warning(this, "Ошибка", "Не удалось выйти из системы");
         } else if (errorType == "CREATE_CHAT_FAILED") {
             QMessageBox::warning(this, "Ошибка", "Не удалось создать чат");
-        } else if (errorType == "ALREADY_AUTHORIZED") {
+        } else if (errorType == "ALREADY_AUTHORIZED" ||
+                   errorType == "NOT_IN_CHAT" ||
+                   errorType == "INVALID_FORMAT") {
             // Игнорируем
-        } else if (errorType == "NOT_IN_CHAT") {
-            // Игнорируем — может прийти при обновлении чатов
+            qDebug() << "[IGNORED ERROR]" << errorType;
         } else {
             addMessage("⚠️ Система", "Ошибка: " + errorType, false);
         }
@@ -393,7 +423,13 @@ void MainWindow::onChatSelected(int index) {
     m_currentChatId = chatId;
     ui->listWidget_chat->clear();
     updateChatTitle();
-    ClientManager::getInstance()->sendSystemMessage(QString("HISTORY|%1").arg(chatId));
+
+    // Запрашиваем имя чата (для синхронизации переименований) и историю
+    // Используем очередь чтобы не склеивались
+    if (chatId != 1) {
+        enqueueCommand(QString("CHAT_INFO|%1").arg(chatId));
+    }
+    enqueueCommand(QString("HISTORY|%1").arg(chatId));
 }
 
 void MainWindow::onManageChatClicked()

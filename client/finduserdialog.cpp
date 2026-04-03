@@ -9,7 +9,7 @@ FindUserDialog::FindUserDialog(int chatId, QWidget *parent)
     setMinimumSize(300, 400);
 
     m_searchEdit = new QLineEdit(this);
-    m_searchEdit->setPlaceholderText("Введите имя пользователя (пусто = все)...");
+    m_searchEdit->setPlaceholderText("Введите имя пользователя...");
     m_searchButton = new QPushButton("Найти", this);
     m_showAllButton = new QPushButton("Показать всех", this);
     m_resultsList = new QListWidget(this);
@@ -39,7 +39,7 @@ FindUserDialog::FindUserDialog(int chatId, QWidget *parent)
         QMessageBox::information(this, "Успех", "Запрос на добавление отправлен");
     });
 
-    // Сразу показываем всех пользователей
+    // Загружаем всех при открытии — используем пробел как wildcard
     onShowAllClicked();
 }
 
@@ -55,15 +55,15 @@ void FindUserDialog::onSearchClicked()
 
 void FindUserDialog::onShowAllClicked()
 {
-    // Отправляем поиск с пустым шаблоном — сервер ищет по LIKE '%%' что вернёт всех
-    ClientManager::getInstance()->sendSystemMessage("FIND_USERS|");
+    // Отправляем символ подчёркивания как минимальный wildcard
+    // Сервер делает LIKE '%_%' — найдёт всех с хотя бы 1 символом в имени
+    ClientManager::getInstance()->sendSystemMessage("FIND_USERS|_");
 }
 
 void FindUserDialog::onDataReceived(const QByteArray &data)
 {
     QString raw = QString::fromUtf8(data);
 
-    // Сервер возвращает: OK|FIND_USERS|user1,user2,user3
     if (raw.startsWith("OK|FIND_USERS|")) {
         QString csvData = raw.mid(14);
         QStringList usernames = csvData.split(',', Qt::SkipEmptyParts);
@@ -73,7 +73,7 @@ void FindUserDialog::onDataReceived(const QByteArray &data)
         for (const QString &username : usernames) {
             QString trimmed = username.trimmed();
             if (trimmed.isEmpty()) continue;
-            if (trimmed == currentUser) continue; // не показываем себя
+            if (trimmed == currentUser) continue;
             QListWidgetItem *item = new QListWidgetItem(trimmed, m_resultsList);
             item->setData(Qt::UserRole, trimmed);
         }

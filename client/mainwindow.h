@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include <QPushButton>
 #include <QTimer>
+#include <QQueue>
 #include "clientmanager.h"
 
 QT_BEGIN_NAMESPACE
@@ -39,6 +40,7 @@ private slots:
     void onLogoutClicked();
 
     void onRefreshTimer();
+    void processCommandQueue();
 
 private:
     Ui::MainWindow *ui;
@@ -46,6 +48,7 @@ private:
     bool m_updatingChats = false;
     void addMessage(const QString &sender, const QString &text, bool isOutgoing);
     void updateChatTitle();
+    void enqueueCommand(const QString &cmd);
 
     QString m_pendingRenameName;
 
@@ -53,5 +56,9 @@ private:
     QMap<int, QString> m_chats;
 
     QTimer *m_refreshTimer;
+
+    // Очередь команд для последовательной отправки
+    QQueue<QString> m_commandQueue;
+    QTimer *m_commandTimer;
 };
 #endif // MAINWINDOW_H
