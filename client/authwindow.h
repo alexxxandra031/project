@@ -23,7 +23,7 @@ private slots:
 private:
     Ui::AuthWindow *ui;
     bool m_isAdmin = false;
-    bool m_waitingForResponse = false;  // флаг ожидания ответа на auth-команду
+    bool m_waitingForResponse = false;
 
     QString m_pendingLogin;
     QString m_pendingPassword;

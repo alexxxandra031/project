@@ -6,6 +6,7 @@
 #include <QListWidget>
 #include <QPushButton>
 #include <QVBoxLayout>
+#include <QHBoxLayout>
 
 class FindUserDialog : public QDialog
 {
@@ -15,6 +16,7 @@ public:
 
 private slots:
     void onSearchClicked();
+    void onShowAllClicked();
     void onDataReceived(const QByteArray &data);
 
 private:
@@ -22,6 +24,7 @@ private:
     QLineEdit *m_searchEdit;
     QListWidget *m_resultsList;
     QPushButton *m_searchButton;
+    QPushButton *m_showAllButton;
     QPushButton *m_closeButton;
 };
 

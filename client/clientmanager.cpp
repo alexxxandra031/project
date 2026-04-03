@@ -3,6 +3,7 @@
 #include "crypto.h"
 #include <QJsonDocument>
 #include <QJsonObject>
+#include <QJsonArray>
 
 ClientManager* ClientManager::getInstance() {
     static ClientManager instance;
@@ -53,11 +54,8 @@ void ClientManager::sendSystemMessage(const QString &command) {
 }
 
 void ClientManager::onReadyRead() {
-    // Читаем все данные и обрабатываем возможные склеенные пакеты
     m_buffer.append(m_socket->readAll());
 
-    // Простая обработка: каждое сообщение от сервера — отдельная строка
-    // Но сервер не использует разделители, поэтому обрабатываем буфер целиком
     QByteArray data = m_buffer;
     m_buffer.clear();
 
@@ -76,6 +74,27 @@ void ClientManager::onReadyRead() {
             obj["message"] = QString::fromUtf8(decryptedMessage);
             QJsonDocument newDoc(obj);
             QByteArray result = "NEW_MESSAGE|" + newDoc.toJson(QJsonDocument::Compact);
+            emit dataReceived(result);
+        } else {
+            emit dataReceived(data);
+        }
+    } else if (data.startsWith("OK|HISTORY|")) {
+        // Дешифруем сообщения в истории
+        QByteArray jsonData = data.mid(11);
+        QJsonDocument doc = QJsonDocument::fromJson(jsonData);
+        if (doc.isArray()) {
+            QJsonArray messages = doc.array();
+            QJsonArray decryptedMessages;
+            for (const QJsonValue &val : messages) {
+                QJsonObject obj = val.toObject();
+                QString base64Message = obj["message"].toString();
+                QByteArray encryptedMessage = Crypto::fromBase64(base64Message.toUtf8());
+                QByteArray decryptedMessage = Crypto::encryptDecrypt(encryptedMessage, m_secretKey);
+                obj["message"] = QString::fromUtf8(decryptedMessage);
+                decryptedMessages.append(obj);
+            }
+            QJsonDocument newDoc(decryptedMessages);
+            QByteArray result = "OK|HISTORY|" + newDoc.toJson(QJsonDocument::Compact);
             emit dataReceived(result);
         } else {
             emit dataReceived(data);

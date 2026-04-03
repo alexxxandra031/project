@@ -34,5 +34,5 @@ int main(int argc, char *argv[])
         return a.exec();
     }
 
-    return 0;  // добавлен return для корректного завершения
+    return 0;
 }

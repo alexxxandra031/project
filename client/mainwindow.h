@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include <QPushButton>
+#include <QTimer>
 #include "clientmanager.h"
 
 QT_BEGIN_NAMESPACE
@@ -18,7 +19,7 @@ public:
     ~MainWindow();
 
     void setAdminRole(bool isAdmin);
-    void requestUserInfo();  // новый метод для загрузки данных при старте
+    void requestUserInfo();
 
 private slots:
     void on_pushButton_send_clicked();
@@ -37,19 +38,20 @@ private slots:
     void onRenameChatClicked();
     void onLogoutClicked();
 
+    void onRefreshTimer();
+
 private:
     Ui::MainWindow *ui;
     bool m_isAdmin;
-    bool m_updatingChats = false;  // флаг для предотвращения ложных срабатываний onChatSelected
+    bool m_updatingChats = false;
     void addMessage(const QString &sender, const QString &text, bool isOutgoing);
+    void updateChatTitle();
 
-    void loadChats();
-    void switchToChat(int chatId);
-
-    // Хранит имя чата, полученное с сервера (chatId -> chatName)
-    QString m_pendingRenameName;  // имя для переименования
+    QString m_pendingRenameName;
 
     int m_currentChatId = 1;
     QMap<int, QString> m_chats;
+
+    QTimer *m_refreshTimer;
 };
 #endif // MAINWINDOW_H

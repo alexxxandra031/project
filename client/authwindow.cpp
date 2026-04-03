@@ -76,7 +76,6 @@ void AuthWindow::onConnected() {
 }
 
 void AuthWindow::onDataReceived(const QByteArray &data) {
-    // Игнорируем ответы, если мы не ждём ответа на auth-команду
     if (!m_waitingForResponse) return;
 
     QString response = QString::fromUtf8(data);
@@ -105,7 +104,7 @@ void AuthWindow::onDataReceived(const QByteArray &data) {
         } else if (error.startsWith("LOGIN_ERROR")) {
             QMessageBox::critical(this, "Ошибка", "Ошибка авторизации!");
         } else if (error.startsWith("ALREADY_AUTHORIZED")) {
-            // Уже авторизованы — просто принимаем
+            // Сервер считает нас авторизованными — принимаем
             ClientManager::getInstance()->setUserName(m_pendingLogin);
             m_isAdmin = (m_pendingLogin.toLower() == "admin");
             m_pendingCommand.clear();
