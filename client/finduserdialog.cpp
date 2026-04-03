@@ -1,8 +1,6 @@
 #include "finduserdialog.h"
 #include "clientmanager.h"
 #include <QMessageBox>
-#include <QJsonDocument>
-#include <QJsonArray>
 
 FindUserDialog::FindUserDialog(int chatId, QWidget *parent)
     : QDialog(parent), m_chatId(chatId)
@@ -29,7 +27,8 @@ FindUserDialog::FindUserDialog(int chatId, QWidget *parent)
 
     connect(m_resultsList, &QListWidget::itemDoubleClicked, this, [this](QListWidgetItem *item) {
         QString username = item->data(Qt::UserRole).toString();
-        ClientManager::getInstance()->sendSystemMessage(QString("ADD_USER|%1|%2").arg(m_chatId).arg(username));
+        ClientManager::getInstance()->sendSystemMessage(
+            QString("ADD_USER|%1|%2").arg(m_chatId).arg(username));
         QMessageBox::information(this, "Успех", "Запрос на добавление отправлен");
         accept();
     });
@@ -48,24 +47,29 @@ void FindUserDialog::onSearchClicked()
 void FindUserDialog::onDataReceived(const QByteArray &data)
 {
     QString raw = QString::fromUtf8(data);
+
+    // Сервер возвращает: OK|FIND_USERS|user1,user2,user3
     if (raw.startsWith("OK|FIND_USERS|")) {
-        QString jsonData = raw.mid(13);
-        QJsonDocument doc = QJsonDocument::fromJson(jsonData.toUtf8());
-        if (doc.isArray()) {
-            QJsonArray arr = doc.array();
-            m_resultsList->clear();
-            for (const QJsonValue &val : arr) {
-                QString username = val.toString();
-                QListWidgetItem *item = new QListWidgetItem(username, m_resultsList);
-                item->setData(Qt::UserRole, username);
-            }
+        QString csvData = raw.mid(14);  // "OK|FIND_USERS|" = 14 символов
+        QStringList usernames = csvData.split(',', Qt::SkipEmptyParts);
+
+        m_resultsList->clear();
+        for (const QString &username : usernames) {
+            QString trimmed = username.trimmed();
+            if (trimmed.isEmpty()) continue;
+            QListWidgetItem *item = new QListWidgetItem(trimmed, m_resultsList);
+            item->setData(Qt::UserRole, trimmed);
+        }
+
+        if (usernames.isEmpty()) {
+            QMessageBox::information(this, "Результат", "Пользователи не найдены");
         }
     }
+    else if (raw.startsWith("ERROR|USER_NOT_FOUND")) {
+        QMessageBox::information(this, "Результат", "Пользователи не найдены");
+    }
     else if (raw.startsWith("ERROR|")) {
-        QString error = raw.mid(6);
-        if (error == "USER_NOT_FOUND")
-            QMessageBox::information(this, "Результат", "Пользователи не найдены");
-        else
-            QMessageBox::warning(this, "Ошибка", "Ошибка поиска: " + error);
+        // Игнорируем ошибки, не относящиеся к поиску
+        // (чтобы не показывать ошибки от других операций)
     }
 }

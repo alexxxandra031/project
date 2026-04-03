@@ -39,6 +39,7 @@ private:
 
     QByteArray m_secretKey;
     QString m_userName;
+    QByteArray m_buffer;  // буфер для чтения данных
 
     QTcpSocket *m_socket;
 };

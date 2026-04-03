@@ -44,13 +44,26 @@ void ClientManager::disconnectFromServer() {
 
 void ClientManager::sendSystemMessage(const QString &command) {
     if (m_socket->state() == QAbstractSocket::ConnectedState) {
+        qDebug() << "[CLIENT SEND]" << command;
         m_socket->write(command.toUtf8());
         m_socket->flush();
+    } else {
+        qDebug() << "[CLIENT ERROR] Not connected, cannot send:" << command;
     }
 }
 
 void ClientManager::onReadyRead() {
-    QByteArray data = m_socket->readAll();
+    // Читаем все данные и обрабатываем возможные склеенные пакеты
+    m_buffer.append(m_socket->readAll());
+
+    // Простая обработка: каждое сообщение от сервера — отдельная строка
+    // Но сервер не использует разделители, поэтому обрабатываем буфер целиком
+    QByteArray data = m_buffer;
+    m_buffer.clear();
+
+    if (data.isEmpty()) return;
+
+    qDebug() << "[CLIENT RECV]" << QString::fromUtf8(data).left(200);
 
     if (data.startsWith("NEW_MESSAGE|")) {
         QByteArray jsonPart = data.mid(12);
@@ -71,7 +84,6 @@ void ClientManager::onReadyRead() {
         emit dataReceived(data);
     } else {
         emit dataReceived(Crypto::encryptDecrypt(data, m_secretKey));
-        // На всякий случай если вдруг понадобится. (старая логика приема сообщений)
     }
 }
 
@@ -103,6 +115,7 @@ void ClientManager::sendChatMessage(const QString &chatId, const QByteArray &mes
     QString command = "SEND|" + chatId + "|";
     QByteArray fullCommand = command.toUtf8() + base64Message;
 
+    qDebug() << "[CLIENT SEND MSG]" << command << "base64len:" << base64Message.size();
     m_socket->write(fullCommand);
     m_socket->flush();
 }

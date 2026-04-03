@@ -5,7 +5,6 @@
 #include <QPushButton>
 #include "clientmanager.h"
 
-
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
@@ -19,6 +18,7 @@ public:
     ~MainWindow();
 
     void setAdminRole(bool isAdmin);
+    void requestUserInfo();  // новый метод для загрузки данных при старте
 
 private slots:
     void on_pushButton_send_clicked();
@@ -40,10 +40,14 @@ private slots:
 private:
     Ui::MainWindow *ui;
     bool m_isAdmin;
+    bool m_updatingChats = false;  // флаг для предотвращения ложных срабатываний onChatSelected
     void addMessage(const QString &sender, const QString &text, bool isOutgoing);
 
     void loadChats();
     void switchToChat(int chatId);
+
+    // Хранит имя чата, полученное с сервера (chatId -> chatName)
+    QString m_pendingRenameName;  // имя для переименования
 
     int m_currentChatId = 1;
     QMap<int, QString> m_chats;

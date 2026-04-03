@@ -17,6 +17,9 @@ AuthWindow::AuthWindow(QWidget *parent) :
 
 AuthWindow::~AuthWindow()
 {
+    ClientManager *client = ClientManager::getInstance();
+    disconnect(client, &ClientManager::dataReceived, this, &AuthWindow::onDataReceived);
+    disconnect(client, &ClientManager::connected, this, &AuthWindow::onConnected);
     delete ui;
 }
 
@@ -25,7 +28,7 @@ bool AuthWindow::isAdmin() const {
 }
 
 void AuthWindow::on_pushButton_login_clicked() {
-    m_pendingLogin = ui->lineEdit_login->text();
+    m_pendingLogin = ui->lineEdit_login->text().trimmed();
     m_pendingPassword = ui->lineEdit_password->text();
     QString key = ui->lineEdit_cryptoKey->text();
 
@@ -36,6 +39,7 @@ void AuthWindow::on_pushButton_login_clicked() {
 
     ClientManager *client = ClientManager::getInstance();
     m_pendingCommand = QString("LOGIN|%1|%2").arg(m_pendingLogin, m_pendingPassword);
+    m_waitingForResponse = true;
 
     if (client->isConnected()) {
         onConnected();
@@ -45,7 +49,7 @@ void AuthWindow::on_pushButton_login_clicked() {
 }
 
 void AuthWindow::on_pushButton_register_clicked() {
-    m_pendingLogin = ui->lineEdit_login->text();
+    m_pendingLogin = ui->lineEdit_login->text().trimmed();
     m_pendingPassword = ui->lineEdit_password->text();
     QString key = ui->lineEdit_cryptoKey->text();
 
@@ -56,6 +60,7 @@ void AuthWindow::on_pushButton_register_clicked() {
 
     ClientManager *client = ClientManager::getInstance();
     m_pendingCommand = QString("REGISTER|%1|%2").arg(m_pendingLogin, m_pendingPassword);
+    m_waitingForResponse = true;
 
     if (client->isConnected()) {
         onConnected();
@@ -71,23 +76,42 @@ void AuthWindow::onConnected() {
 }
 
 void AuthWindow::onDataReceived(const QByteArray &data) {
+    // Игнорируем ответы, если мы не ждём ответа на auth-команду
+    if (!m_waitingForResponse) return;
+
     QString response = QString::fromUtf8(data);
+
     if (response.startsWith("OK|LOGIN")) {
+        m_waitingForResponse = false;
         ClientManager::getInstance()->setUserName(m_pendingLogin);
-        m_isAdmin = (m_pendingLogin == "admin");
+        m_isAdmin = (m_pendingLogin.toLower() == "admin");
         m_pendingCommand.clear();
         accept();
     } else if (response.startsWith("OK|REGISTER")) {
+        m_waitingForResponse = false;
         QMessageBox::information(this, "Успех", "Регистрация прошла успешно. Теперь войдите.");
         m_pendingCommand.clear();
     } else if (response.startsWith("ERROR|")) {
+        m_waitingForResponse = false;
         QString error = response.mid(6);
         if (error.startsWith("USER_EXISTS")) {
             QMessageBox::critical(this, "Ошибка", "Пользователь уже существует!");
         } else if (error.startsWith("REGISTER_ERROR")) {
             QMessageBox::critical(this, "Ошибка", "Ошибка регистрации!");
+        } else if (error.startsWith("LOGIN_WRONG_PASSWORD")) {
+            QMessageBox::critical(this, "Ошибка", "Неверный пароль!");
+        } else if (error.startsWith("LOGIN_USER_NOT_FOUND")) {
+            QMessageBox::critical(this, "Ошибка", "Пользователь не найден!");
+        } else if (error.startsWith("LOGIN_ERROR")) {
+            QMessageBox::critical(this, "Ошибка", "Ошибка авторизации!");
+        } else if (error.startsWith("ALREADY_AUTHORIZED")) {
+            // Уже авторизованы — просто принимаем
+            ClientManager::getInstance()->setUserName(m_pendingLogin);
+            m_isAdmin = (m_pendingLogin.toLower() == "admin");
+            m_pendingCommand.clear();
+            accept();
         } else {
-            QMessageBox::critical(this, "Ошибка", "Неверный логин или пароль!");
+            QMessageBox::critical(this, "Ошибка", "Ошибка: " + error);
         }
         m_pendingCommand.clear();
     }

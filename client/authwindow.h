@@ -12,7 +12,6 @@ public:
     ~AuthWindow();
 
     QString getCryptoKey() const;
-
     bool isAdmin() const;
 
 private slots:
@@ -24,6 +23,7 @@ private slots:
 private:
     Ui::AuthWindow *ui;
     bool m_isAdmin = false;
+    bool m_waitingForResponse = false;  // флаг ожидания ответа на auth-команду
 
     QString m_pendingLogin;
     QString m_pendingPassword;

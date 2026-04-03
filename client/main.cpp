@@ -28,10 +28,11 @@ int main(int argc, char *argv[])
         ClientManager::getInstance()->setSecretKey(auth.getCryptoKey());
 
         MainWindow w;
-
         w.setAdminRole(auth.isAdmin());
-
         w.show();
+
         return a.exec();
     }
+
+    return 0;  // добавлен return для корректного завершения
 }
