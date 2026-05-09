@@ -1,0 +1,577 @@
+#include "adminwindow.h"
+#include "mainwindow.h"
+#include "ui_mainwindow.h"
+#include "thememanager.h"
+#include "managechatdialog.h"
+#include "authwindow.h"
+
+#include <QApplication>
+#include <QInputDialog>
+#include <QJsonDocument>
+#include <QJsonObject>
+#include <QJsonArray>
+#include <QMessageBox>
+#include <QMenu>
+#include <QAction>
+#include <QComboBox>
+#include <QLabel>
+#include <QFrame>
+#include <QVBoxLayout>
+#include <QHBoxLayout>
+#include <QListWidget>
+#include <QListWidgetItem>
+#include <QHeaderView>
+#include <QDateTime>
+
+MainWindow::MainWindow(QWidget *parent)
+    : QMainWindow(parent)
+    , ui(new Ui::MainWindow), m_isAdmin(false)
+{
+    ui->setupUi(this);
+
+    ClientManager *client = ClientManager::getInstance();
+
+    connect(client, &ClientManager::connected,
+            this, &MainWindow::onConnected);
+    connect(client, &ClientManager::dataReceived,
+            this, &MainWindow::onDataReceived);
+    connect(ui->lineEdit_message, &QLineEdit::returnPressed,
+            this, &MainWindow::on_pushButton_send_clicked);
+    connect(ui->comboBox_chats, QOverload<int>::of(&QComboBox::currentIndexChanged),
+            this, &MainWindow::onChatSelected);
+    connect(ui->pushButton_createChat, &QPushButton::clicked,
+            this, &MainWindow::onCreateChatClicked);
+    connect(ui->pushButton_manageChat, &QPushButton::clicked,
+            this, &MainWindow::onManageChatClicked);
+    connect(ui->pushButton_renameChat, &QPushButton::clicked,
+            this, &MainWindow::onRenameChatClicked);
+    connect(ui->pushButton_leaveChat, &QPushButton::clicked,
+            this, &MainWindow::onLeaveChatClicked);
+
+    // Таймер для периодического обновления списка чатов
+    m_refreshTimer = new QTimer(this);
+    connect(m_refreshTimer, &QTimer::timeout, this, &MainWindow::onRefreshTimer);
+    m_refreshTimer->start(10000); // каждые 10 секунд
+
+    // Таймер для очереди команд — отправка с задержкой чтобы не склеивались
+    m_commandTimer = new QTimer(this);
+    m_commandTimer->setInterval(100); // 100мс между командами
+    connect(m_commandTimer, &QTimer::timeout, this, &MainWindow::processCommandQueue);
+
+    // ТЕМА (вика)
+    m_themeButton = new QPushButton(this);
+    m_themeButton->setCheckable(false);
+    m_themeButton->setStyleSheet(
+        "QPushButton { background: transparent; border: none; font-size: 20px; color: white; }"
+        "QPushButton:hover { color: #ffd700; }"
+        );
+
+    QHBoxLayout *topLayout = ui->horizontalLayout_top;
+    topLayout->insertWidget(1, m_themeButton);
+
+    connect(m_themeButton, &QPushButton::clicked, this, &MainWindow::onToggleTheme);
+
+    m_darkTheme = ThemeManager::isDark();
+    m_themeButton->setText(m_darkTheme ? "☀️" : "🌙");
+
+    applyTheme();
+
+    requestUserInfo();
+}
+
+MainWindow::~MainWindow()
+{
+    delete ui;
+}
+
+void MainWindow::enqueueCommand(const QString &cmd)
+{
+    m_commandQueue.enqueue(cmd);
+    if (!m_commandTimer->isActive()) {
+        m_commandTimer->start();
+    }
+}
+
+void MainWindow::processCommandQueue()
+{
+    if (m_commandQueue.isEmpty()) {
+        m_commandTimer->stop();
+        return;
+    }
+    QString cmd = m_commandQueue.dequeue();
+    ClientManager::getInstance()->sendSystemMessage(cmd);
+}
+
+void MainWindow::requestUserInfo()
+{
+    if (ClientManager::getInstance()->isConnected()) {
+        ClientManager::getInstance()->sendSystemMessage("USER_INFO");
+    }
+}
+
+void MainWindow::onConnected() {
+    addMessage(QStringLiteral("Система"),
+               QStringLiteral("Успешное подключение к серверу!"),
+               false);
+    requestUserInfo();
+}
+
+void MainWindow::updateChatTitle()
+{
+    QString chatName = m_chats.value(m_currentChatId, "Чат");
+    ui->label_chatTitle->setText("<h2>💬 " + chatName + "</h2>");
+}
+
+void MainWindow::onRefreshTimer()
+{
+    if (ClientManager::getInstance()->isConnected()) {
+        requestUserInfo();
+    }
+}
+
+void MainWindow::onDataReceived(const QByteArray &data)
+{
+    QString raw = QString::fromUtf8(data);
+
+    if (raw.startsWith("OK|CHANGE_CHAT_NAME")) {
+        QMessageBox::information(this, "Успех", "Название чата изменено");
+        m_pendingRenameName.clear(); // Больше не пытаемся менять текст вручную
+
+        // Отправляем запрос на получение свежих данных чата из БД.
+        // Наш новый обработчик CHAT_INFO автоматически обновит комбобокс и заголовок.
+        m_pendingChatInfoRequests.enqueue(m_currentChatId);
+        enqueueCommand(QString("CHAT_INFO|%1").arg(m_currentChatId));
+        return;
+    }
+
+    if (raw.startsWith("OK|LOGOUT")) {
+        m_refreshTimer->stop();
+        m_commandTimer->stop();
+        m_commandQueue.clear();
+        QMessageBox::information(this, "Успех", "Вы вышли из системы");
+        ClientManager::getInstance()->setUserName("");
+        m_chats.clear();
+        m_updatingChats = true;
+        ui->comboBox_chats->clear();
+        m_updatingChats = false;
+        ui->listWidget_chat->clear();
+        m_currentChatId = 1;
+        this->close();
+
+        // Откладываем открытие окна авторизации, чтобы дать сигналу readyRead завершиться
+        QTimer::singleShot(0, this, [this]() {
+            AuthWindow auth;
+            if (auth.exec() == QDialog::Accepted) {
+                ClientManager::getInstance()->setSecretKey(auth.getCryptoKey());
+                setAdminRole(auth.isAdmin());
+                m_refreshTimer->start(10000);
+                requestUserInfo();
+                this->show();
+            } else {
+                QApplication::quit();
+            }
+        });
+
+        return;
+    }
+
+    if (raw.startsWith("OK|LEAVE_CHAT")) {
+        QMessageBox::information(this, "Успех", "Вы покинули чат");
+
+        // Программно переключаем комбобокс на Общий чат (ID 1).
+        // Это автоматически вызовет onChatSelected, который очистит историю и запросит новую.
+        int globalIdx = ui->comboBox_chats->findData(1);
+        if (globalIdx != -1) {
+            ui->comboBox_chats->setCurrentIndex(globalIdx);
+        }
+
+        requestUserInfo(); // Обновляем список чатов, чтобы удаленный чат исчез из меню
+        return;
+    }
+
+    if (raw.startsWith("OK|CREATE_CHAT|")) {
+        int chatId = raw.mid(15).toInt();
+        QString chatName = "Чат " + QString::number(chatId);
+        m_chats[chatId] = chatName;
+        m_updatingChats = true;
+        ui->comboBox_chats->addItem(chatName, chatId);
+        m_updatingChats = false;
+        ui->comboBox_chats->setCurrentIndex(ui->comboBox_chats->count() - 1);
+        return;
+    }
+
+    if (raw.startsWith("OK|CHAT_INFO|")) {
+        QString jsonData = raw.mid(13);
+        QJsonDocument doc = QJsonDocument::fromJson(jsonData.toUtf8());
+
+        // Достаем ID чата из очереди. Если очередь пуста, берем текущий
+        int targetChatId = m_currentChatId;
+        if (!m_pendingChatInfoRequests.isEmpty()) {
+            targetChatId = m_pendingChatInfoRequests.dequeue();
+        }
+
+        if (doc.isObject()) {
+            QJsonObject obj = doc.object();
+            QString chatName = obj["chatName"].toString().trimmed();
+
+            // Защита: если сервер прислал пустое имя (как в твоих логах),
+            // даем дефолтное, чтобы не было пустых строк в списке
+            if (chatName.isEmpty()) {
+                chatName = "Чат " + QString::number(targetChatId);
+            }
+
+            // Обновляем чат по правильному ID
+            if (m_chats.contains(targetChatId)) {
+                if (m_chats[targetChatId] != chatName) {
+                    m_chats[targetChatId] = chatName;
+
+                    // Обновляем comboBox
+                    for (int i = 0; i < ui->comboBox_chats->count(); ++i) {
+                        if (ui->comboBox_chats->itemData(i).toInt() == targetChatId) {
+                            ui->comboBox_chats->setItemText(i, chatName);
+                            break;
+                        }
+                    }
+                    // Обновляем заголовок только если это текущий открытый чат
+                    if (targetChatId == m_currentChatId) {
+                        updateChatTitle();
+                    }
+                }
+            }
+        }
+        return;
+    }
+
+    if (raw.startsWith("OK|USER_INFO|")) {
+        QString jsonData = raw.mid(13);
+        QJsonDocument doc = QJsonDocument::fromJson(jsonData.toUtf8());
+        if (doc.isObject()) {
+            QJsonObject obj = doc.object();
+            QJsonArray chatsArray = obj["chats"].toArray();
+
+            QMap<int, QString> newChats;
+            newChats[1] = "Global Chat";
+
+            for (const QJsonValue &val : chatsArray) {
+                int chatId = val.toInt();
+                if (chatId == 1) continue;
+                // Сохраняем старое имя если было
+                if (m_chats.contains(chatId)) {
+                    newChats[chatId] = m_chats[chatId];
+                } else {
+                    newChats[chatId] = "Чат " + QString::number(chatId);
+
+                    // Запоминаем, для какого ID отправляем запрос
+                    m_pendingChatInfoRequests.enqueue(chatId);
+                    enqueueCommand(QString("CHAT_INFO|%1").arg(chatId));
+                }
+            }
+
+            // Проверяем изменился ли набор чатов
+            QList<int> oldKeys = m_chats.keys();
+            QList<int> newKeys = newChats.keys();
+            std::sort(oldKeys.begin(), oldKeys.end());
+            std::sort(newKeys.begin(), newKeys.end());
+            bool chatsChanged = (oldKeys != newKeys);
+
+            m_chats = newChats;
+
+            if (chatsChanged) {
+                m_updatingChats = true;
+                ui->comboBox_chats->clear();
+
+                // Сначала Global Chat
+                ui->comboBox_chats->addItem(m_chats[1], 1);
+
+                // Остальные чаты в порядке ID
+                QList<int> sortedKeys = m_chats.keys();
+                std::sort(sortedKeys.begin(), sortedKeys.end());
+                for (int key : sortedKeys) {
+                    if (key == 1) continue;
+                    ui->comboBox_chats->addItem(m_chats[key], key);
+                }
+
+                m_updatingChats = false;
+
+                int idx = ui->comboBox_chats->findData(m_currentChatId);
+                if (idx != -1) {
+                    ui->comboBox_chats->setCurrentIndex(idx);
+                } else {
+                    m_currentChatId = 1;
+                    ui->comboBox_chats->setCurrentIndex(0);
+                    ui->listWidget_chat->clear();
+                    ClientManager::getInstance()->sendSystemMessage(
+                        QString("HISTORY|%1").arg(m_currentChatId));
+                }
+            }
+
+            // Если чат пустой — загружаем историю (первый запуск)
+            if (ui->listWidget_chat->count() == 0) {
+                ClientManager::getInstance()->sendSystemMessage(
+                    QString("HISTORY|%1").arg(m_currentChatId));
+            }
+
+            updateChatTitle();
+        }
+        return;
+    }
+
+    if (raw.startsWith("OK|HISTORY|")) {
+        QString jsonData = raw.mid(11);
+        QJsonDocument doc = QJsonDocument::fromJson(jsonData.toUtf8());
+        if (doc.isArray()) {
+            QString current_user = ClientManager::getInstance()->username();
+            QJsonArray messages = doc.array();
+            for (const QJsonValue &val : messages) {
+                QJsonObject obj = val.toObject();
+                QString sender = obj["user"].toString();
+                QString message = obj["message"].toString();
+                QString time = obj["time"].toString();
+                addMessage(sender, message, time, current_user == sender);
+            }
+        }
+        return;
+    }
+
+    if (raw.startsWith("ERROR|")) {
+        QStringList parts = raw.split('|');
+        QString errorType = parts.size() > 1 ? parts[1] : "UNKNOWN";
+
+        if (errorType == "NOT_AUTHORIZED") {
+            addMessage(QStringLiteral("⚠️ Система"),
+                       QStringLiteral("Не авторизован. Перезайдите."),
+                       false);
+        } else if (errorType == "SEND_FAILED") {
+            addMessage(QStringLiteral("⚠️ Система"),
+                       QStringLiteral("Не удалось отправить сообщение."),
+                       false);
+        } else if (errorType == "CANNOT_RENAME_GLOBAL_CHAT") {
+            QMessageBox::warning(this, "Ошибка", "Нельзя переименовать глобальный чат");
+        } else if (errorType == "CHANGE_NAME_FAILED") {
+            QMessageBox::warning(this, "Ошибка", "Не удалось изменить название чата");
+        } else if (errorType == "LOGOUT_ERROR") {
+            QMessageBox::warning(this, "Ошибка", "Не удалось выйти из системы");
+        } else if (errorType == "CREATE_CHAT_FAILED") {
+            QMessageBox::warning(this, "Ошибка", "Не удалось создать чат");
+        } else if (errorType == "ALREADY_AUTHORIZED" ||
+                   errorType == "NOT_IN_CHAT" ||
+                   errorType == "INVALID_FORMAT") {
+            // Игнорируем
+            qDebug() << "[IGNORED ERROR]" << errorType;
+        } else {
+            addMessage(QStringLiteral("⚠️ Система"),
+                       QString("Ошибка: ") + errorType,
+                       false);
+        }
+        return;
+    }
+
+    if (raw.startsWith("OK|")) {
+        return;
+    }
+
+    if (raw.startsWith("NEW_MESSAGE|")) {
+        QString jsonPart = raw.mid(12);
+        QJsonDocument doc = QJsonDocument::fromJson(jsonPart.toUtf8());
+        if (doc.isObject()) {
+            QJsonObject obj = doc.object();
+            int chatId = obj["chatId"].toInt();
+            QString sender = obj["username"].toString();
+            QString message = obj["message"].toString();
+            QString time = obj["time"].toString();
+            QString currentUser = ClientManager::getInstance()->username();
+
+            if (chatId == m_currentChatId && sender != currentUser) {
+                addMessage(sender, message, time, false);
+            }
+        }
+        return;
+    }
+}
+
+void MainWindow::on_pushButton_send_clicked()
+{
+    QString text = ui->lineEdit_message->text();
+    if (text.isEmpty()) return;
+
+    QString myName = ClientManager::getInstance()->username();
+    if(myName.isEmpty()) myName = "Я";
+
+    QString time = QDateTime::currentDateTime().toString("hh:mm");
+
+    addMessage(myName, text, time, true);
+    ClientManager::getInstance()->sendChatMessage(QString::number(m_currentChatId), text.toUtf8());
+    ui->lineEdit_message->clear();
+}
+
+void MainWindow::setAdminRole(bool isAdmin) {
+    m_isAdmin = isAdmin;
+
+    if(m_isAdmin) {
+        this->setWindowTitle("Мессенджер - Режим Админа");
+        ui->pushButton_adminPanel->setVisible(true);
+    } else {
+        this->setWindowTitle("Мессенджер - " + ClientManager::getInstance()->username());
+        ui->pushButton_adminPanel->setVisible(false);
+    }
+}
+
+void MainWindow::on_pushButton_adminPanel_clicked()
+{
+    AdminWindow adminWin(this);
+    adminWin.exec();
+}
+
+void MainWindow::addMessage(const QString &sender, const QString &text, const QString &time, bool isOutgoing) {
+    QWidget *container = new QWidget();
+    QHBoxLayout *layout = new QHBoxLayout(container);
+    layout->setContentsMargins(5, 2, 5, 2);
+
+    QFrame *bubble = new QFrame();
+    bubble->setStyleSheet(ThemeManager::bubbleStyle(isOutgoing, ThemeManager::isDark()));
+
+    QLabel *label = new QLabel();
+    label->setTextFormat(Qt::RichText);
+    label->setWordWrap(true);
+    label->setMaximumWidth(this->width() * 0.75);
+
+    QString textColor = isOutgoing ? "white" : (ThemeManager::isDark() ? "#cccccc" : "#2d3748");
+    QString senderColor = isOutgoing ? "#e0e7ff" : "#764ba2";
+
+    label->setText(
+        "<b style='color:" + senderColor + "; font-size: 11px;'>" + sender + "</b><br>"
+                                                                             "<span style='color:" + textColor + "; font-size: 14px; font-family: Segoe UI, sans-serif;'>" + text + "</span><br>"
+                                                                                         "<span style='color:#a0aec0;font-size:10px;'>" + time + "</span>"
+        );
+
+    label->setStyleSheet("background: transparent; border: none;");
+
+    QVBoxLayout *bubbleLayout = new QVBoxLayout(bubble);
+    bubbleLayout->setContentsMargins(0, 0, 0, 0);
+    bubbleLayout->addWidget(label);
+
+    if (isOutgoing) {
+        layout->addStretch();
+        layout->addWidget(bubble);
+    } else {
+        layout->addWidget(bubble);
+        layout->addStretch();
+    }
+
+    QListWidgetItem *item = new QListWidgetItem(ui->listWidget_chat);
+    item->setFlags(item->flags() & ~Qt::ItemIsSelectable);
+
+    container->setLayout(layout);
+    item->setSizeHint(container->sizeHint());
+    ui->listWidget_chat->addItem(item);
+    ui->listWidget_chat->setItemWidget(item, container);
+
+    ui->listWidget_chat->scrollToBottom();
+}
+
+void MainWindow::addMessage(const char *sender, const char *text, bool isOutgoing) {
+    addMessage(QString::fromUtf8(sender),
+               QString::fromUtf8(text),
+               "",   // время по умолчанию
+               isOutgoing);
+}
+
+void MainWindow::addMessage(const QString &sender,
+                            const QString &text,
+                            bool isOutgoing) {
+    addMessage(sender,
+               text,
+               "",   // или время
+               isOutgoing);
+}
+
+void MainWindow::onCreateChatClicked() {
+    ClientManager::getInstance()->sendSystemMessage("CREATE_CHAT");
+}
+
+void MainWindow::onChatSelected(int index) {
+    if (m_updatingChats) return;
+    if (index < 0) return;
+
+    int chatId = ui->comboBox_chats->itemData(index).toInt();
+    if (chatId == m_currentChatId) return;
+
+    m_currentChatId = chatId;
+    ui->listWidget_chat->clear();
+    updateChatTitle();
+
+    // Запрашиваем имя чата (для синхронизации переименований) и историю
+    if (chatId != 1) {
+        m_pendingChatInfoRequests.enqueue(chatId); // <--- ДОБАВИТЬ ЭТУ СТРОКУ
+        enqueueCommand(QString("CHAT_INFO|%1").arg(chatId));
+    }
+    enqueueCommand(QString("HISTORY|%1").arg(chatId));
+}
+
+void MainWindow::onManageChatClicked()
+{
+    QString chatName = m_chats.value(m_currentChatId, "Чат");
+    ManageChatDialog dialog(m_currentChatId, chatName, this);
+    dialog.exec();
+}
+
+void MainWindow::onLeaveChatClicked()
+{
+    if (m_currentChatId == 1) {
+        QMessageBox::warning(this, "Внимание", "Нельзя покинуть общий чат");
+        return;
+    }
+    QMessageBox::StandardButton reply = QMessageBox::question(
+        this, "Выход из чата",
+        "Вы уверены, что хотите покинуть чат \"" + m_chats.value(m_currentChatId, "Чат") + "\"?",
+        QMessageBox::StandardButtons(QMessageBox::Yes | QMessageBox::No));
+    if (reply == QMessageBox::Yes) {
+        ClientManager::getInstance()->sendSystemMessage(QString("LEAVE_CHAT|%1").arg(m_currentChatId));
+    }
+}
+
+void MainWindow::onRenameChatClicked()
+{
+    if (m_currentChatId == 1) {
+        QMessageBox::warning(this, "Внимание", "Нельзя переименовать общий чат");
+        return;
+    }
+    bool ok;
+    QString newName = QInputDialog::getText(this, "Переименование чата",
+                                            "Введите новое название чата:",
+                                            QLineEdit::Normal,
+                                            m_chats.value(m_currentChatId, ""),
+                                            &ok);
+    if (ok && !newName.isEmpty()) {
+        m_pendingRenameName = newName;
+        ClientManager::getInstance()->sendSystemMessage(
+            QString("CHANGE_CHAT_NAME|%1|%2").arg(m_currentChatId).arg(newName));
+    }
+}
+
+// НОВЫЕ МЕТОДЫ (вика)
+void MainWindow::onToggleTheme()
+{
+    m_darkTheme = !m_darkTheme;
+    ThemeManager::setDark(m_darkTheme);
+    m_themeButton->setText(m_darkTheme ? "☀️" : "🌙");
+    applyTheme();
+
+    if (ClientManager::getInstance()->isConnected()) {
+        ui->listWidget_chat->clear();
+        ClientManager::getInstance()->sendSystemMessage(
+            QString("HISTORY|%1").arg(m_currentChatId));
+    }
+}
+
+void MainWindow::applyTheme()
+{
+    this->setStyleSheet(ThemeManager::mainWindowStyle());
+
+    if (ui->pushButton_send) {
+        ui->pushButton_send->setStyleSheet(ThemeManager::sendButtonStyle());
+    }
+    if (ui->lineEdit_message) {
+        ui->lineEdit_message->setStyleSheet(ThemeManager::inputFieldStyle());
+    }
+}
